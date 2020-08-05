@@ -1,0 +1,20 @@
+{
+    "git.ignoreLimitWarning": true,
+    "files.associations": {
+        "*.dec": "shellscript",
+        "iostream": "cpp",
+        "ostream": "cpp",
+        "hash_map": "cpp",
+        "deque": "cpp",
+        "list": "cpp",
+        "string": "cpp",
+        "unordered_map": "cpp",
+        "vector": "cpp",
+        "initializer_list": "cpp",
+        "array": "cpp",
+        "hashtable": "cpp",
+        "random": "cpp",
+        "*.icc": "cpp",
+        "*.tcc": "cpp"
+    }
+}

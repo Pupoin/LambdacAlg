@@ -1,0 +1,45 @@
+#include "$ROOTIOROOT/share/jobOptions_ReadRec.txt"
+#include "$VERTEXFITROOT/share/jobOptions_VertexDbSvc.txt"
+#include "$MAGNETICFIELDROOT/share/MagneticField.txt"
+#include "$DTAGALGROOT/share/jobOptions_dTag.txt"
+#include "$MEASUREDECMSSVCROOT/share/anaOptions.txt"
+
+ApplicationMgr.DLLs += {"TagFilterSvc"};
+ApplicationMgr.ExtSvc += {"TagFilterSvc"};
+EventCnvSvc.selectFromTag = 1;
+TagFilterSvc.DstDataType=2;
+TagFilterSvc.Criteria += {"tagDs=400,401,402,403,404,405,406,407,421,440,441,442,450,451,452,460,461,471,480,481,501,502"};
+
+MeasuredEcmsSvc.ReadOneTime = true;
+MeasuredEcmsSvc.RunFrom = 48172;
+MeasuredEcmsSvc.RunTo = 48713;
+
+VertexDbSvc.ReadOneTime = true;
+VertexDbSvc.RunFrom = 48172;
+VertexDbSvc.RunTo = 48713;
+
+MagneticFieldSvc.ReadOneTime = true;
+MagneticFieldSvc.RunFrom = 48172;
+MagneticFieldSvc.RunTo = 48713;
+
+DTag.NeutralDReconstruction  = false;
+DTag.ChargedDReconstruction  = false;
+DTag.DsReconstruction        = true;
+
+DsReconstruction.BeamE = 2.099515;
+DsReconstruction.ReadBeamEFromDB = false;
+DsReconstruction.UseCalibBeamE   = false;
+
+#include"$YOUR-ANALYSIS-ROOT/share/jobOptions.txt"
+
+// Input REC or DST file name
+EventCnvSvc.digiRootInputFile = {"DsSTDs_4200_round22_001_IHEP.dst"};
+
+// Set output level threshold (2=DEBUG, 3=INFO, 4=WARNING, 5=ERROR, 6=FATAL )
+MessageSvc.OutputLevel = 6;
+
+// Number of events to be processed (default is 10)
+ApplicationMgr.EvtMax = -1;
+
+ApplicationMgr.HistogramPersistency = "ROOT";
+NTupleSvc.Output = { "FILE88 DATAFILE='DsSTDs_4200_001.root' OPT='NEW' TYP='ROOT'"};

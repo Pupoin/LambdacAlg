@@ -1,0 +1,32 @@
+#include "$ROOTIOROOT/share/jobOptions_ReadRec.txt"
+#include "$VERTEXFITROOT/share/jobOptions_VertexDbSvc.txt"
+#include "$MAGNETICFIELDROOT/share/MagneticField.txt"
+#include "$DTAGALGROOT/share/jobOptions_dTag.txt"
+#include "$MEASUREDECMSSVCROOT/share/anaOptions.txt"
+#include "$YOUR-ANALYSIS-ROOT/share/jobOptions.txt"
+
+ApplicationMgr.DLLs += {"TagFilterSvc"};
+ApplicationMgr.ExtSvc += {"TagFilterSvc"};
+EventCnvSvc.selectFromTag = 1;
+TagFilterSvc.DstDataType=3;
+TagFilterSvc.Criteria += {"tagLc=all"};
+
+DTag.NeutralDReconstruction  = false;
+DTag.ChargedDReconstruction  = false;
+DTag.DsReconstruction        = false;
+DTag.LambdaCReconstruction   = true;
+
+LocalKaonSelector.useSimplePID=false;
+LocalPionSelector.useSimplePID=false;
+
+// Input REC or DST file name
+EventCnvSvc.digiRootInputFile = {"run_0063075_All_file002_SFO-1.dst"};
+
+// Set output level threshold (2=DEBUG, 3=INFO, 4=WARNING, 5=ERROR, 6=FATAL )
+MessageSvc.OutputLevel = 5;
+
+// Number of events to be processed (default is 10)
+ApplicationMgr.EvtMax = -1;
+
+ApplicationMgr.HistogramPersistency = "ROOT";
+NTupleSvc.Output = { "FILE_YOU_DEFINE DATAFILE='run_0063075_All_file002_SFO-1.root' OPT='NEW' TYP='ROOT'"};

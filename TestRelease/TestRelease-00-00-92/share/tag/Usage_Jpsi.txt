@@ -1,0 +1,40 @@
+1. Please add following lines into your Analysis JobOptions, same as ana_rhopi_example.txt in this directory.
+
+//Add follow four line for tag & set DstDataTypt=1 for Light Hadron
+ApplicationMgr.DLLs += {"TagFilterSvc"};
+ApplicationMgr.ExtSvc += {"TagFilterSvc"};
+EventCnvSvc.selectFromTag = 1;
+TagFilterSvc.DstDataType=1;
+
+// Input preliminary criteria & first one must be NumOfGoodCh 
+TagFilterSvc.Criteria += {"0<NumOfGoodCh<3"};
+
+2. The options of criteria are also avaible, please use "&&" connect two or more criteria. Strongly recommend ONLY use "NumOfGoodCh" which is efficient to speedup your analysis job.
+TagFilterSvc.Criteria += {"Ncut1<NumOfGoodCh<Ncut2"};    // number of good charged tracks
+TagFilterSvc.Criteria += {"Ncut1<NumOfNeutrk<Ncut2"};    // number of neutral tracks
+TagFilterSvc.Criteria += {"Ncut1<NumOfTottrk<Ncut2"};    // number of tracks (charged tracks + neutral tracks)
+TagFilterSvc.Criteria += {"Ncut1<NumOfGamma<Ncut2"};     // number of gamma
+TagFilterSvc.Criteria += {"Ncut1<NumOfPion0<Ncut2"};     // number of pi0
+TagFilterSvc.Criteria += {"Ncut1<NumOfPionp<Ncut2"};     // number of pi+
+TagFilterSvc.Criteria += {"Ncut1<NumOfPionm<Ncut2"};     // number of pi-
+TagFilterSvc.Criteria += {"Ncut1<NumOfKaonp<Ncut2"};     // numbre of K+
+TagFilterSvc.Criteria += {"Ncut1<NumOfKaonm<Ncut2"};     // number of K-
+TagFilterSvc.Criteria += {"Ncut1<NumOfProtonp<Ncut2"};   // numbre of p+
+TagFilterSvc.Criteria += {"Ncut1<NumOfProtonm<Ncut2"};   // number of p-
+TagFilterSvc.Criteria += {"Ncut1<NumOfLambda<Ncut2"};    // number of Lambda0
+TagFilterSvc.Criteria += {"Ncut1<NumOfALambda<Ncut2"};   // number of anti-Lambda0
+TagFilterSvc.Criteria += {"Ncut1<NumOfElectronp<Ncut2"}; // number of e+
+TagFilterSvc.Criteria += {"Ncut1<NumOfElectronm<Ncut2"}; // number of e-
+TagFilterSvc.Criteria += {"Ncut1<NumOfMuonp<Ncut2"};     // number of mu+
+TagFilterSvc.Criteria += {"Ncut1<NumOfMuonm<Ncut2"};     // number of mu-
+TagFilterSvc.Criteria += {"Ncut1<NumOfKs<Ncut2"};        // number of K_S0
+TagFilterSvc.Criteria += {"Ncut1<NumOfEta<Ncut2"};       // number of eta
+TagFilterSvc.Criteria += {"Ncut1<NumOfCharged<Ncut2"};   // number of charged tracks
+TagFilterSvc.Criteria += {"Ncut1<NumOfGoodChp<Ncut2"};   // number of good positive charged tracks
+TagFilterSvc.Criteria += {"Ncut1<NumOfGoodChm<Ncut2"};   // number of good nagative charged tracks
+TagFilterSvc.Criteria += {"Ncut1<TotCharged<Ncut2"};     // net charge of good charged tracks
+
+
+3. Secondary vertex (long-lived particle), such as Ks, Lambda
+For daughters of long-lived particle, such as Ks->pi+pi-, pi+/pi- may or may not be satisfied the good charged track criteria. Possible value of NumOfGoodCh could be 0, 1, and 2.
+For example, Jpsi->K*(892)- K+, K*(892)- -> Ks0 pi-, Ks0->pi+pi-, "1<NumOfGoodCh<5" is the correct choose.
