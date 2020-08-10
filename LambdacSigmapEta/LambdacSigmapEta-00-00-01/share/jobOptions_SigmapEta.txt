@@ -1,0 +1,27 @@
+ApplicationMgr.DLLs += {"LambdacSigmapEta"};
+ApplicationMgr.TopAlg += { "LambdacSigmapEta" };
+
+LambdacSigmapEta.Vr0cut = 1.0;
+LambdacSigmapEta.Vz0cut = 10.0;
+LambdacSigmapEta.Costheta = 0.93;
+LambdacSigmapEta.PhotonMinEnergy = 0.025;
+LambdacSigmapEta.GammathCut=14.0;
+LambdacSigmapEta.GammatlCut=0.0;
+LambdacSigmapEta.PhotonMaxCosThetaBarrel = 0.8;
+LambdacSigmapEta.PhotonMinCosThetaEndcap = 0.86;
+LambdacSigmapEta.PhotonMaxCosThetaEndcap = 0.92;
+LambdacSigmapEta.PhotonMinEndcapEnergy  = 0.050;
+LambdacSigmapEta.SigmaMinMassCut = 1.10;
+LambdacSigmapEta.SigmaMaxMassCut = 1.27;
+LambdacSigmapEta.SigmaMassFit = 1.18937;
+LambdacSigmapEta.Pi0MinMassCut = 0.100;
+LambdacSigmapEta.Pi0MaxMassCut = 0.180;
+LambdacSigmapEta.Pi0MassFit = 0.134977;
+LambdacSigmapEta.EtaMinMassCut = 0.46;
+LambdacSigmapEta.EtaMaxMassCut = 0.60;
+LambdacSigmapEta.EtaMassFit = 0.547862;
+LambdacSigmapEta.Debug = false;
+LambdacSigmapEta.GetMCInfo = true;
+LambdacSigmapEta.BeamE = 2.3;
+LambdacSigmapEta.UseOverallTof = false;
+LambdacSigmapEta.ChisqMax = 200;

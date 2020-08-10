@@ -1,0 +1,26 @@
+ApplicationMgr.DLLs += {"LambdacAlg"};
+ApplicationMgr.TopAlg += { "LambdacAlg" };
+
+LambdacAlg.Costheta = 0.93;
+LambdacAlg.Vr0cut = 1.0;
+LambdacAlg.Vz0cut = 10.0;
+LambdacAlg.Vz0cut1 = 20.0;
+LambdacAlg.SkimFlag = false;
+LambdacAlg.Test1C = 1;
+//LambdacAlg.Pi0MinMass = 0.08;
+//LambdacAlg.Pi0MaxMass = 0.18;
+LambdacAlg.ChisqMax= 200;
+//LambdacAlg.PhotonMinEnergy = 0.025;
+//LambdacAlg.GammaAngleCut=10.0;
+LambdacAlg.GammathCut=14.0;
+LambdacAlg.GammatlCut=0.0;
+LambdacAlg.PhotonMaxCosThetaBarrel = 0.8;
+LambdacAlg.PhotonMinCosThetaEndcap = 0.86;
+LambdacAlg.PhotonMaxCosThetaEndcap = 0.92;
+LambdacAlg.PhotonMinEndcapEnergy  = 0.050;
+
+LambdacAlg.Debug = false;
+LambdacAlg.BeamE = 2.313;
+LambdacAlg.ReadBeamEFromDB = false;
+LambdacAlg.UseCalibBeamE = false;
+LambdacAlg.CheckTotal=true;

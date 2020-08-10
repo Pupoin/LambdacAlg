@@ -1,0 +1,6 @@
+InstallArea/
+x86_64-slc6-gcc46-opt/
+x86_64-slc5-gcc43-opt/
+*.root
+*.rtraw
+*.dst

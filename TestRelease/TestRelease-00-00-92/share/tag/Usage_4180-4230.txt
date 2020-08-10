@@ -1,0 +1,75 @@
+Add the following lines into your job option file:
+
+ApplicationMgr.DLLs += {"TagFilterSvc"};
+ApplicationMgr.ExtSvc += {"TagFilterSvc"};
+EventCnvSvc.selectFromTag = 1;
+TagFilterSvc.DstDataType=2;
+TagFilterSvc.Criteria += {"tagDs=all"};
+
+The available criteria are listed below:
+
+1. Ds tag criteria:
+
+TagFilterSvc.Criteria += {"tagDs=all"}; 
+// use all avaulable Ds tag modes.
+
+TagFilterSvc.Criteria += {"tagDs=400,401,402,403,404,405,406,407"};
+// use specific Ds tag modes.
+// available Ds tag modes are 400,401,402,403,404,405,406,407,420,421,422,423,424,425,440,441,442,450,451,452,460,461,470,471,480,481,500,501,502,503,504
+
+if you want to use the tagged event without PID applied (type=0 in DTagAlg), add "type0":
+TagFilterSvc.Criteria += {"tagDs=all,type0"};
+TagFilterSvc.Criteria += {"tagDs=400,401,402,403,404,405,406,407,type0"};
+
+2. D0 tag criteria:
+
+TagFilterSvc.Criteria += {"tagD0=all"}; 
+// use all avaulable Ds tag modes.
+
+TagFilterSvc.Criteria += {"tagD0=0,1,2,3,4,5,6,7,8"};
+// use specific D0 tag modes.
+// available D0 tag modes are 0,1,2,3,4,5,50,51,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126.
+
+if you want to use the tagged event without PID applied (type=0 in DTagAlg), add "type0":
+TagFilterSvc.Criteria += {"tagD0=all,type0"};
+TagFilterSvc.Criteria += {"tagD0=0,1,2,3,4,5,6,7,8,type0"};
+
+3. D+ tag criteria:
+TagFilterSvc.Criteria += {"tagD=all"}; 
+// use all avaulable D+ tag modes.
+
+TagFilterSvc.Criteria += {"tagD="};
+// use specific D+ tag modes.
+// available D+ tag modes are 200,201,202,203,204,205,206,207,208,209,210,211,212,213,214,215,216,217,218,219,220,221,222.
+
+if you want to use the tagged event without PID applied (type=0 in DTagAlg), add "type0":
+TagFilterSvc.Criteria += {"tagD=all,type0"};
+TagFilterSvc.Criteria += {"tagD=400,401,402,403,404,405,406,407,type0"};
+
+4. other criteria:
+TagFilterSvc.Criteria += {"Ncut1<NumOfGoodCh<Ncut2"};    // number of good charged tracks
+TagFilterSvc.Criteria += {"Ncut1<NumOfNeutrk<Ncut2"};    // number of neutral tracks
+TagFilterSvc.Criteria += {"Ncut1<NumOfTottrk<Ncut2"};    // number of tracks (charged tracks + neutral tracks)
+TagFilterSvc.Criteria += {"Ncut1<NumOfGamma<Ncut2"};     // number of gamma
+TagFilterSvc.Criteria += {"Ncut1<NumOfPion0<Ncut2"};     // number of pi0
+TagFilterSvc.Criteria += {"Ncut1<NumOfPionp<Ncut2"};     // number of pi+
+TagFilterSvc.Criteria += {"Ncut1<NumOfPionm<Ncut2"};     // number of pi-
+TagFilterSvc.Criteria += {"Ncut1<NumOfKaonp<Ncut2"};     // numbre of K+
+TagFilterSvc.Criteria += {"Ncut1<NumOfKaonm<Ncut2"};     // number of K-
+TagFilterSvc.Criteria += {"Ncut1<NumOfProtonp<Ncut2"};   // numbre of p+
+TagFilterSvc.Criteria += {"Ncut1<NumOfProtonm<Ncut2"};   // number of p-
+TagFilterSvc.Criteria += {"Ncut1<NumOfLambda<Ncut2"};    // number of Lambda0
+TagFilterSvc.Criteria += {"Ncut1<NumOfALambda<Ncut2"};   // number of anti-Lambda0
+TagFilterSvc.Criteria += {"Ncut1<NumOfElectronp<Ncut2"}; // number of e+
+TagFilterSvc.Criteria += {"Ncut1<NumOfElectronm<Ncut2"}; // number of e-
+TagFilterSvc.Criteria += {"Ncut1<NumOfMuonp<Ncut2"};     // number of mu+
+TagFilterSvc.Criteria += {"Ncut1<NumOfMuonm<Ncut2"};     // number of mu-
+TagFilterSvc.Criteria += {"Ncut1<NumOfKs<Ncut2"};        // number of K_S0
+TagFilterSvc.Criteria += {"Ncut1<NumOfEta<Ncut2"};       // number of eta
+TagFilterSvc.Criteria += {"Ncut1<NumOfCharged<Ncut2"};   // number of charged tracks
+TagFilterSvc.Criteria += {"Ncut1<NumOfGoodChp<Ncut2"};   // number of good positive charged tracks
+TagFilterSvc.Criteria += {"Ncut1<NumOfGoodChm<Ncut2"};   // number of good nagative charged tracks
+TagFilterSvc.Criteria += {"Ncut1<TotCharged<Ncut2"};     // net charge of good charged tracks
+
+note:
+The Ds, D0, and D+ tag modes are defined in Event/EvtRecEvent/EvtRecEvent-*/EvtRecEvent/EvtRecDTag.h.

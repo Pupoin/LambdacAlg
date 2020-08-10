@@ -1,0 +1,5 @@
+ApplicationMgr.DLLs += {"SimplePIDSvc"};
+ApplicationMgr.ExtSvc += {"SimplePIDSvc"};
+SimplePIDSvc.mindedxchi=4;
+SimplePIDSvc.mintofchi=2;
+SimplePIDSvc.tofcorrection=true;
