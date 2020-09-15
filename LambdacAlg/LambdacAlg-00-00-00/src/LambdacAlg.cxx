@@ -97,6 +97,14 @@ LambdacAlg::LambdacAlg(const std::string &name, ISvcLocator *pSvcLocator) : Algo
   declareProperty("PhotonMinCosThetaEndcap", m_minCosThetaEndcap = 0.86);
   declareProperty("PhotonMaxCosThetaEndcap", m_maxCosThetaEndcap = 0.92);
   declareProperty("PhotonMinEndcapEnergy", m_minEndcapEnergy = 0.050);
+
+  declareProperty("EtaMinMass", m_EtaMinMass = 0.050);
+  declareProperty("EtaMaxMass", m_EtaMaxMass = 0.056);
+  declareProperty("Pi0MinMass", m_Pi0MinMass = 0.115);
+  declareProperty("Pi0MaxMass", m_Pi0MaxMass = 0.15);
+  declareProperty("SigmaMinMass", m_SigmaMinMass = 1.174);
+  declareProperty("SigmaMaxMass", m_SigmaMaxMass = 1.2);
+
   declareProperty("Debug", m_debug = true);
   declareProperty("BeamE", m_beamE = 2.313);
   declareProperty("ReadBeamEFromDB", m_ReadBeamEFromDB = false);
@@ -259,14 +267,14 @@ StatusCode LambdacAlg::beginRun()
 StatusCode LambdacAlg::execute()
 {
   m_rightflag = -1;
-  int signal = -1;
+  int signal = -9999;
   int bg = -1;
   int yes = -1;
   int no = -1;
   Ntotal++;
 
   if (m_debug)
-  cout << RED << "m_debug3 begin execute, Ntotal(event): " << Ntotal << "\033[0m" << endl;
+    cout << RED << "m_debug3 begin execute, Ntotal(event): " << Ntotal << "\033[0m" << endl;
 
   MsgStream log(msgSvc(), name());
   log << MSG::INFO << "LambdacAlg::execute()" << endreq;
@@ -646,15 +654,15 @@ StatusCode LambdacAlg::execute()
       if (ndaughterAm == 8 && Am_id[0] == -3222 && Am_id[1] == 221 && Am_id[2] == -2212 && Am_id[3] == 111 &&
           Am_id[4] == 22 && Am_id[5] == 22 && Am_id[6] == 22 && Am_id[7] == 22)
       {
-        signal = 1;
+        signal = -1;
         all++;
         all_m++;
+      }
 
-        if (m_debug)
-        {
-          cout << __LINE__ << "all: " << all << ", +signal: " << all_p << ", -signal: " << all_m << endl;
-          cout << endl;
-        }
+      if (m_debug)
+      {
+        cout << __LINE__ << " all: " << all << ", +signal: " << all_p << ", -signal: " << all_m << endl;
+        cout << endl;
       }
     }
   }
@@ -791,7 +799,7 @@ StatusCode LambdacAlg::execute()
     cout << __LINE__ << endl;
 
   int nGoodtotal = iGoodtotal.size();
-  if (signal == 1)
+  if (abs(signal) == 1)
     Ncut0++;
   if (m_debug)
     cout << __LINE__ << endl;
@@ -805,7 +813,7 @@ StatusCode LambdacAlg::execute()
   if (np == 0 && npbar == 0)
     return StatusCode::SUCCESS;
 
-  if (signal == 1)
+  if (abs(signal) == 1)
     Ncut1++;
 
   Vp4 ppim, ppip, pp, ppbar, pKp, pKm;
@@ -860,7 +868,7 @@ StatusCode LambdacAlg::execute()
   Vint iGam;
   iGam.clear();
   if (m_debug)
-    cout << __LINE__ << "begin choose good gamma" << endl;
+    cout << __LINE__ << " begin choose good gamma" << endl;
   for (int i = evtRecEvent->totalCharged(); i < evtRecEvent->totalTracks(); i++)
   {
     EvtRecTrackIterator itTrk = evtRecTrkCol->begin() + i;
@@ -874,7 +882,7 @@ StatusCode LambdacAlg::execute()
     // double dphi = 200.;
     double dang = 200.;
     if (m_debug)
-      cout << __LINE__ << "choose good gamma" << endl;
+      cout << __LINE__ << " choose good gamma" << endl;
 
     for (int j = 0; j < evtRecEvent->totalCharged(); j++)
     {
@@ -922,7 +930,7 @@ StatusCode LambdacAlg::execute()
   int nGam = iGam.size();
   if (nGam < 4)
     return StatusCode::SUCCESS;
-  if (signal == 1)
+  if (abs(signal) == 1)
   {
     if (m_debug)
       cout << __LINE__ << " "
@@ -961,7 +969,7 @@ StatusCode LambdacAlg::execute()
       HepLorentzVector ptrkj = getP4(emcTrkj, xorigin);
 
       HepLorentzVector p2geta = ptrki + ptrkj;
-      if (p2geta.m() < 0.50 || p2geta.m() > 0.56)
+      if (p2geta.m() < m_EtaMinMass || p2geta.m() > m_EtaMaxMass)
         continue;
       if (m_test1C == 1)
       {
@@ -1001,7 +1009,7 @@ StatusCode LambdacAlg::execute()
       HepLorentzVector ptrkl = getP4(emcTrkl, xorigin);
 
       HepLorentzVector p2gpi = ptrkk + ptrkl;
-      if (p2gpi.m() < 0.115 || p2gpi.m() > 0.15)
+      if (p2gpi.m() < m_Pi0MinMass || p2gpi.m() > m_Pi0MaxMass)
         continue;
       if (m_test1C == 1)
       {
@@ -1037,13 +1045,13 @@ StatusCode LambdacAlg::execute()
   int ngam12 = ngam1;
   int ngam34 = ngam3;
 
-  if(m_debug)
+  if (m_debug)
     cout << __LINE__ << " "
-       << "2*ngam12: " << 2*ngam12 << ", 2*ngam34: " << 2*ngam34 << endl;
+         << "2*ngam12: " << 2 * ngam12 << ", 2*ngam34: " << 2 * ngam34 << endl;
 
   // if (ngam12 == 0)
   //   return StatusCode::SUCCESS;
-  if (signal == 1)
+  if (abs(signal) == 1)
     Ncut3++; // Ncut3 should equal Ncut2;
 
   if (ngam12 == 0)
@@ -1052,7 +1060,7 @@ StatusCode LambdacAlg::execute()
     return StatusCode::SUCCESS;
 
   // cout<<"a="<<ngam<<endl;
-  if (signal == 1)
+  if (abs(signal) == 1)
     Ncut4++;
 
   // get beam energy and beta
@@ -1064,7 +1072,7 @@ StatusCode LambdacAlg::execute()
     if (m_run > 0)
       m_beta = m_readDb.getbeta();
     if (m_debug)
-        cout << __LINE__ <<"beam from db:" << m_beamE <<", mbeta: " << m_beta << endl;
+      cout << __LINE__ << "beam from db:" << m_beamE << ", mbeta: " << m_beta << endl;
   }
 
   double ebeam = m_beamE;
@@ -1097,7 +1105,6 @@ StatusCode LambdacAlg::execute()
       pgam1b_1C4p(0, 0, 0, 0), pgam2b_1C4p(0, 0, 0, 0), pgam3a_1C4p(0, 0, 0, 0), pgam4a_1C4p(0, 0, 0, 0),
       pgam3b_1C4p(0, 0, 0, 0), pgam4b_1C4p(0, 0, 0, 0), pKp_p4(0, 0, 0, 0), pbar_p4(0, 0, 0, 0), pim_p4(0, 0, 0, 0);
 
-
   // save lambda_c- ...
   for (int i = 0; i < npbar; i++)
   {
@@ -1106,29 +1113,26 @@ StatusCode LambdacAlg::execute()
       for (int k = 0; k < ngam34; k++)
       {
         HepLorentzVector psigma = ppbar[i] + pgam3_1C[k] + pgam4_1C[k];
-        //					HepLorentzVector plambuda =  ppbar[j] + ppip[l];
-        //					HepLorentzVector kshort =  pKm[i] + ppip[l];
-        //					if(plambuda.m()<1.12&&plambuda.m()>1.11)continue;;
 
         cout << __LINE__ << endl;
-        if (psigma.m() < 1.174 || psigma.m() > 1.2)
+        if (psigma.m() < m_SigmaMinMass || psigma.m() > m_SigmaMaxMass)
           continue;
-          cout << __LINE__<<endl;
+        cout << __LINE__ << endl;
         //					if(kshort.m()>0.48&&kshort.m()<0.52)continue;
         H++;
         if (igam1[j] == igam3[k] || igam1[j] == igam4[k])
           continue;
-          cout << __LINE__<<endl;
+        cout << __LINE__ << endl;
         if (igam2[j] == igam3[k] || igam2[j] == igam4[k])
           continue;
-          cout << __LINE__<<endl;
-          
+        cout << __LINE__ << endl;
+
         HepLorentzVector pLambda = ppbar[i] + pgam3_1C[k] + pgam4_1C[k] + pgam1_1C[j] + pgam2_1C[j];
         pLambda.boost(-m_beta);
         // double deltaE = fabs(pLambda.t() - ebeam);
         double deltaEb = pLambda.t() - ebeam;
-        if(m_debug)
-          cout << "fabs(deltaEb): " << fabs(deltaEb) << ", fabs(deltaE_minb): "<< fabs(deltaE_minb) << endl;
+        if (m_debug)
+          cout << "fabs(deltaEb): " << fabs(deltaEb) << ", fabs(deltaE_minb): " << fabs(deltaE_minb) << endl;
         if (fabs(deltaEb) < fabs(deltaE_minb))
         {
           b = 1;
@@ -1158,29 +1162,26 @@ StatusCode LambdacAlg::execute()
     {
       for (int k = 0; k < ngam34; k++)
       {
-        HepLorentzVector psigma = pp[j] + pgam3_1C[k] + pgam4_1C[k];
-        //					HepLorentzVector plambuda =  pp[j] + ppim[l];
-        //					HepLorentzVector kshort =  pKp[i] + ppim[l];
+        HepLorentzVector psigma = pp[i] + pgam3_1C[k] + pgam4_1C[k];
 
-        //					if(plambuda.m()<1.12&&plambuda.m()>1.11)continue;
-        cout << __LINE__<<endl;
-        if (psigma.m() < 1.174 || psigma.m() > 1.2)
+        cout << __LINE__ << endl;
+        if (psigma.m() < m_SigmaMinMass || psigma.m() > m_SigmaMaxMass)
           continue;
-         cout << __LINE__<<endl;
+        cout << __LINE__ << endl;
         //					if(kshort.m()>0.48&&kshort.m()<0.52)continue;
         if (igam1[j] == igam3[k] || igam1[j] == igam4[k])
           continue;
-         cout << __LINE__<<endl;
+        cout << __LINE__ << endl;
         if (igam2[j] == igam3[k] || igam2[j] == igam4[k])
           continue;
-        cout << __LINE__<<endl;
+        cout << __LINE__ << endl;
         H++;
         HepLorentzVector pLambda = pp[i] + pgam3_1C[k] + pgam4_1C[k] + pgam1_1C[j] + pgam2_1C[j];
         pLambda.boost(-m_beta);
         // double deltaE = fabs(pLambda.t() - ebeam);
         double deltaEa = pLambda.t() - ebeam;
-        if(m_debug)
-          cout << "fabs(deltaEa): " << fabs(deltaEa) << ", fabs(deltaE_mina): "<< fabs(deltaE_mina) << endl;
+        if (m_debug)
+          cout << "fabs(deltaEa): " << fabs(deltaEa) << ", fabs(deltaE_mina): " << fabs(deltaE_mina) << endl;
         if (fabs(deltaEa) < fabs(deltaE_mina))
         {
           a = 1;
@@ -1206,8 +1207,9 @@ StatusCode LambdacAlg::execute()
   // write ...
   if (a == 0 && b == 0)
   {
-    if(m_debug)
-      cout << "a=0; b=0; " << "np: " << np << ", npbar: "<< npbar << endl;
+    if (m_debug)
+      cout << "a=0; b=0; "
+           << "np: " << np << ", npbar: " << npbar << endl;
     return StatusCode::SUCCESS;
   }
   if (b == 1)

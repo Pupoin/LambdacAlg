@@ -7,8 +7,16 @@ LambdacAlg.Vz0cut = 10.0;
 LambdacAlg.Vz0cut1 = 20.0;
 LambdacAlg.SkimFlag = false;
 LambdacAlg.Test1C = 1;
+
 //LambdacAlg.Pi0MinMass = 0.08;
 //LambdacAlg.Pi0MaxMass = 0.18;
+LambdacAlg.EtaMinMass = 0.050;
+LambdacAlg.EtaMaxMass = 0.056;
+LambdacAlg.Pi0MinMass = 0.115;
+LambdacAlg.Pi0MaxMass = 0.15;
+LambdacAlg.SigmaMinMass = 1.174;
+LambdacAlg.SigmaMaxMass = 1.2;
+
 LambdacAlg.ChisqMax= 200;
 //LambdacAlg.PhotonMinEnergy = 0.025;
 //LambdacAlg.GammaAngleCut=10.0;

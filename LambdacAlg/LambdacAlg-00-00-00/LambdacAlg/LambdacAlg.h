@@ -37,6 +37,13 @@ class LambdacAlg:public Algorithm {
 		double m_minEnergy;
 		double m_chisqMax;
 
+		double m_EtaMinMass;
+		double m_EtaMaxMass;
+		double m_Pi0MinMass;
+		double m_Pi0MaxMass;
+		double m_SigmaMinMass;
+		double m_SigmaMaxMass;
+
 		bool   m_debug;
 		bool   m_checktotal;
 		double m_maxCosThetaBarrel;
