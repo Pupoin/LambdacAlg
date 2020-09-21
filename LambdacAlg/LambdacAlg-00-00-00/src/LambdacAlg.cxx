@@ -42,7 +42,8 @@ using CLHEP::HepLorentzVector;
 #include "CLHEP/Geometry/Point3D.h"
 #include "DTagTool/DTagTool.h"
 #include "ParticleID/ParticleID.h"
-#include "SimplePIDSvc/ISimplePIDSvc.h"
+// #include "SimplePIDSvc/ISimplePIDSvc.h"
+#include "LambdacAlg/MyPid.h"
 #include "VertexFit/Helix.h"
 #include "VertexFit/IVertexDbSvc.h"
 #include "VertexFit/KalmanKinematicFit.h"
@@ -288,9 +289,9 @@ StatusCode LambdacAlg::execute()
   int mm_mode2 = (eventHeader->flag1() / 1000) % 1000;
   int mm_mode3 = eventHeader->flag1() % 1000;
 
-  if ((m_run == 35412 || m_run == 35413 || m_run == 35414 || m_run == 37373 || m_run == 37733 || m_run == 37734 ||
-       m_run == 37736 || m_run == 37738 || m_run == 37740 || m_run == 37741))
-    return StatusCode::SUCCESS;
+  // if ((m_run == 35412 || m_run == 35413 || m_run == 35414 || m_run == 37373 || m_run == 37733 || m_run == 37734 ||
+  //      m_run == 37736 || m_run == 37738 || m_run == 37740 || m_run == 37741))
+  //   return StatusCode::SUCCESS;
   // if(!(m_run==35966&&(m_event==10304||m_event==77483||m_event==79947||m_event==97315)))   return StatusCode::SUCCESS;
   // cout<<endl<<endl<<"********************************************************************************************************"<<endl;
 
@@ -690,14 +691,11 @@ StatusCode LambdacAlg::execute()
       for (int ll = 0; ll < 4; ll++)
         m_Am_ptruth_[aa][ll] = Am_ptruth[aa][ll];
 
-    // cout << "hadfs " << m_Ap_ptruth_[0][0] << " " << m_Ap_ptruth_[0][1] << " " << m_Ap_ptruth_[0][2] << " "
-    //      <<  m_Ap_ptruth_[0][3] << " " << m_Am_ptruth_[1][3] << " " << endl;
     m_tuple2->write();
   }
 
   // end mc
-  // TADA!!!=========================================================================
-  // good track
+  // good track  =========================================================================
   if (m_debug)
     cout << "\n" << __LINE__ << " begin choose good track" << endl;
 
@@ -778,20 +776,21 @@ StatusCode LambdacAlg::execute()
   {
     EvtRecTrackIterator itTrk = evtRecTrkCol->begin() + iGoodforp[i];
     RecMdcTrack *mdcTrk = (*itTrk)->mdcTrack();
+    MyPid *pid = new MyPid(*itTrk);
     if (mdcTrk->charge() == 1)
     {
-      ISimplePIDSvc *m_simplePIDSvc;
-      Gaudi::svcLocator()->service("SimplePIDSvc", m_simplePIDSvc);
-      m_simplePIDSvc->preparePID(*itTrk);
-      if (m_simplePIDSvc->isproton())
+      // ISimplePIDSvc *m_simplePIDSvc;
+      // Gaudi::svcLocator()->service("SimplePIDSvc", m_simplePIDSvc);
+      // m_simplePIDSvc->preparePID(*itTrk);
+      if (pid->isproton())
         ip.push_back(iGoodforp[i]);
     }
     if (mdcTrk->charge() == -1)
     {
-      ISimplePIDSvc *m_simplePIDSvc;
-      Gaudi::svcLocator()->service("SimplePIDSvc", m_simplePIDSvc);
-      m_simplePIDSvc->preparePID(*itTrk);
-      if (m_simplePIDSvc->isproton())
+      // ISimplePIDSvc *m_simplePIDSvc;
+      // Gaudi::svcLocator()->service("SimplePIDSvc", m_simplePIDSvc);
+      // m_simplePIDSvc->preparePID(*itTrk);
+      if (pid->isproton())
         ipbar.push_back(iGoodforp[i]);
     }
   }
@@ -808,8 +807,6 @@ StatusCode LambdacAlg::execute()
   m_np = np;
   m_npbar = npbar;
 
-  //	cout<<"npi="<<npi<<"np="<<np<<"nK="<<nK<<nGood<<endl;
-  //	if((npim==0||nKp==0||np==0)&&(npip==0||nKm==0||npbar==0))  return StatusCode::SUCCESS;
   if (np == 0 && npbar == 0)
     return StatusCode::SUCCESS;
 
@@ -864,7 +861,7 @@ StatusCode LambdacAlg::execute()
     m_eop_pbar = eop_pbar;
   }
 
-  // good shower
+  // good shower =============================================================================
   Vint iGam;
   iGam.clear();
   if (m_debug)
@@ -923,7 +920,7 @@ StatusCode LambdacAlg::execute()
 
     iGam.push_back(i);
   }
-  // Finish Good Photon SKction
+  // Finish Good Photon Slection
 
   if (m_debug)
     cout << __LINE__ << endl;
@@ -953,7 +950,7 @@ StatusCode LambdacAlg::execute()
 
   KalmanKinematicFit *kmfit = KalmanKinematicFit::instance();
 
-  // Loop each gamma pair, check eta mass
+  // Loop each gamma pair, check eta mass  ----------------------------
   for (int i = 0; i < nGam - 1; i++)
   {
     EvtRecTrackIterator itTrki = evtRecTrkCol->begin() + iGam[i];
@@ -994,7 +991,8 @@ StatusCode LambdacAlg::execute()
     }
   }
 
-  // Loop each gamma pair, check pi0 mass
+#pragma region loop_gamma_check_pi0
+  // Loop each gamma pair, check pi0 mass -----------------------------
   for (int k = 0; k < nGam - 1; k++)
   {
     EvtRecTrackIterator itTrkk = evtRecTrkCol->begin() + iGam[k];
@@ -1048,6 +1046,7 @@ StatusCode LambdacAlg::execute()
   if (m_debug)
     cout << __LINE__ << " "
          << "2*ngam12: " << 2 * ngam12 << ", 2*ngam34: " << 2 * ngam34 << endl;
+ #pragma endregion
 
   // if (ngam12 == 0)
   //   return StatusCode::SUCCESS;
@@ -1099,13 +1098,21 @@ StatusCode LambdacAlg::execute()
   int b = 0;
   int c = 0;
   int d = 0;
-  HepLorentzVector pKm_p4(0, 0, 0, 0), p_p4(0, 0, 0, 0), gam1a_p4(0, 0, 0, 0), gam2a_p4(0, 0, 0, 0),
-      gam1b_p4(0, 0, 0, 0), gam2b_p4(0, 0, 0, 0), gam3a_p4(0, 0, 0, 0), gam4a_p4(0, 0, 0, 0), gam3b_p4(0, 0, 0, 0),
-      gam4b_p4(0, 0, 0, 0), pip_p4(0, 0, 0, 0), pgam1a_1C4p(0, 0, 0, 0), pgam2a_1C4p(0, 0, 0, 0),
-      pgam1b_1C4p(0, 0, 0, 0), pgam2b_1C4p(0, 0, 0, 0), pgam3a_1C4p(0, 0, 0, 0), pgam4a_1C4p(0, 0, 0, 0),
-      pgam3b_1C4p(0, 0, 0, 0), pgam4b_1C4p(0, 0, 0, 0), pKp_p4(0, 0, 0, 0), pbar_p4(0, 0, 0, 0), pim_p4(0, 0, 0, 0);
+  HepLorentzVector 
+      pKm_p4(0, 0, 0, 0), p_p4(0, 0, 0, 0), 
+      gam1a_p4(0, 0, 0, 0), gam2a_p4(0, 0, 0, 0),
+      gam1b_p4(0, 0, 0, 0), gam2b_p4(0, 0, 0, 0), 
+      gam3a_p4(0, 0, 0, 0), gam4a_p4(0, 0, 0, 0), 
+      gam3b_p4(0, 0, 0, 0), gam4b_p4(0, 0, 0, 0), 
+      pip_p4(0, 0, 0, 0), pgam1a_1C4p(0, 0, 0, 0), 
+      pgam2a_1C4p(0, 0, 0, 0), pgam1b_1C4p(0, 0, 0, 0), 
+      pgam2b_1C4p(0, 0, 0, 0), pgam3a_1C4p(0, 0, 0, 0), 
+      pgam4a_1C4p(0, 0, 0, 0), pgam3b_1C4p(0, 0, 0, 0), 
+      pgam4b_1C4p(0, 0, 0, 0), pKp_p4(0, 0, 0, 0), 
+      pbar_p4(0, 0, 0, 0), pim_p4(0, 0, 0, 0);
 
-  // save lambda_c- ...
+  #pragma region save_lambda_c-_and_lambda_c+
+  // save lambda_c- 
   for (int i = 0; i < npbar; i++)
   {
     for (int j = 0; j < ngam12; j++)
@@ -1114,22 +1121,15 @@ StatusCode LambdacAlg::execute()
       {
         HepLorentzVector psigma = ppbar[i] + pgam3_1C[k] + pgam4_1C[k];
 
-        cout << __LINE__ << endl;
         if (psigma.m() < m_SigmaMinMass || psigma.m() > m_SigmaMaxMass)
           continue;
-        cout << __LINE__ << endl;
-        //					if(kshort.m()>0.48&&kshort.m()<0.52)continue;
-        H++;
         if (igam1[j] == igam3[k] || igam1[j] == igam4[k])
           continue;
-        cout << __LINE__ << endl;
         if (igam2[j] == igam3[k] || igam2[j] == igam4[k])
           continue;
-        cout << __LINE__ << endl;
 
         HepLorentzVector pLambda = ppbar[i] + pgam3_1C[k] + pgam4_1C[k] + pgam1_1C[j] + pgam2_1C[j];
         pLambda.boost(-m_beta);
-        // double deltaE = fabs(pLambda.t() - ebeam);
         double deltaEb = pLambda.t() - ebeam;
         if (m_debug)
           cout << "fabs(deltaEb): " << fabs(deltaEb) << ", fabs(deltaE_minb): " << fabs(deltaE_minb) << endl;
@@ -1164,18 +1164,13 @@ StatusCode LambdacAlg::execute()
       {
         HepLorentzVector psigma = pp[i] + pgam3_1C[k] + pgam4_1C[k];
 
-        cout << __LINE__ << endl;
         if (psigma.m() < m_SigmaMinMass || psigma.m() > m_SigmaMaxMass)
           continue;
-        cout << __LINE__ << endl;
-        //					if(kshort.m()>0.48&&kshort.m()<0.52)continue;
         if (igam1[j] == igam3[k] || igam1[j] == igam4[k])
           continue;
-        cout << __LINE__ << endl;
         if (igam2[j] == igam3[k] || igam2[j] == igam4[k])
           continue;
-        cout << __LINE__ << endl;
-        H++;
+
         HepLorentzVector pLambda = pp[i] + pgam3_1C[k] + pgam4_1C[k] + pgam1_1C[j] + pgam2_1C[j];
         pLambda.boost(-m_beta);
         // double deltaE = fabs(pLambda.t() - ebeam);
@@ -1203,8 +1198,9 @@ StatusCode LambdacAlg::execute()
       }
     }
   }
+ #pragma endregion
 
-  // write ...
+  #pragma region write
   if (a == 0 && b == 0)
   {
     if (m_debug)
@@ -1363,6 +1359,8 @@ StatusCode LambdacAlg::execute()
     m_npbar = npbar;
     m_tuple1->write();
   }
+ #pragma endregion
+
   Ncut5++;
 
   cout << "attention: if Ncut2!= Ncut3 ,you should check" << endl;

@@ -17,7 +17,7 @@ use DTagTool     DTagTool-*    Analysis
 
 
 use ParticleID   ParticleID-*  Analysis
-use SimplePIDSvc SimplePIDSvc-00-00-16
+#use SimplePIDSvc SimplePIDSvc-00-00-16
 use VertexFit    VertexFit-*   Analysis
 #use XBAF        XBAF-*
 use McTruth      McTruth-*     Event
