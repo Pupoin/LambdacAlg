@@ -42,7 +42,7 @@ using CLHEP::HepLorentzVector;
 #include "CLHEP/Geometry/Point3D.h"
 #include "DTagTool/DTagTool.h"
 #include "ParticleID/ParticleID.h"
-// #include "SimplePIDSvc/ISimplePIDSvc.h"
+#include "SimplePIDSvc/ISimplePIDSvc.h"
 #include "LambdacAlg/MyPid.h"
 #include "VertexFit/Helix.h"
 #include "VertexFit/IVertexDbSvc.h"
@@ -363,6 +363,7 @@ StatusCode LambdacAlg::execute()
     std::cout << "mode1=" << mm_mode1 << ", mode2=" << mm_mode2 << ", mode3=" << mm_mode3 << ", runNo" << runNo
               << ", eventNo " << eventNo << std::endl;
 
+#pragma region for_mc
   if (eventHeader->runNumber() < 0)
   {
     SmartDataPtr<Event::McParticleCol> mcParticleCol(eventSvc(), "/Event/MC/McParticleCol");
@@ -557,7 +558,7 @@ StatusCode LambdacAlg::execute()
         cout << "\n" << endl;
       }
 
-      // extract
+      // trace both
       for (iter_mc = mcParticleCol->begin(); iter_mc != mcParticleCol->end(); iter_mc++)
       {
         if ((*iter_mc)->primaryParticle())
@@ -573,7 +574,8 @@ StatusCode LambdacAlg::execute()
           if (m_debug)
           {
             cout << endl;
-            cout << "+||- iter_mc: " << (*iter_mc)->particleProperty() << ", numParticle: " << numParticle << endl;
+            cout << __LINE__ << " +||- iter_mc: " << (*iter_mc)->particleProperty() << ", numParticle: " << numParticle
+                 << endl;
           }
 
           for (int i = 0; i != pdgid.size(); i++)
@@ -601,7 +603,8 @@ StatusCode LambdacAlg::execute()
           if (m_debug)
           {
             cout << endl;
-            cout << "+iter_mc: " << (*iter_mc)->particleProperty() << ", numParticle: " << numParticle << endl;
+            cout << __LINE__ << "+iter_mc: " << (*iter_mc)->particleProperty() << ", numParticle: " << numParticle
+                 << endl;
           }
 
           for (int i = 0; i != pdgid.size(); i++)
@@ -694,7 +697,10 @@ StatusCode LambdacAlg::execute()
     m_tuple2->write();
   }
 
-  // end mc
+  // end mc;
+#pragma endregion
+
+#pragma region for_track
   // good track  =========================================================================
   if (m_debug)
     cout << "\n" << __LINE__ << " begin choose good track" << endl;
@@ -728,13 +734,6 @@ StatusCode LambdacAlg::execute()
     RecMdcTrack *mdcTrk = (*itTrk)->mdcTrack();
 
     double pch = mdcTrk->p();
-    // double x0=mdcTrk->x();
-    // double y0=mdcTrk->y();
-    // double z0=mdcTrk->z();
-    // double phi0=mdcTrk->helix(1);
-    // double xv=xorigin.x();
-    // double yv=xorigin.y();
-    // double Rxy=(x0-xv)*cos(phi0)+(y0-yv)*sin(phi0);
     HepVector a = mdcTrk->helix();
     HepSymMatrix Ea = mdcTrk->err();
     HepPoint3D point0(0., 0., 0.); // the initial point for MDC recosntruction
@@ -779,17 +778,19 @@ StatusCode LambdacAlg::execute()
     MyPid *pid = new MyPid(*itTrk);
     if (mdcTrk->charge() == 1)
     {
-      // ISimplePIDSvc *m_simplePIDSvc;
-      // Gaudi::svcLocator()->service("SimplePIDSvc", m_simplePIDSvc);
-      // m_simplePIDSvc->preparePID(*itTrk);
+      ISimplePIDSvc *m_simplePIDSvc;
+      Gaudi::svcLocator()->service("SimplePIDSvc", m_simplePIDSvc);
+      m_simplePIDSvc->preparePID(*itTrk);
       if (pid->isproton())
+      {
         ip.push_back(iGoodforp[i]);
+      }
     }
     if (mdcTrk->charge() == -1)
     {
-      // ISimplePIDSvc *m_simplePIDSvc;
-      // Gaudi::svcLocator()->service("SimplePIDSvc", m_simplePIDSvc);
-      // m_simplePIDSvc->preparePID(*itTrk);
+      ISimplePIDSvc *m_simplePIDSvc;
+      Gaudi::svcLocator()->service("SimplePIDSvc", m_simplePIDSvc);
+      m_simplePIDSvc->preparePID(*itTrk);
       if (pid->isproton())
         ipbar.push_back(iGoodforp[i]);
     }
@@ -860,7 +861,9 @@ StatusCode LambdacAlg::execute()
 
     m_eop_pbar = eop_pbar;
   }
+#pragma endregion
 
+#pragma region for_shower
   // good shower =============================================================================
   Vint iGam;
   iGam.clear();
@@ -921,17 +924,17 @@ StatusCode LambdacAlg::execute()
     iGam.push_back(i);
   }
   // Finish Good Photon Slection
+#pragma endregion
 
   if (m_debug)
     cout << __LINE__ << endl;
-  int nGam = iGam.size();
-  if (nGam < 4)
+  if (iGam.size() < 4)
     return StatusCode::SUCCESS;
   if (abs(signal) == 1)
   {
     if (m_debug)
       cout << __LINE__ << " "
-           << "nGam: " << nGam << endl;
+           << "iGam.size(): " << iGam.size() << endl;
     Ncut2++;
   }
 
@@ -951,14 +954,14 @@ StatusCode LambdacAlg::execute()
   KalmanKinematicFit *kmfit = KalmanKinematicFit::instance();
 
   // Loop each gamma pair, check eta mass  ----------------------------
-  for (int i = 0; i < nGam - 1; i++)
+  for (int i = 0; i < iGam.size() - 1; i++)
   {
     EvtRecTrackIterator itTrki = evtRecTrkCol->begin() + iGam[i];
     RecEmcShower *emcTrki = (*itTrki)->emcShower();
     Hep3Vector emcposi(emcTrki->x(), emcTrki->y(), emcTrki->z());
     HepLorentzVector ptrki = getP4(emcTrki, xorigin);
 
-    for (int j = i + 1; j < nGam; j++)
+    for (int j = i + 1; j < iGam.size(); j++)
     {
       EvtRecTrackIterator itTrkj = evtRecTrkCol->begin() + iGam[j];
       RecEmcShower *emcTrkj = (*itTrkj)->emcShower();
@@ -966,6 +969,9 @@ StatusCode LambdacAlg::execute()
       HepLorentzVector ptrkj = getP4(emcTrkj, xorigin);
 
       HepLorentzVector p2geta = ptrki + ptrkj;
+      cout << __LINE__ << " 00000000 " << p2geta.px() << " " << p2geta.py() << " " << p2geta.pz() << " " << p2geta.e()
+           << " " << p2geta.m() << endl;
+
       if (p2geta.m() < m_EtaMinMass || p2geta.m() > m_EtaMaxMass)
         continue;
       if (m_test1C == 1)
@@ -993,13 +999,13 @@ StatusCode LambdacAlg::execute()
 
 #pragma region loop_gamma_check_pi0
   // Loop each gamma pair, check pi0 mass -----------------------------
-  for (int k = 0; k < nGam - 1; k++)
+  for (int k = 0; k < iGam.size() - 1; k++)
   {
     EvtRecTrackIterator itTrkk = evtRecTrkCol->begin() + iGam[k];
     RecEmcShower *emcTrkk = (*itTrkk)->emcShower();
     Hep3Vector emcposk(emcTrkk->x(), emcTrkk->y(), emcTrkk->z());
     HepLorentzVector ptrkk = getP4(emcTrkk, xorigin);
-    for (int l = k + 1; l < nGam; l++)
+    for (int l = k + 1; l < iGam.size(); l++)
     {
       EvtRecTrackIterator itTrkl = evtRecTrkCol->begin() + iGam[l];
       RecEmcShower *emcTrkl = (*itTrkl)->emcShower();
@@ -1007,6 +1013,8 @@ StatusCode LambdacAlg::execute()
       HepLorentzVector ptrkl = getP4(emcTrkl, xorigin);
 
       HepLorentzVector p2gpi = ptrkk + ptrkl;
+      cout << __LINE__ << " 00000000 " << p2gpi.px() << " " << p2gpi.py() << " " << p2gpi.pz() << " " << p2gpi.e()
+           << " " << p2gpi.m() << endl;
       if (p2gpi.m() < m_Pi0MinMass || p2gpi.m() > m_Pi0MaxMass)
         continue;
       if (m_test1C == 1)
@@ -1147,6 +1155,12 @@ StatusCode LambdacAlg::execute()
       }
     }
   }
+  cout << __LINE__ << (gam3b_p4 + gam4b_p4).m() << endl;
+  cout << __LINE__ << " 00000000 " << gam3b_p4.px() << " " << gam3b_p4.py() << " " << gam3b_p4.pz() << " "
+       << gam3b_p4.e() << " " << gam3b_p4.m() << endl;
+
+  cout << __LINE__ << " 00000000 " << gam4b_p4.px() << " " << gam4b_p4.py() << " " << gam4b_p4.pz() << " "
+       << gam4b_p4.e() << " " << gam4b_p4.m() << endl;
 
   // save lambda_c+ a ....
   for (int i = 0; i < np; i++)
