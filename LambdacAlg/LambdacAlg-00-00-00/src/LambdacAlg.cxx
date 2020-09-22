@@ -106,7 +106,7 @@ LambdacAlg::LambdacAlg(const std::string &name, ISvcLocator *pSvcLocator) : Algo
   declareProperty("SigmaMinMass", m_SigmaMinMass = 1.174);
   declareProperty("SigmaMaxMass", m_SigmaMaxMass = 1.2);
 
-  declareProperty("Debug", m_debug = true);
+  declareProperty("Debug", m_debug = false);
   declareProperty("BeamE", m_beamE = 2.313);
   declareProperty("ReadBeamEFromDB", m_ReadBeamEFromDB = false);
   declareProperty("UseCalibBeamE", m_usecalibBeamE = false);
@@ -391,8 +391,8 @@ StatusCode LambdacAlg::execute()
         int pdg = (*iter_mc)->particleProperty();
         int motherpdg = ((*iter_mc)->mother()).particleProperty();
         int mmotherpdg = (((*iter_mc)->mother()).mother()).particleProperty();
-
-        cout << "mcParticleCol pdg: " << pdg << ", motherpdg: " << motherpdg << ", mmotherpdg:" << mmotherpdg << endl;
+        if (m_debug)
+          cout << "mcParticleCol pdg: " << pdg << ", motherpdg: " << motherpdg << ", mmotherpdg:" << mmotherpdg << endl;
 
         // truth for lambda_c+ to ... ------------------------------------
         if ((*iter_mc)->particleProperty() == 4122)
@@ -1046,7 +1046,7 @@ StatusCode LambdacAlg::execute()
   if (m_debug)
     cout << __LINE__ << " "
          << "2*ngam12: " << 2 * ngam12 << ", 2*ngam34: " << 2 * ngam34 << endl;
- #pragma endregion
+#pragma endregion
 
   // if (ngam12 == 0)
   //   return StatusCode::SUCCESS;
@@ -1098,21 +1098,14 @@ StatusCode LambdacAlg::execute()
   int b = 0;
   int c = 0;
   int d = 0;
-  HepLorentzVector 
-      pKm_p4(0, 0, 0, 0), p_p4(0, 0, 0, 0), 
-      gam1a_p4(0, 0, 0, 0), gam2a_p4(0, 0, 0, 0),
-      gam1b_p4(0, 0, 0, 0), gam2b_p4(0, 0, 0, 0), 
-      gam3a_p4(0, 0, 0, 0), gam4a_p4(0, 0, 0, 0), 
-      gam3b_p4(0, 0, 0, 0), gam4b_p4(0, 0, 0, 0), 
-      pip_p4(0, 0, 0, 0), pgam1a_1C4p(0, 0, 0, 0), 
-      pgam2a_1C4p(0, 0, 0, 0), pgam1b_1C4p(0, 0, 0, 0), 
-      pgam2b_1C4p(0, 0, 0, 0), pgam3a_1C4p(0, 0, 0, 0), 
-      pgam4a_1C4p(0, 0, 0, 0), pgam3b_1C4p(0, 0, 0, 0), 
-      pgam4b_1C4p(0, 0, 0, 0), pKp_p4(0, 0, 0, 0), 
-      pbar_p4(0, 0, 0, 0), pim_p4(0, 0, 0, 0);
+  HepLorentzVector pKm_p4(0, 0, 0, 0), p_p4(0, 0, 0, 0), gam1a_p4(0, 0, 0, 0), gam2a_p4(0, 0, 0, 0),
+      gam1b_p4(0, 0, 0, 0), gam2b_p4(0, 0, 0, 0), gam3a_p4(0, 0, 0, 0), gam4a_p4(0, 0, 0, 0), gam3b_p4(0, 0, 0, 0),
+      gam4b_p4(0, 0, 0, 0), pip_p4(0, 0, 0, 0), pgam1a_1C4p(0, 0, 0, 0), pgam2a_1C4p(0, 0, 0, 0),
+      pgam1b_1C4p(0, 0, 0, 0), pgam2b_1C4p(0, 0, 0, 0), pgam3a_1C4p(0, 0, 0, 0), pgam4a_1C4p(0, 0, 0, 0),
+      pgam3b_1C4p(0, 0, 0, 0), pgam4b_1C4p(0, 0, 0, 0), pKp_p4(0, 0, 0, 0), pbar_p4(0, 0, 0, 0), pim_p4(0, 0, 0, 0);
 
-  #pragma region save_lambda_c-_and_lambda_c+
-  // save lambda_c- 
+#pragma region save_lambda_c - _and_lambda_c +
+  // save lambda_c-
   for (int i = 0; i < npbar; i++)
   {
     for (int j = 0; j < ngam12; j++)
@@ -1198,9 +1191,9 @@ StatusCode LambdacAlg::execute()
       }
     }
   }
- #pragma endregion
+#pragma endregion
 
-  #pragma region write
+#pragma region write
   if (a == 0 && b == 0)
   {
     if (m_debug)
@@ -1359,7 +1352,7 @@ StatusCode LambdacAlg::execute()
     m_npbar = npbar;
     m_tuple1->write();
   }
- #pragma endregion
+#pragma endregion
 
   Ncut5++;
 
