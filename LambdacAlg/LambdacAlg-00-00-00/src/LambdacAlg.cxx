@@ -42,7 +42,7 @@ using CLHEP::HepLorentzVector;
 #include "CLHEP/Geometry/Point3D.h"
 #include "DTagTool/DTagTool.h"
 #include "ParticleID/ParticleID.h"
-#include "SimplePIDSvc/ISimplePIDSvc.h"
+// #include "SimplePIDSvc/ISimplePIDSvc.h"
 #include "LambdacAlg/MyPid.h"
 #include "VertexFit/Helix.h"
 #include "VertexFit/IVertexDbSvc.h"
@@ -776,23 +776,16 @@ StatusCode LambdacAlg::execute()
     EvtRecTrackIterator itTrk = evtRecTrkCol->begin() + iGoodforp[i];
     RecMdcTrack *mdcTrk = (*itTrk)->mdcTrack();
     MyPid *pid = new MyPid(*itTrk);
-    if (mdcTrk->charge() == 1)
+    if (pid->isproton())
     {
-      ISimplePIDSvc *m_simplePIDSvc;
-      Gaudi::svcLocator()->service("SimplePIDSvc", m_simplePIDSvc);
-      m_simplePIDSvc->preparePID(*itTrk);
-      if (pid->isproton())
+      if (mdcTrk->charge() == 1)
       {
         ip.push_back(iGoodforp[i]);
       }
-    }
-    if (mdcTrk->charge() == -1)
-    {
-      ISimplePIDSvc *m_simplePIDSvc;
-      Gaudi::svcLocator()->service("SimplePIDSvc", m_simplePIDSvc);
-      m_simplePIDSvc->preparePID(*itTrk);
-      if (pid->isproton())
+      if (mdcTrk->charge() == -1)
+      {
         ipbar.push_back(iGoodforp[i]);
+      }
     }
   }
   if (m_debug)
@@ -969,8 +962,6 @@ StatusCode LambdacAlg::execute()
       HepLorentzVector ptrkj = getP4(emcTrkj, xorigin);
 
       HepLorentzVector p2geta = ptrki + ptrkj;
-      cout << __LINE__ << " 00000000 " << p2geta.px() << " " << p2geta.py() << " " << p2geta.pz() << " " << p2geta.e()
-           << " " << p2geta.m() << endl;
 
       if (p2geta.m() < m_EtaMinMass || p2geta.m() > m_EtaMaxMass)
         continue;
@@ -1013,8 +1004,7 @@ StatusCode LambdacAlg::execute()
       HepLorentzVector ptrkl = getP4(emcTrkl, xorigin);
 
       HepLorentzVector p2gpi = ptrkk + ptrkl;
-      cout << __LINE__ << " 00000000 " << p2gpi.px() << " " << p2gpi.py() << " " << p2gpi.pz() << " " << p2gpi.e()
-           << " " << p2gpi.m() << endl;
+
       if (p2gpi.m() < m_Pi0MinMass || p2gpi.m() > m_Pi0MaxMass)
         continue;
       if (m_test1C == 1)
@@ -1155,12 +1145,6 @@ StatusCode LambdacAlg::execute()
       }
     }
   }
-  cout << __LINE__ << (gam3b_p4 + gam4b_p4).m() << endl;
-  cout << __LINE__ << " 00000000 " << gam3b_p4.px() << " " << gam3b_p4.py() << " " << gam3b_p4.pz() << " "
-       << gam3b_p4.e() << " " << gam3b_p4.m() << endl;
-
-  cout << __LINE__ << " 00000000 " << gam4b_p4.px() << " " << gam4b_p4.py() << " " << gam4b_p4.pz() << " "
-       << gam4b_p4.e() << " " << gam4b_p4.m() << endl;
 
   // save lambda_c+ a ....
   for (int i = 0; i < np; i++)
