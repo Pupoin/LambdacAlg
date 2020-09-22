@@ -5,3 +5,4 @@ x86_64-slc5-gcc43-opt/
 *.rtraw
 *.dst
 /TestRelease
+/tmp
