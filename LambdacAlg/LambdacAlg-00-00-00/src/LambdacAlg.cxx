@@ -42,8 +42,10 @@ using CLHEP::HepLorentzVector;
 #include "CLHEP/Geometry/Point3D.h"
 #include "DTagTool/DTagTool.h"
 #include "ParticleID/ParticleID.h"
-#include "SimplePIDSvc/ISimplePIDSvc.h"
+// #include "SimplePIDSvc/ISimplePIDSvc.h"
 #include "LambdacAlg/MyPid.h"
+#include "LambdacAlg/MyParticle.h"
+
 #include "VertexFit/Helix.h"
 #include "VertexFit/IVertexDbSvc.h"
 #include "VertexFit/KalmanKinematicFit.h"
@@ -99,8 +101,8 @@ LambdacAlg::LambdacAlg(const std::string &name, ISvcLocator *pSvcLocator) : Algo
   declareProperty("PhotonMaxCosThetaEndcap", m_maxCosThetaEndcap = 0.92);
   declareProperty("PhotonMinEndcapEnergy", m_minEndcapEnergy = 0.050);
 
-  declareProperty("EtaMinMass", m_EtaMinMass = 0.050);
-  declareProperty("EtaMaxMass", m_EtaMaxMass = 0.056);
+  declareProperty("EtaMinMass", m_EtaMinMass = 0.50);
+  declareProperty("EtaMaxMass", m_EtaMaxMass = 0.56);
   declareProperty("Pi0MinMass", m_Pi0MinMass = 0.115);
   declareProperty("Pi0MaxMass", m_Pi0MaxMass = 0.15);
   declareProperty("SigmaMinMass", m_SigmaMinMass = 1.174);
@@ -214,17 +216,17 @@ StatusCode LambdacAlg::initialize()
       status = m_tuple1->addItem("etam1c", m_etam1c);
 
       status = m_tuple1->addItem("sigmam", m_Sigmam);
-      status = m_tuple1->addItem("num_othertrackp", m_numothertrackp);
-      status = m_tuple1->addItem("num_othertrackm", m_numothertrackm);
+      // status = m_tuple1->addItem("num_othertrackp", m_numothertrackp);
+      // status = m_tuple1->addItem("num_othertrackm", m_numothertrackm);
       status = m_tuple1->addItem("E_beam", m_ebeam);
       status = m_tuple1->addItem("deltaE_min", m_deltaE_min);
       status = m_tuple1->addItem("M_BC", m_bc);
       status = m_tuple1->addItem("np", m_np);
       status = m_tuple1->addItem("npbar", m_npbar);
-      status = m_tuple1->addItem("eop_pim", m_eop_pim);
-      status = m_tuple1->addItem("eop_pip", m_eop_pip);
-      status = m_tuple1->addItem("eop_p", m_eop_p);
-      status = m_tuple1->addItem("eop_pbar", m_eop_pbar);
+      // status = m_tuple1->addItem("eop_pim", m_eop_pim);
+      // status = m_tuple1->addItem("eop_pip", m_eop_pip);
+      // status = m_tuple1->addItem("eop_p", m_eop_p);
+      // status = m_tuple1->addItem("eop_pbar", m_eop_pbar);
       status = m_tuple1->addItem("eop_Km", m_eop_Km);
       status = m_tuple1->addItem("eop_Kp", m_eop_Kp);
       status = m_tuple1->addItem("ngam", m_ngam);
@@ -706,11 +708,10 @@ StatusCode LambdacAlg::execute()
     cout << "\n" << __LINE__ << " begin choose good track" << endl;
 
   SmartDataPtr<EvtRecEvent> evtRecEvent(eventSvc(), EventModel::EvtRec::EvtRecEvent);
-
   SmartDataPtr<EvtRecTrackCol> evtRecTrkCol(eventSvc(), EventModel::EvtRec::EvtRecTrackCol);
 
-  Vint iGoodtotal, iGoodforp, othertrack;
-  iGoodforp.clear(), iGoodtotal.clear(), othertrack.clear();
+  Vint goodTrack;
+  goodTrack.clear();
 
   int nCharge = 0;
   Hep3Vector xorigin(0, 0, 0);
@@ -745,7 +746,6 @@ StatusCode LambdacAlg::execute()
     double Rvz0 = vecipa[3];        // the nearest distance to IP in z direction
     double Rvphi0 = vecipa[1];
     double costheta = cos(mdcTrk->theta());
-    // A++;
 
     if (costheta >= m_costheta)
       continue;
@@ -756,55 +756,49 @@ StatusCode LambdacAlg::execute()
     if (fabs(Rvxy0) >= m_vr0cut)
       continue;
 
-    iGoodforp.push_back(i);
-    iGoodtotal.push_back(i);
+    goodTrack.push_back(i);
     nCharge += mdcTrk->charge();
   }
   // Finish Good Charged Track SKction
-  if (m_debug)
-    cout << __LINE__ << endl;
-  int nGoodforp = iGoodforp.size();
-  if (nGoodforp < 1)
+  if (goodTrack.size() < 1)
     return StatusCode::SUCCESS;
 
-  //  int nothertrack = othertrack.size();
-  Vint ip, ipbar;
-  ip.clear();
-  ipbar.clear();
-  for (int i = 0; i < nGoodforp; i++)
+  Vint trackProntonP, trackProntonPbar;
+  std::vector<MyParticle> proton;
+
+  proton.clear();
+  trackProntonP.clear();
+  trackProntonPbar.clear();
+  for (int i = 0; i < goodTrack.size(); i++)
   {
-    EvtRecTrackIterator itTrk = evtRecTrkCol->begin() + iGoodforp[i];
+    EvtRecTrackIterator itTrk = evtRecTrkCol->begin() + goodTrack[i];
     RecMdcTrack *mdcTrk = (*itTrk)->mdcTrack();
     MyPid *pid = new MyPid(*itTrk);
-    if (mdcTrk->charge() == 1)
+    if (pid->isproton())
     {
-      ISimplePIDSvc *m_simplePIDSvc;
-      Gaudi::svcLocator()->service("SimplePIDSvc", m_simplePIDSvc);
-      m_simplePIDSvc->preparePID(*itTrk);
-      if (pid->isproton())
-      {
-        ip.push_back(iGoodforp[i]);
-      }
-    }
-    if (mdcTrk->charge() == -1)
-    {
-      ISimplePIDSvc *m_simplePIDSvc;
-      Gaudi::svcLocator()->service("SimplePIDSvc", m_simplePIDSvc);
-      m_simplePIDSvc->preparePID(*itTrk);
-      if (pid->isproton())
-        ipbar.push_back(iGoodforp[i]);
+      MyParticle myp;
+      myp.setTrackIndex(goodTrack[i]);
+
+      if (mdcTrk->charge() == 1)
+        trackProntonP.push_back(goodTrack[i]);
+      if (mdcTrk->charge() == -1)
+        trackProntonPbar.push_back(goodTrack[i]);
+
+      RecMdcKalTrack *mdcKalTrk = (*itTrk)->mdcKalTrack();
+      mdcKalTrk->setPidType(RecMdcKalTrack::proton);
+      HepLorentzVector pp4 = mdcKalTrk->p4(xmass[4]);
+      myp.setLorentzVector(pp4);
+
+      proton.push_back(myp);
+
     }
   }
-  if (m_debug)
-    cout << __LINE__ << endl;
 
-  int nGoodtotal = iGoodtotal.size();
   if (abs(signal) == 1)
     Ncut0++;
-  if (m_debug)
-    cout << __LINE__ << endl;
-  int np = ip.size();
-  int npbar = ipbar.size();
+
+  int np = trackProntonP.size();
+  int npbar = trackProntonPbar.size();
   m_np = np;
   m_npbar = npbar;
 
@@ -814,53 +808,6 @@ StatusCode LambdacAlg::execute()
   if (abs(signal) == 1)
     Ncut1++;
 
-  Vp4 ppim, ppip, pp, ppbar, pKp, pKm;
-  ppim.clear();
-  ppip.clear();
-  ppbar.clear();
-  pp.clear();
-  pKp.clear();
-  pKm.clear();
-  for (int i = 0; i < np; i++)
-  {
-    EvtRecTrackIterator itTrk = evtRecTrkCol->begin() + ip[i];
-    RecMdcKalTrack *mdcKalTrk = (*itTrk)->mdcKalTrack();
-    mdcKalTrk->setPidType(RecMdcKalTrack::proton);
-    HepLorentzVector pp4 = mdcKalTrk->p4(xmass[4]);
-    double p3 = pp4.rho();
-    pp.push_back(pp4);
-    double penergy = 0.;
-    double eop_p = 0.;
-    if ((*itTrk)->isEmcShowerValid())
-    {
-      RecEmcShower *emcTrk = (*itTrk)->emcShower();
-      penergy = emcTrk->energy();
-      eop_p = penergy / (p3);
-    }
-
-    m_eop_p = eop_p;
-  }
-  if (m_debug)
-    cout << __LINE__ << endl;
-  for (int i = 0; i < npbar; i++)
-  {
-    EvtRecTrackIterator itTrk = evtRecTrkCol->begin() + ipbar[i];
-    RecMdcKalTrack *mdcKalTrk = (*itTrk)->mdcKalTrack();
-    mdcKalTrk->setPidType(RecMdcKalTrack::proton);
-    HepLorentzVector ppbar4 = mdcKalTrk->p4(xmass[4]);
-    double pbar3 = ppbar4.rho();
-    ppbar.push_back(ppbar4);
-    double pbarenergy = 0.;
-    double eop_pbar = 0.;
-    if ((*itTrk)->isEmcShowerValid())
-    {
-      RecEmcShower *emcTrk = (*itTrk)->emcShower();
-      pbarenergy = emcTrk->energy();
-      eop_pbar = pbarenergy / (pbar3);
-    }
-
-    m_eop_pbar = eop_pbar;
-  }
 #pragma endregion
 
 #pragma region for_shower
@@ -1013,8 +960,7 @@ StatusCode LambdacAlg::execute()
       HepLorentzVector ptrkl = getP4(emcTrkl, xorigin);
 
       HepLorentzVector p2gpi = ptrkk + ptrkl;
-      cout << __LINE__ << " 00000000 " << p2gpi.px() << " " << p2gpi.py() << " " << p2gpi.pz() << " " << p2gpi.e()
-           << " " << p2gpi.m() << endl;
+
       if (p2gpi.m() < m_Pi0MinMass || p2gpi.m() > m_Pi0MaxMass)
         continue;
       if (m_test1C == 1)
@@ -1106,11 +1052,11 @@ StatusCode LambdacAlg::execute()
   int b = 0;
   int c = 0;
   int d = 0;
-  HepLorentzVector pKm_p4(0, 0, 0, 0), p_p4(0, 0, 0, 0), gam1a_p4(0, 0, 0, 0), gam2a_p4(0, 0, 0, 0),
+  HepLorentzVector  p_p4(0, 0, 0, 0), gam1a_p4(0, 0, 0, 0), gam2a_p4(0, 0, 0, 0),
       gam1b_p4(0, 0, 0, 0), gam2b_p4(0, 0, 0, 0), gam3a_p4(0, 0, 0, 0), gam4a_p4(0, 0, 0, 0), gam3b_p4(0, 0, 0, 0),
       gam4b_p4(0, 0, 0, 0), pip_p4(0, 0, 0, 0), pgam1a_1C4p(0, 0, 0, 0), pgam2a_1C4p(0, 0, 0, 0),
       pgam1b_1C4p(0, 0, 0, 0), pgam2b_1C4p(0, 0, 0, 0), pgam3a_1C4p(0, 0, 0, 0), pgam4a_1C4p(0, 0, 0, 0),
-      pgam3b_1C4p(0, 0, 0, 0), pgam4b_1C4p(0, 0, 0, 0), pKp_p4(0, 0, 0, 0), pbar_p4(0, 0, 0, 0), pim_p4(0, 0, 0, 0);
+      pgam3b_1C4p(0, 0, 0, 0), pgam4b_1C4p(0, 0, 0, 0),  pbar_p4(0, 0, 0, 0), pim_p4(0, 0, 0, 0);
 
 #pragma region save_lambda_c - _and_lambda_c +
   // save lambda_c-
@@ -1138,7 +1084,7 @@ StatusCode LambdacAlg::execute()
         {
           b = 1;
           deltaE_minb = deltaEb;
-          pbar_index = ipbar[i];
+          pbar_index = trackProntonPbar[i];
           gam3_indexm = igam3[k];
           gam4_indexm = igam4[k];
           pbar_p4 = ppbar[i];
@@ -1188,7 +1134,7 @@ StatusCode LambdacAlg::execute()
         {
           a = 1;
           deltaE_mina = deltaEa;
-          p_index = ip[i];
+          p_index = trackProntonP[i];
           gam3_index = igam3[k];
           gam4_index = igam4[k];
           p_p4 = pp[i];

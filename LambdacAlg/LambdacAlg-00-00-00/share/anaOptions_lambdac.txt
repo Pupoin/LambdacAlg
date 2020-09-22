@@ -10,8 +10,8 @@ LambdacAlg.Test1C = 1;
 
 //LambdacAlg.Pi0MinMass = 0.08;
 //LambdacAlg.Pi0MaxMass = 0.18;
-LambdacAlg.EtaMinMass = 0.050;
-LambdacAlg.EtaMaxMass = 0.056;
+LambdacAlg.EtaMinMass = 0.50;
+LambdacAlg.EtaMaxMass = 0.56;
 LambdacAlg.Pi0MinMass = 0.115;
 LambdacAlg.Pi0MaxMass = 0.15;
 LambdacAlg.SigmaMinMass = 1.174;
