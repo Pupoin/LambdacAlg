@@ -99,8 +99,8 @@ LambdacAlg::LambdacAlg(const std::string &name, ISvcLocator *pSvcLocator) : Algo
   declareProperty("PhotonMaxCosThetaEndcap", m_maxCosThetaEndcap = 0.92);
   declareProperty("PhotonMinEndcapEnergy", m_minEndcapEnergy = 0.050);
 
-  declareProperty("EtaMinMass", m_EtaMinMass = 0.050);
-  declareProperty("EtaMaxMass", m_EtaMaxMass = 0.056);
+  declareProperty("EtaMinMass", m_EtaMinMass = 0.50);
+  declareProperty("EtaMaxMass", m_EtaMaxMass = 0.56);
   declareProperty("Pi0MinMass", m_Pi0MinMass = 0.115);
   declareProperty("Pi0MaxMass", m_Pi0MaxMass = 0.15);
   declareProperty("SigmaMinMass", m_SigmaMinMass = 1.174);
