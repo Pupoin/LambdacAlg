@@ -365,7 +365,7 @@ StatusCode LambdacAlg::execute()
     std::cout << "mode1=" << mm_mode1 << ", mode2=" << mm_mode2 << ", mode3=" << mm_mode3 << ", runNo" << runNo
               << ", eventNo " << eventNo << std::endl;
 
-#pragma region for_mc
+#pragma region for_mc______________________________________________________________
   if (eventHeader->runNumber() < 0)
   {
     SmartDataPtr<Event::McParticleCol> mcParticleCol(eventSvc(), "/Event/MC/McParticleCol");
@@ -702,8 +702,8 @@ StatusCode LambdacAlg::execute()
   // end mc;
 #pragma endregion
 
-#pragma region for_track
-  // good track  =========================================================================
+#pragma region for_track______________________________________________________________
+  // good track  =============
   if (m_debug)
     cout << "\n" << __LINE__ << " begin choose good track" << endl;
 
@@ -765,7 +765,6 @@ StatusCode LambdacAlg::execute()
 
   Vint trackProntonP, trackProntonPbar;
   std::vector<MyParticle> proton;
-
   proton.clear();
   trackProntonP.clear();
   trackProntonPbar.clear();
@@ -777,7 +776,7 @@ StatusCode LambdacAlg::execute()
     if (pid->isproton())
     {
       MyParticle myp;
-      myp.setTrackIndex(goodTrack[i]);
+      myp.setIndex(goodTrack[i]);
 
       if (mdcTrk->charge() == 1)
         trackProntonP.push_back(goodTrack[i]);
@@ -786,9 +785,14 @@ StatusCode LambdacAlg::execute()
 
       RecMdcKalTrack *mdcKalTrk = (*itTrk)->mdcKalTrack();
       mdcKalTrk->setPidType(RecMdcKalTrack::proton);
-      HepLorentzVector pp4 = mdcKalTrk->p4(xmass[4]);
-      myp.setLorentzVector(pp4);
 
+      WTrackParameter wtrkp = WTrackParameter(xmass[4], mdcKalTrk->getZHelixP(), mdcKalTrk->getZErrorP());
+      HepLorentzVector p4 = mdcKalTrk->p4(xmass[4]);
+
+      myp.setCharge = (mdcTrk->charge());
+      myp.setLorentzVector(p4);
+      myp.setTrackParameter(wtrkp);
+    
       proton.push_back(myp);
 
     }
@@ -810,10 +814,10 @@ StatusCode LambdacAlg::execute()
 
 #pragma endregion
 
-#pragma region for_shower
-  // good shower =============================================================================
-  Vint iGam;
-  iGam.clear();
+#pragma region for_shower______________________________________________________________
+  // good shower ======================
+  std::vector<MyParticle> emcGamma;
+  emcGamma.clear();
   if (m_debug)
     cout << __LINE__ << " begin choose good gamma" << endl;
   for (int i = evtRecEvent->totalCharged(); i < evtRecEvent->totalTracks(); i++)
@@ -854,6 +858,7 @@ StatusCode LambdacAlg::execute()
     }
     if (dang >= 200)
       continue;
+
     double eraw = emcTrk->energy();
     double getTime = emcTrk->time();
     // dthe = dthe * 180 / (CLHEP::pi);
@@ -868,25 +873,33 @@ StatusCode LambdacAlg::execute()
            (eraw > m_minEndcapEnergy))))
       continue;
 
-    iGam.push_back(i);
+    MyParticle myG;
+    myG.setIndex(i);
+    myG.setLorentzVector(shP4);
+
+    emcGamma.push_back(myG);
   }
   // Finish Good Photon Slection
 #pragma endregion
 
+
   if (m_debug)
     cout << __LINE__ << endl;
-  if (iGam.size() < 4)
+  if (emcGamma.size() < 4)
     return StatusCode::SUCCESS;
   if (abs(signal) == 1)
   {
     if (m_debug)
       cout << __LINE__ << " "
-           << "iGam.size(): " << iGam.size() << endl;
+           << "emcGamma.size(): " << emcGamma.size() << endl;
     Ncut2++;
   }
 
   if (m_debug)
     cout << __LINE__ << endl;
+
+
+#pragma region loop_gamma_check_eta_pi0______________________________________________________________
 
   Vint igam1, igam2, igam3, igam4;
   igam1.clear(), igam2.clear(), igam3.clear(), igam4.clear();
@@ -898,22 +911,26 @@ StatusCode LambdacAlg::execute()
   Vdouble chi2;
   chi2.clear();
 
+  std::vector<MyMotherParticle> eta, eta_1c;
+  eta.clear();
+  eta_1c.clear();
+  MyParticle etagamma1, etagamm2;
+
   KalmanKinematicFit *kmfit = KalmanKinematicFit::instance();
-
   // Loop each gamma pair, check eta mass  ----------------------------
-  for (int i = 0; i < iGam.size() - 1; i++)
+  for (int i = 0; i < emcGamma.size() - 1; i++)
   {
-    EvtRecTrackIterator itTrki = evtRecTrkCol->begin() + iGam[i];
-    RecEmcShower *emcTrki = (*itTrki)->emcShower();
-    Hep3Vector emcposi(emcTrki->x(), emcTrki->y(), emcTrki->z());
-    HepLorentzVector ptrki = getP4(emcTrki, xorigin);
+    // EvtRecTrackIterator itTrki = evtRecTrkCol->begin() + emcGamma[i];
+    // RecEmcShower *emcTrki = (*itTrki)->emcShower();
+    // Hep3Vector emcposi(emcTrki->x(), emcTrki->y(), emcTrki->z());
+    HepLorentzVector ptrki = emcGamma[i].getLorentzVector();
 
-    for (int j = i + 1; j < iGam.size(); j++)
+    for (int j = i + 1; j < emcGamma.size(); j++)
     {
-      EvtRecTrackIterator itTrkj = evtRecTrkCol->begin() + iGam[j];
-      RecEmcShower *emcTrkj = (*itTrkj)->emcShower();
-      Hep3Vector emcposj(emcTrkj->x(), emcTrkj->y(), emcTrkj->z());
-      HepLorentzVector ptrkj = getP4(emcTrkj, xorigin);
+      // EvtRecTrackIterator itTrkj = evtRecTrkCol->begin() + emcGamma[j];
+      // RecEmcShower *emcTrkj = (*itTrkj)->emcShower();
+      // Hep3Vector emcposj(emcTrkj->x(), emcTrkj->y(), emcTrkj->z());
+      HepLorentzVector ptrkj = emcGamma[j].getLorentzVector();
 
       HepLorentzVector p2geta = ptrki + ptrkj;
       cout << __LINE__ << " 00000000 " << p2geta.px() << " " << p2geta.py() << " " << p2geta.pz() << " " << p2geta.e()
@@ -933,28 +950,39 @@ StatusCode LambdacAlg::execute()
         bool oksq = kmfit->Fit();
         if (oksq)
         {
-          igam1.push_back(iGam[i]);
-          pgam1.push_back(ptrki);
+          etagamma1.setIndex(emcGamma[i]);
+          etagamma1.setTrackParameter(ptrki);
           pgam1_1C.push_back(kmfit->pfit(0));
-          igam2.push_back(iGam[j]);
-          pgam2.push_back(ptrkj);
+
+          etagamm2.setIndex(emcGamma[j]);
+          etagamm2.setTrackParameter(ptrkj);
           pgam2_1C.push_back(kmfit->pfit(1));
+
+
+          // igam1.push_back(emcGamma[i]);
+          // pgam1.push_back(ptrki);
+          // pgam1_1C.push_back(kmfit->pfit(0));
+          // igam2.push_back(emcGamma[j]);
+          // pgam2.push_back(ptrkj);
+          // pgam2_1C.push_back(kmfit->pfit(1));
         }
       }
     }
   }
 
-#pragma region loop_gamma_check_pi0
-  // Loop each gamma pair, check pi0 mass -----------------------------
-  for (int k = 0; k < iGam.size() - 1; k++)
+  // Loop each gamma pair, check pi0 mass ---------------------
+  std::vector<MyMotherParticle> pi0;
+  pi0.clear();
+
+  for (int k = 0; k < emcGamma.size() - 1; k++)
   {
-    EvtRecTrackIterator itTrkk = evtRecTrkCol->begin() + iGam[k];
+    EvtRecTrackIterator itTrkk = evtRecTrkCol->begin() + emcGamma[k];
     RecEmcShower *emcTrkk = (*itTrkk)->emcShower();
     Hep3Vector emcposk(emcTrkk->x(), emcTrkk->y(), emcTrkk->z());
     HepLorentzVector ptrkk = getP4(emcTrkk, xorigin);
-    for (int l = k + 1; l < iGam.size(); l++)
+    for (int l = k + 1; l < emcGamma.size(); l++)
     {
-      EvtRecTrackIterator itTrkl = evtRecTrkCol->begin() + iGam[l];
+      EvtRecTrackIterator itTrkl = evtRecTrkCol->begin() + emcGamma[l];
       RecEmcShower *emcTrkl = (*itTrkl)->emcShower();
       Hep3Vector emcposl(emcTrkl->x(), emcTrkl->y(), emcTrkl->z());
       HepLorentzVector ptrkl = getP4(emcTrkl, xorigin);
@@ -980,8 +1008,8 @@ StatusCode LambdacAlg::execute()
           //      HepLorentzVector pi0p4 = kmfit->pfit(0) + kmfit->pfit(1);
           pgam3_1C.push_back(kmfit->pfit(0));
           pgam4_1C.push_back(kmfit->pfit(1));
-          igam3.push_back(iGam[k]);
-          igam4.push_back(iGam[l]);
+          igam3.push_back(emcGamma[k]);
+          igam4.push_back(emcGamma[l]);
           pgam3.push_back(ptrkk);
           pgam4.push_back(ptrkl);
         }

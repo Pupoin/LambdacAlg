@@ -18,24 +18,44 @@
 // #include <fstream>
 using CLHEP::HepLorentzVector;
 
-class Partilce
+class MyParticle
 {
 public:
-  Partilce(EvtRecTrack *track);
-  ~Partilce();
+  MyParticle();
+  ~MyParticle();
 
-    void setTrackIndex(int trackIndex);
-    void setLorentzVector(HepLorentzVector p4);
-    void setCharge(int charge);
+  void setIndex(int Index);
+  void setLorentzVector(HepLorentzVector p4);
+  void setCharge(int charge);
+  void setTrackParameter(WTrackParameter wtrkp)
 
-    int getTrackIndex();
-    HepLorentzVector getLorentzVector();
-    int getCharge();
+  int getIndex();
+  HepLorentzVector getLorentzVector();
+  int getCharge();
+  WTrackParameter getTrackParameter();
 
 private:
-    int trackIndex;
+    int Index;
     HepLorentzVector p4;
     int charge;
+    WTrackParameter wtrkp;
+};
+
+class MyMotherParticle:public MyParticle
+{
+public:
+  MyMotherParticle(MyParticle child1, MyParticle child2);
+  ~MyMotherParticle();
+
+  // void setChild1(MyParticle child1);
+  // void setChild2(MyParticle child2);
+  void setChild3(MyParticle child3);
+
+  // MyParticle getChild1();
+  // MyParticle getChild2();
+  MyParticle getChild3();
+private:
+  MyParticle child1, child2, child3;
 };
 
   
