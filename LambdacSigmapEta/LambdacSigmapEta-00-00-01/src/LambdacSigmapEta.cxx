@@ -1,19 +1,11 @@
 //This analysis algorithm is for decay:
 //Lc+ -> Sigma+ eta
 //Sigma+ -> p+ pi0
-<<<<<<< HEAD
 //eta -> gamma gamma
 
 #include "LambdacSigmapEta/LambdacSigmapEta.h"
 #include "BestDTagSvc/BestDTagSvc.h"
-
-=======
-//eta -> gamma gamma d
-
-#include "LambdacSigmapEta/LambdacSigmapEta.h"
-#include "BestDTagSvc/BestDTagSvc.h"
  
->>>>>>> 1343805cd3b13590d262552799e4bb9da94b542c
 #include "GaudiKernel/MsgStream.h"
 #include "GaudiKernel/AlgFactory.h"
 #include "GaudiKernel/ISvcLocator.h"

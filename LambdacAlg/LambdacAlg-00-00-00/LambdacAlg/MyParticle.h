@@ -18,44 +18,52 @@
 // #include <fstream>
 using CLHEP::HepLorentzVector;
 
+///
+///
+/// class MyParticle  ///
+///
 class MyParticle
 {
 public:
   MyParticle();
+  MyParticle(int index, HepLorentzVector p4, WTrackParameter *wtrkp = nullptr, int charge = 0);
   ~MyParticle();
 
-  void setIndex(int Index);
-  void setLorentzVector(HepLorentzVector p4);
-  void setCharge(int charge);
-  void setTrackParameter(WTrackParameter wtrkp)
+  // void setIndex(int index);
+  // void setCharge(int charge);
+  // void setLorentzVector(HepLorentzVector p4);
+  // void setTrackParameter(WTrackParameter *wtrkp);
 
   int getIndex();
-  HepLorentzVector getLorentzVector();
   int getCharge();
-  WTrackParameter getTrackParameter();
+  HepLorentzVector getLorentzVector();
+  WTrackParameter *getTrackParameter();
 
 private:
-    int Index;
-    HepLorentzVector p4;
-    int charge;
-    WTrackParameter wtrkp;
+  int index, charge;
+  HepLorentzVector p4;
+  WTrackParameter *wtrkp;
 };
 
-class MyMotherParticle:public MyParticle
+///
+///
+/// class MyMotherParticle  ///
+///
+class MyMotherParticle : public MyParticle
 {
 public:
-  MyMotherParticle(MyParticle child1, MyParticle child2);
+  MyMotherParticle();
+  MyMotherParticle(MyParticle *child1, MyParticle *child2, MyParticle *child3 = nullptr);
   ~MyMotherParticle();
 
   // void setChild1(MyParticle child1);
   // void setChild2(MyParticle child2);
-  void setChild3(MyParticle child3);
+  // void setChild3(MyParticle child3);
 
-  // MyParticle getChild1();
-  // MyParticle getChild2();
-  MyParticle getChild3();
+  MyParticle *getChild1();
+  MyParticle *getChild2();
+  MyParticle *getChild3();
+
 private:
-  MyParticle child1, child2, child3;
+  MyParticle *child1, *child2, *child3;
 };
-
-  
