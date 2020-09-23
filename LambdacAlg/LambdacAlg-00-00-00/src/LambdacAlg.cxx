@@ -43,8 +43,8 @@ using CLHEP::HepLorentzVector;
 #include "DTagTool/DTagTool.h"
 #include "ParticleID/ParticleID.h"
 // #include "SimplePIDSvc/ISimplePIDSvc.h"
+#include "/LambdacAlg/MyParticle.h"
 #include "LambdacAlg/MyPid.h"
-#include "LambdacAlg/MyParticle.h"
 
 #include "VertexFit/Helix.h"
 #include "VertexFit/IVertexDbSvc.h"
@@ -775,9 +775,6 @@ StatusCode LambdacAlg::execute()
     MyPid *pid = new MyPid(*itTrk);
     if (pid->isproton())
     {
-      MyParticle myp;
-      myp.setIndex(goodTrack[i]);
-
       if (mdcTrk->charge() == 1)
         trackProntonP.push_back(goodTrack[i]);
       if (mdcTrk->charge() == -1)
@@ -786,15 +783,11 @@ StatusCode LambdacAlg::execute()
       RecMdcKalTrack *mdcKalTrk = (*itTrk)->mdcKalTrack();
       mdcKalTrk->setPidType(RecMdcKalTrack::proton);
 
-      WTrackParameter wtrkp = WTrackParameter(xmass[4], mdcKalTrk->getZHelixP(), mdcKalTrk->getZErrorP());
+      WTrackParameter *wtrkp = new WTrackParameter(xmass[4], mdcKalTrk->getZHelixP(), mdcKalTrk->getZErrorP());
       HepLorentzVector p4 = mdcKalTrk->p4(xmass[4]);
 
-      myp.setCharge = (mdcTrk->charge());
-      myp.setLorentzVector(p4);
-      myp.setTrackParameter(wtrkp);
-    
-      proton.push_back(myp);
-
+      MyParticle tmp(goodTrack[i], p4, wtrkp, mdcTrk->charge());
+      proton.push_back(tmp);
     }
   }
 
@@ -873,15 +866,11 @@ StatusCode LambdacAlg::execute()
            (eraw > m_minEndcapEnergy))))
       continue;
 
-    MyParticle myG;
-    myG.setIndex(i);
-    myG.setLorentzVector(shP4);
-
-    emcGamma.push_back(myG);
+    MyParticle tmp(i, shP4);
+    emcGamma.push_back(tmp);
   }
   // Finish Good Photon Slection
 #pragma endregion
-
 
   if (m_debug)
     cout << __LINE__ << endl;
@@ -898,38 +887,29 @@ StatusCode LambdacAlg::execute()
   if (m_debug)
     cout << __LINE__ << endl;
 
-
 #pragma region loop_gamma_check_eta_pi0______________________________________________________________
 
-  Vint igam1, igam2, igam3, igam4;
-  igam1.clear(), igam2.clear(), igam3.clear(), igam4.clear();
+  // Vint igam1, igam2, igam3, igam4;
+  // igam1.clear(), igam2.clear(), igam3.clear(), igam4.clear();
 
-  Vp4 pgam1, pgam2, pgam3, pgam4, pgam1_1C, pgam2_1C, pgam3_1C, pgam4_1C;
-  pgam1.clear(), pgam2.clear(), pgam3.clear(), pgam4.clear(), pgam1_1C.clear(), pgam2_1C.clear(), pgam3_1C.clear(),
-      pgam4_1C.clear();
+  // Vp4 pgam1, pgam2, pgam3, pgam4, pgam1_1C, pgam2_1C, pgam3_1C, pgam4_1C;
+  // pgam1.clear(), pgam2.clear(), pgam3.clear(), pgam4.clear(), pgam1_1C.clear(), pgam2_1C.clear(), pgam3_1C.clear(),
+  //     pgam4_1C.clear();
 
-  Vdouble chi2;
-  chi2.clear();
+  // Vdouble chi2;
+  // chi2.clear();
 
-  std::vector<MyMotherParticle> eta, eta_1c;
-  eta.clear();
+  std::vector<MyMotherParticle *> eta_1c;
   eta_1c.clear();
-  MyParticle etagamma1, etagamm2;
 
   KalmanKinematicFit *kmfit = KalmanKinematicFit::instance();
   // Loop each gamma pair, check eta mass  ----------------------------
   for (int i = 0; i < emcGamma.size() - 1; i++)
   {
-    // EvtRecTrackIterator itTrki = evtRecTrkCol->begin() + emcGamma[i];
-    // RecEmcShower *emcTrki = (*itTrki)->emcShower();
-    // Hep3Vector emcposi(emcTrki->x(), emcTrki->y(), emcTrki->z());
     HepLorentzVector ptrki = emcGamma[i].getLorentzVector();
 
     for (int j = i + 1; j < emcGamma.size(); j++)
     {
-      // EvtRecTrackIterator itTrkj = evtRecTrkCol->begin() + emcGamma[j];
-      // RecEmcShower *emcTrkj = (*itTrkj)->emcShower();
-      // Hep3Vector emcposj(emcTrkj->x(), emcTrkj->y(), emcTrkj->z());
       HepLorentzVector ptrkj = emcGamma[j].getLorentzVector();
 
       HepLorentzVector p2geta = ptrki + ptrkj;
@@ -950,42 +930,25 @@ StatusCode LambdacAlg::execute()
         bool oksq = kmfit->Fit();
         if (oksq)
         {
-          etagamma1.setIndex(emcGamma[i]);
-          etagamma1.setTrackParameter(ptrki);
-          pgam1_1C.push_back(kmfit->pfit(0));
+          MyParticle *etagamma1 = new MyParticle(emcGamma[i].getIndex(), kmfit->pfit(0));
+          MyParticle *etagamma2 = new MyParticle(emcGamma[j].getIndex(), kmfit->pfit(1));
 
-          etagamm2.setIndex(emcGamma[j]);
-          etagamm2.setTrackParameter(ptrkj);
-          pgam2_1C.push_back(kmfit->pfit(1));
-
-
-          // igam1.push_back(emcGamma[i]);
-          // pgam1.push_back(ptrki);
-          // pgam1_1C.push_back(kmfit->pfit(0));
-          // igam2.push_back(emcGamma[j]);
-          // pgam2.push_back(ptrkj);
-          // pgam2_1C.push_back(kmfit->pfit(1));
+          eta_1c.push_back(new MyMotherParticle(etagamma1, etagamm2));
         }
       }
     }
   }
 
   // Loop each gamma pair, check pi0 mass ---------------------
-  std::vector<MyMotherParticle> pi0;
-  pi0.clear();
+  std::vector<MyMotherParticle *> pi0_1c;
+  pi0_1c.clear();
 
   for (int k = 0; k < emcGamma.size() - 1; k++)
   {
-    EvtRecTrackIterator itTrkk = evtRecTrkCol->begin() + emcGamma[k];
-    RecEmcShower *emcTrkk = (*itTrkk)->emcShower();
-    Hep3Vector emcposk(emcTrkk->x(), emcTrkk->y(), emcTrkk->z());
-    HepLorentzVector ptrkk = getP4(emcTrkk, xorigin);
+    HepLorentzVector ptrkk = emcGamma[k].getLorentzVector();
     for (int l = k + 1; l < emcGamma.size(); l++)
     {
-      EvtRecTrackIterator itTrkl = evtRecTrkCol->begin() + emcGamma[l];
-      RecEmcShower *emcTrkl = (*itTrkl)->emcShower();
-      Hep3Vector emcposl(emcTrkl->x(), emcTrkl->y(), emcTrkl->z());
-      HepLorentzVector ptrkl = getP4(emcTrkl, xorigin);
+      HepLorentzVector ptrkl = emcGamma[l].getLorentzVector();
 
       HepLorentzVector p2gpi = ptrkk + ptrkl;
 
@@ -1004,26 +967,23 @@ StatusCode LambdacAlg::execute()
 
         if (oksq)
         {
-          chi2.push_back(kmfit->chisq());
-          //      HepLorentzVector pi0p4 = kmfit->pfit(0) + kmfit->pfit(1);
-          pgam3_1C.push_back(kmfit->pfit(0));
-          pgam4_1C.push_back(kmfit->pfit(1));
-          igam3.push_back(emcGamma[k]);
-          igam4.push_back(emcGamma[l]);
-          pgam3.push_back(ptrkk);
-          pgam4.push_back(ptrkl);
+
+          MyParticle *pi0gamma1 = new MyParticle(emcGamma[k], kmfit->pfit(0));
+          MyParticle *pi0gamma2 = new MyParticle(emcGamma[l], kmfit->pfit(1));
+
+          pi0_1c.push_back(new MyMotherParticle(pi0gamma1, pi0gamma2));
         }
       }
     }
   }
-  int ngam1 = igam1.size();
-  int ngam2 = igam2.size();
-  int ngam3 = igam3.size();
-  int ngam4 = igam4.size();
-  if ((ngam3 != ngam4) || (ngam1 != ngam2))
-    return StatusCode::SUCCESS;
-  int ngam12 = ngam1;
-  int ngam34 = ngam3;
+  // int ngam1 = igam1.size();
+  // int ngam2 = igam2.size();
+  // int ngam3 = igam3.size();
+  // int ngam4 = igam4.size();
+  // if ((ngam3 != ngam4) || (ngam1 != ngam2))
+  //   return StatusCode::SUCCESS;
+  // int ngam12 = ngam1;
+  // int ngam34 = ngam3;
 
   if (m_debug)
     cout << __LINE__ << " "
@@ -1032,15 +992,12 @@ StatusCode LambdacAlg::execute()
 
   // if (ngam12 == 0)
   //   return StatusCode::SUCCESS;
-  if (abs(signal) == 1)
-    Ncut3++; // Ncut3 should equal Ncut2;
+  // if (abs(signal) == 1)
+  //   Ncut3++; // Ncut3 should equal Ncut2;
 
-  if (ngam12 == 0)
-    return StatusCode::SUCCESS;
-  if (ngam34 == 0)
+  if (pi0_1c.size() == 0 || eta_1c.size() == 0)
     return StatusCode::SUCCESS;
 
-  // cout<<"a="<<ngam<<endl;
   if (abs(signal) == 1)
     Ncut4++;
 
@@ -1080,11 +1037,11 @@ StatusCode LambdacAlg::execute()
   int b = 0;
   int c = 0;
   int d = 0;
-  HepLorentzVector  p_p4(0, 0, 0, 0), gam1a_p4(0, 0, 0, 0), gam2a_p4(0, 0, 0, 0),
-      gam1b_p4(0, 0, 0, 0), gam2b_p4(0, 0, 0, 0), gam3a_p4(0, 0, 0, 0), gam4a_p4(0, 0, 0, 0), gam3b_p4(0, 0, 0, 0),
-      gam4b_p4(0, 0, 0, 0), pip_p4(0, 0, 0, 0), pgam1a_1C4p(0, 0, 0, 0), pgam2a_1C4p(0, 0, 0, 0),
-      pgam1b_1C4p(0, 0, 0, 0), pgam2b_1C4p(0, 0, 0, 0), pgam3a_1C4p(0, 0, 0, 0), pgam4a_1C4p(0, 0, 0, 0),
-      pgam3b_1C4p(0, 0, 0, 0), pgam4b_1C4p(0, 0, 0, 0),  pbar_p4(0, 0, 0, 0), pim_p4(0, 0, 0, 0);
+  HepLorentzVector p_p4(0, 0, 0, 0), gam1a_p4(0, 0, 0, 0), gam2a_p4(0, 0, 0, 0), gam1b_p4(0, 0, 0, 0),
+      gam2b_p4(0, 0, 0, 0), gam3a_p4(0, 0, 0, 0), gam4a_p4(0, 0, 0, 0), gam3b_p4(0, 0, 0, 0), gam4b_p4(0, 0, 0, 0),
+      pip_p4(0, 0, 0, 0), pgam1a_1C4p(0, 0, 0, 0), pgam2a_1C4p(0, 0, 0, 0), pgam1b_1C4p(0, 0, 0, 0),
+      pgam2b_1C4p(0, 0, 0, 0), pgam3a_1C4p(0, 0, 0, 0), pgam4a_1C4p(0, 0, 0, 0), pgam3b_1C4p(0, 0, 0, 0),
+      pgam4b_1C4p(0, 0, 0, 0), pbar_p4(0, 0, 0, 0), pim_p4(0, 0, 0, 0);
 
 #pragma region save_lambda_c - _and_lambda_c +
   // save lambda_c-
