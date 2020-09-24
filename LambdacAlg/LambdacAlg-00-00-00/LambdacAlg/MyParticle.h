@@ -53,17 +53,23 @@ class MyMotherParticle : public MyParticle
 {
 public:
   MyMotherParticle();
-  MyMotherParticle(MyParticle *child1, MyParticle *child2, MyParticle *child3 = nullptr);
+  MyMotherParticle::MyMotherParticle(MyParticle child1, HepLorentzVector fitP1, MyParticle child2, HepLorentzVector fitP2,
+                                     MyParticle child3 = MyParticle(), HepLorentzVector fitP3 = HepLorentzVector());
   ~MyMotherParticle();
 
   // void setChild1(MyParticle child1);
   // void setChild2(MyParticle child2);
   // void setChild3(MyParticle child3);
 
-  MyParticle *getChild1();
-  MyParticle *getChild2();
-  MyParticle *getChild3();
+  MyParticle getChild1();
+  MyParticle getChild2();
+  MyParticle getChild3();
+
+  HepLorentzVector getFitP1();
+  HepLorentzVector getFitP2();
+  HepLorentzVector getFitP3();
 
 private:
-  MyParticle *child1, *child2, *child3;
+  MyParticle child1, child2, child3;
+  HepLorentzVector fitP1, fitP2, fitP3;
 };

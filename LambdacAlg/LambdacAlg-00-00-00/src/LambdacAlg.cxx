@@ -899,7 +899,7 @@ StatusCode LambdacAlg::execute()
   // Vdouble chi2;
   // chi2.clear();
 
-  std::vector<MyMotherParticle *> eta_1c;
+  std::vector<MyMotherParticle> eta_1c;
   eta_1c.clear();
 
   KalmanKinematicFit *kmfit = KalmanKinematicFit::instance();
@@ -930,17 +930,17 @@ StatusCode LambdacAlg::execute()
         bool oksq = kmfit->Fit();
         if (oksq)
         {
-          MyParticle *etagamma1 = new MyParticle(emcGamma[i].getIndex(), kmfit->pfit(0));
-          MyParticle *etagamma2 = new MyParticle(emcGamma[j].getIndex(), kmfit->pfit(1));
-
-          eta_1c.push_back(new MyMotherParticle(etagamma1, etagamm2));
+          // MyParticle *etagamma1 = new MyParticle(emcGamma[i].getIndex(), kmfit->pfit(0));
+          // MyParticle *etagamma2 = new MyParticle(emcGamma[j].getIndex(), kmfit->pfit(1));
+          MyMotherParticle tmp(emcGamma[i], kmfit->pfit(0), emcGamma[j], kmfit->pfit(1));
+          eta_1c.push_back(tmp);
         }
       }
     }
   }
 
   // Loop each gamma pair, check pi0 mass ---------------------
-  std::vector<MyMotherParticle *> pi0_1c;
+  std::vector<MyMotherParticle> pi0_1c;
   pi0_1c.clear();
 
   for (int k = 0; k < emcGamma.size() - 1; k++)
@@ -968,10 +968,10 @@ StatusCode LambdacAlg::execute()
         if (oksq)
         {
 
-          MyParticle *pi0gamma1 = new MyParticle(emcGamma[k], kmfit->pfit(0));
-          MyParticle *pi0gamma2 = new MyParticle(emcGamma[l], kmfit->pfit(1));
-
-          pi0_1c.push_back(new MyMotherParticle(pi0gamma1, pi0gamma2));
+          // MyParticle *pi0gamma1 = new MyParticle(emcGamma[k], kmfit->pfit(0));
+          // MyParticle *pi0gamma2 = new MyParticle(emcGamma[l], kmfit->pfit(1));
+          MyMotherParticle tmp(emcGamma[k], kmfit->pfit(0), emcGamma[l], kmfit->pfit(1));
+          pi0_1c.push_back(tmp);
         }
       }
     }
@@ -1043,24 +1043,27 @@ StatusCode LambdacAlg::execute()
       pgam2b_1C4p(0, 0, 0, 0), pgam3a_1C4p(0, 0, 0, 0), pgam4a_1C4p(0, 0, 0, 0), pgam3b_1C4p(0, 0, 0, 0),
       pgam4b_1C4p(0, 0, 0, 0), pbar_p4(0, 0, 0, 0), pim_p4(0, 0, 0, 0);
 
-#pragma region save_lambda_c - _and_lambda_c +
-  // save lambda_c-
-  for (int i = 0; i < npbar; i++)
+#pragma region save_lambda_c - _and_lambda_c + ________________________________________________________________________
+
+  // save lambda_c-, 34-> pi, 12->eta
+  for (int i = 0; i < proton.size(); i++)
   {
-    for (int j = 0; j < ngam12; j++)
+    for (int j = 0; j < eta_1c.size(); j++)
     {
-      for (int k = 0; k < ngam34; k++)
+      for (int k = 0; k < pi0_1c.size(); k++)
       {
-        HepLorentzVector psigma = ppbar[i] + pgam3_1C[k] + pgam4_1C[k];
+        HepLorentzVector psigma = proton[i].getLorentzVector() + pi0_1c[k].getFitP1() + pi0_1c[k].getFitP2();
 
         if (psigma.m() < m_SigmaMinMass || psigma.m() > m_SigmaMaxMass)
           continue;
-        if (igam1[j] == igam3[k] || igam1[j] == igam4[k])
+        if (eta_1c[j].getChild1().getIndex() == pi0_1c[k].getChild1().getIndex() ||
+            eta_1c[j].getChild1().getIndex() == pi0_1c[k].getChild2().getIndex())
           continue;
-        if (igam2[j] == igam3[k] || igam2[j] == igam4[k])
+        if (eta_1c[j].getChild2().getIndex() == pi0_1c[k].getChild1().getIndex() ||
+            eta_1c[j].getChild2().getIndex() == pi0_1c[k].getChild2().getIndex())
           continue;
 
-        HepLorentzVector pLambda = ppbar[i] + pgam3_1C[k] + pgam4_1C[k] + pgam1_1C[j] + pgam2_1C[j];
+        HepLorentzVector pLambda = psigma + eta_1c[j].getFitP1() + eta_1c[j].getFitP2();
         pLambda.boost(-m_beta);
         double deltaEb = pLambda.t() - ebeam;
         if (m_debug)
@@ -1069,6 +1072,9 @@ StatusCode LambdacAlg::execute()
         {
           b = 1;
           deltaE_minb = deltaEb;
+
+          
+
           pbar_index = trackProntonPbar[i];
           gam3_indexm = igam3[k];
           gam4_indexm = igam4[k];

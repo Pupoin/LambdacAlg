@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "*.dec": "shellscript",
+        "memory": "cpp",
+        "istream": "cpp",
+        "functional": "cpp"
+    }
+}
