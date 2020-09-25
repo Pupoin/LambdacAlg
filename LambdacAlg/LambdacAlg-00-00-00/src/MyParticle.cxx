@@ -9,6 +9,12 @@
 #include "GaudiKernel/INTupleSvc.h"
 #include "GaudiKernel/NTuple.h"
 #include "TMath.h"
+#include "VertexFit/WTrackParameter.h"
+#include "VertexFit/Helix.h"
+#include "VertexFit/IVertexDbSvc.h"
+#include "VertexFit/KalmanKinematicFit.h"
+#include "VertexFit/KinematicFit.h"
+#include "VertexFit/VertexFit.h"
 
 using CLHEP::Hep2Vector;
 using CLHEP::Hep3Vector;
