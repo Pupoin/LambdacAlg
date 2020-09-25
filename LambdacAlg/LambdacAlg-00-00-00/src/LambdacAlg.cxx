@@ -1275,25 +1275,25 @@ StatusCode LambdacAlg::execute()
       m_Lc_De[i] = deltaEb;
     }
 
-    m_nLc = lambdac.size();
+    m_nLc = recoilLambdac_1c.size();
     // cout <<
-    // for (int i = 0; i < lambdac.size(); i++)
-    // {
-    //   m_Lc_Chisq_1c[i] = lambdac[i].getFit()->chisq();
-    //   HepLorentzVector pLambda_1c = lambdac[i].getLorentzVector();
-    //   double deltaEb = pLambda.t() - ebeam;
-    //   double mbc2 = ebeam * ebeam - pLambda.v().mag2();
-    //   m_bc = mbc2 > 0 ? sqrt(mbc2) : -10;
+    for (int i = 0; i < recoilLambdac_1c.size(); i++)
+    {
+      m_Lc_Chisq_1c[i] = recoilLambdac_1c[i].getFit()->chisq();
+      HepLorentzVector recoilLambdac_1c = recoilLambdac_1c[i].getLorentzVector();
+      double deltaEb = pLambda.t() - ebeam;
+      double mbc2 = ebeam * ebeam - pLambda.v().mag2();
+      m_bc = mbc2 > 0 ? sqrt(mbc2) : -10;
 
-    //   m_Lc_Mass_1c[i] = lambdac[i].m_1c;
-    //   m_Lc_MBC_1c[i] = lc_info[i].m_bc_1c;
-    //   m_Lc_De_1c[i] = lc_info[i].m_de_1c;
+      m_Lc_Mass_1c[i] = recoilLambdac_1c[i].getMass();
+      m_Lc_MBC_1c[i] = mbc2;
+      m_Lc_De_1c[i] = deltaEb;
 
-    //   // m_Lc_Chisq_2c[i] = lc_info[i].chisq2;
-    //   // m_Lc_Mass_2c[i] = lc_info[i].m_2c;
-    //   // m_Lc_MBC_2c[i] = lc_info[i].m_bc_2c;
-    //   // m_Lc_De_2c[i] = lc_info[i].m_de_2c;
-    // }
+      // m_Lc_Chisq_2c[i] = lc_info[i].chisq2;
+      // m_Lc_Mass_2c[i] = lc_info[i].m_2c;
+      // m_Lc_MBC_2c[i] = lc_info[i].m_bc_2c;
+      // m_Lc_De_2c[i] = lc_info[i].m_de_2c;
+    }
 
     // }
 
