@@ -30,14 +30,14 @@ using CLHEP::HepLorentzVector;
 /// class MyParticle  ///
 ///
 MyParticle::MyParticle() {}
-MyParticle::MyParticle(int index, HepLorentzVector p4, WTrackParameter *wtrkp = nullptr, int charge = 0)
+MyParticle::MyParticle(int index, HepLorentzVector p4, int charge, WTrackParameter *wtrkp)
 {
   this->index = index;
   this->p4 = p4;
   this->wtrkp = wtrkp;
   this->charge = charge;
 }
-MyParticle::MyParticle(int index, HepLorentzVector p4, RecEmcShower *emcTrk = nullptr)
+MyParticle::MyParticle(int index, HepLorentzVector p4, RecEmcShower *emcTrk)
 {
   this->index = index;
   this->p4 = p4;
@@ -67,8 +67,8 @@ RecEmcShower *MyParticle::getRecEmcShower() { return emcTrk; }
 /// class MyMotherParticleFit  ///
 ///
 MyMotherParticleFit::MyMotherParticleFit() {}
-MyMotherParticleFit::MyMotherParticleFit(MyParticle child1, MyParticle child2, MyParticle child3 = MyParticle(),
-                                         KalmanKinematicFit *kmfit=nullptr);
+MyMotherParticleFit::MyMotherParticleFit(MyParticle child1, MyParticle child2, MyParticle child3,
+                                         KalmanKinematicFit *kmfit);
 {
   this->child1 = child1;
   this->child2 = child2;

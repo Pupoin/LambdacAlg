@@ -833,7 +833,7 @@ StatusCode LambdacAlg::execute()
       WTrackParameter *wtrkp = new WTrackParameter(xmass[4], mdcKalTrk->getZHelixP(), mdcKalTrk->getZErrorP());
       HepLorentzVector p4 = mdcKalTrk->p4(xmass[4]);
 
-      MyParticle tmp(goodTrack[i], p4, wtrkp, mdcTrk->charge());
+      MyParticle tmp(goodTrack[i], p4,  mdcTrk->charge(), wtrkp);
       proton.push_back(tmp);
     }
   }

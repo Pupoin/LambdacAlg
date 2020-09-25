@@ -33,7 +33,7 @@ class MyParticle
 {
 public:
   MyParticle();
-  MyParticle(int index, HepLorentzVector p4, WTrackParameter *wtrkp = nullptr, int charge = 0);
+  MyParticle(int index, HepLorentzVector p4, int charge = 0, WTrackParameter *wtrkp = nullptr);
   MyParticle(int index, HepLorentzVector p4, RecEmcShower *emcTrk = nullptr);
   ~MyParticle();
 
@@ -65,8 +65,8 @@ class MyMotherParticleFit : public MyParticle
 public:
   MyMotherParticleFit();
   MyMotherParticleFit(MyParticle child1, MyParticle child2,
-                                           MyParticle child3 = MyParticle(),
-                                           KalmanKinematicFit *kmfit);
+                      MyParticle child3 = MyParticle(),
+                      KalmanKinematicFit *kmfit=nullptr);
   ~MyMotherParticleFit();
 
   // void setChild1(MyParticle child1);
