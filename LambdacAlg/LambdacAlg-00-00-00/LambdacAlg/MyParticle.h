@@ -87,7 +87,7 @@ public:
   MyMotherParticleFit();
   MyMotherParticleFit::MyMotherParticleFit(MyParticle child1, MyParticle child2,
                                            MyParticle child3 = MyParticle(),
-                                           KalmanKinematicFit *kmfit=nullptr);
+                                           KalmanKinematicFit *kmfit);
   ~MyMotherParticleFit();
 
   // void setChild1(MyParticle child1);
