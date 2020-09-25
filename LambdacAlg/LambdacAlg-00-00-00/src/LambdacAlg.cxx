@@ -355,26 +355,26 @@ StatusCode LambdacAlg::execute()
   }
   m_svc = dynamic_cast<McDecayModeSvc *>(i_svc);
 
-  int protons = 0;
-  int pms = 0;
-  int pi0s = 0;
-  int pi0mis = 0;
-  int gams = 0;
-  int gamms = 0;
-  int gam = 0;
-  int gamm = 0;
-  int pim = 0;
-  int piplus = 0;
-  int kplus = 0;
-  int km = 0;
-  int pi0 = 0;
-  int pi0mi = 0;
-  int proton = 0;
-  int pm = 0;
-  int sigm = 0;
-  int sigmm = 0;
-  int kstarp = 0;
-  int kstarm = 0;
+  // int protons = 0;
+  // int pms = 0;
+  // int pi0s = 0;
+  // int pi0mis = 0;
+  // int gams = 0;
+  // int gamms = 0;
+  // int gam = 0;
+  // int gamm = 0;
+  // int pim = 0;
+  // int piplus = 0;
+  // int kplus = 0;
+  // int km = 0;
+  // int pi0 = 0;
+  // int pi0mi = 0;
+  // int proton = 0;
+  // int pm = 0;
+  // int sigm = 0;
+  // int sigmm = 0;
+  // int kstarp = 0;
+  // int kstarm = 0;
 
   int numParticle_p = 0;
   int numParticle_m = 0;
@@ -1357,7 +1357,7 @@ if (true)
   }
 
   // Sigma+ and p
-  m_nSigmap = sigma.size();
+  m_nSigmap = sigma.size();5l
   for (int i = 0; i < sigma.size(); i++)
   {
     m_Sigmap_Proton_ID[i] = sigma[i].getChild1().getIndex();
