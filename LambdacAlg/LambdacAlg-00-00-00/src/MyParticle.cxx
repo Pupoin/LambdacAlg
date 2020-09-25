@@ -57,7 +57,7 @@ int MyParticle::getCharge() { return charge; }
 HepLorentzVector MyParticle::getLorentzVector() { return p4; }
 double MyParticle::getMass() { return p4.m(); }
 
-WTrackParameter *MyParticle::getTrackParameter() { return wtrkp; }
+WTrackParameter MyParticle::getTrackParameter() { return wtrkp; }
 RecEmcShower *MyParticle::getRecEmcShower() { return emcTrk; }
 
 #pragma endregion

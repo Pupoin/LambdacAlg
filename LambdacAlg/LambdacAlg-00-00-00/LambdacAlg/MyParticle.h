@@ -45,7 +45,7 @@ public:
   int getIndex();
   int getCharge();
   HepLorentzVector getLorentzVector();
-  WTrackParameter *getTrackParameter();
+  WTrackParameter getTrackParameter();
   RecEmcShower *getRecEmcShower();
   double getMass();
 

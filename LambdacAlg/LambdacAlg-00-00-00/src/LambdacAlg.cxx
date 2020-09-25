@@ -1152,26 +1152,6 @@ StatusCode LambdacAlg::execute()
           // tmp_lc.m_bc_1c = mLc_1C_bc;
           // tmp_lc.m_de_1c = dE_Lc_1C;
         }
-
-        /*/   if (fabs(deltaEb) < fabs(deltaE_minb))
-        //   {
-        //     b = 1;
-        //     deltaE_minb = deltaEb;
-
-        //     pbar_index = trackProntonPbar[i];
-        //     gam3_indexm = igam3[k];
-        //     gam4_indexm = igam4[k];
-        //     pbar_p4 = ppbar[i];
-        //     gam3b_p4 = pgam3[k];
-        //     gam4b_p4 = pgam4[k];
-        //     gam1b_p4 = pgam1[j];
-        //     gam2b_p4 = pgam2[j];
-        //     chisq = chi2[k];
-        //     pgam3b_1C4p = pgam3_1C[k];
-        //     pgam4b_1C4p = pgam4_1C[k];
-        //     pgam1b_1C4p = pgam1_1C[j];
-        //     pgam2b_1C4p = pgam2_1C[j];
-        //   }*/
       }
     }
   }
@@ -1261,7 +1241,7 @@ StatusCode LambdacAlg::execute()
     {
       m_Eta_Gam1_ID[i] = eta[i].getChild1().getIndex();
       m_Eta_Gam2_ID[i] = eta[i].getChild2().getIndex();
-      m_Eta[i] = eta.getMass();
+      m_Eta[i] = eta[i].getMass();
       // m_eta_Chisq[i] = pi0[i].getFit()->chisq(0);
 
       for (int j = 0; j < 4; j++)

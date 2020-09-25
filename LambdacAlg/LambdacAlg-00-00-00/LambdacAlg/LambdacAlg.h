@@ -100,13 +100,13 @@ private:
 	NTuple::Array<int> m_Pi0_Gam1_ID;
 	NTuple::Array<int> m_Pi0_Gam2_ID;
 	NTuple::Array<double> m_Pi0;
-	NTuple::Array<double> m_Pi0_P4;
+	NTuple::Matrix<double> m_Pi0_P4;
 	//eta
 	NTuple::Item<int> m_nEta;
 	NTuple::Array<int> m_Eta_Gam1_ID;
 	NTuple::Array<int> m_Eta_Gam2_ID;
 	NTuple::Array<double> m_Eta;
-	NTuple::Array<double> m_Eta_P4;
+	NTuple::Matrix<double> m_Eta_P4;
 	//Sigma+
 	NTuple::Item<int> m_nSigmap;
 	NTuple::Array<int> m_Sigmap_Proton_ID;
