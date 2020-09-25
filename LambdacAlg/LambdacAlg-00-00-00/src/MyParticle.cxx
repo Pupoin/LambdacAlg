@@ -30,7 +30,7 @@ using CLHEP::HepLorentzVector;
 /// class MyParticle  ///
 ///
 MyParticle::MyParticle() {}
-MyParticle::MyParticle(int index, HepLorentzVector p4, int charge, WTrackParameter *wtrkp)
+MyParticle::MyParticle(int index, HepLorentzVector p4, int charge, WTrackParameter wtrkp)
 {
   this->index = index;
   this->p4 = p4;

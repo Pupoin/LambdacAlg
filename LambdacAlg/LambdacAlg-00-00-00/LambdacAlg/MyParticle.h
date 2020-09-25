@@ -33,7 +33,7 @@ class MyParticle
 {
 public:
   MyParticle();
-  MyParticle(int index, HepLorentzVector p4, int charge = 0, WTrackParameter *wtrkp = nullptr);
+  MyParticle(int index, HepLorentzVector p4, int charge = 0, WTrackParameter wtrkp = WTrackParameter());
   MyParticle(int index, HepLorentzVector p4, RecEmcShower *emcTrk = nullptr);
   ~MyParticle();
 
@@ -52,7 +52,7 @@ public:
 private:
   int index, charge;
   HepLorentzVector p4;
-  WTrackParameter *wtrkp;
+  WTrackParameter wtrkp;
   RecEmcShower *emcTrk;
 };
 
