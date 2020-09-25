@@ -1,23 +1,3 @@
-#include "BestDTagSvc/BestDTagSvc.h"
-
-#include "GaudiKernel/AlgFactory.h"
-#include "GaudiKernel/IDataProviderSvc.h"
-#include "GaudiKernel/ISvcLocator.h"
-#include "GaudiKernel/MsgStream.h"
-#include "GaudiKernel/PropertyMgr.h"
-#include "GaudiKernel/SmartDataPtr.h"
-
-#include "EventModel/Event.h"
-#include "EventModel/EventHeader.h"
-#include "EventModel/EventModel.h"
-
-#include "DstEvent/TofHitStatus.h"
-#include "EvtRecEvent/EvtRecDTag.h"
-#include "EvtRecEvent/EvtRecEvent.h"
-#include "EvtRecEvent/EvtRecPi0.h"
-#include "EvtRecEvent/EvtRecTrack.h"
-#include "EvtRecEvent/EvtRecVeeVertex.h"
-
 #include "CLHEP/Geometry/Point3D.h"
 #include "CLHEP/Vector/LorentzVector.h"
 #include "CLHEP/Vector/ThreeVector.h"
@@ -44,8 +24,7 @@ using CLHEP::HepLorentzVector;
 #include "VertexFit/KalmanKinematicFit.h"
 #include "VertexFit/KinematicFit.h"
 #include "VertexFit/VertexFit.h"
-
-#pragma region for_myparticle________________________________________
+#include "LambdacAlg/MyParticle.h"
 ///
 ///
 /// class MyParticle  ///
@@ -83,7 +62,6 @@ RecEmcShower *MyParticle::getRecEmcShower() { return emcTrk; }
 
 #pragma endregion
 
-#pragma region for_motherparticle____________________________________
 ///
 ///
 /// class MyMotherParticleFit  ///
