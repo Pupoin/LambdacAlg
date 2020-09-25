@@ -1,6 +1,5 @@
 // ucas-PRLi (lipeirong11@mails.ucas.ac.cn)
 #include "BestDTagSvc/BestDTagSvc.h"
-#include "McDecayModeSvc/McDecayModeSvc.h"
 
 #include "GaudiKernel/AlgFactory.h"
 #include "GaudiKernel/IDataProviderSvc.h"

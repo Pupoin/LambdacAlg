@@ -1,5 +1,4 @@
 #include "BestDTagSvc/BestDTagSvc.h"
-#include "McDecayModeSvc/McDecayModeSvc.h"
 
 #include "GaudiKernel/AlgFactory.h"
 #include "GaudiKernel/IDataProviderSvc.h"
@@ -39,7 +38,6 @@ using CLHEP::HepLorentzVector;
 
 #include "CLHEP/Geometry/Point3D.h"
 #include "DTagTool/DTagTool.h"
-#include "LambdacAlg/MyParticle.h"
 
 #include "VertexFit/Helix.h"
 #include "VertexFit/IVertexDbSvc.h"
