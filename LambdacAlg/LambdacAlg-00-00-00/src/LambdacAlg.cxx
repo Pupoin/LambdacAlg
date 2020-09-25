@@ -1039,9 +1039,9 @@ StatusCode LambdacAlg::execute()
   // int ngam12 = ngam1;
   // int ngam34 = ngam3;
 
-  if (m_debug)
-    cout << __LINE__ << " "
-         << "2*ngam12: " << 2 * ngam12 << ", 2*ngam34: " << 2 * ngam34 << endl;
+  // if (m_debug)
+  //   cout << __LINE__ << " "
+  //        << "2*ngam12: " << 2 * ngam12 << ", 2*ngam34: " << 2 * ngam34 << endl;
 #pragma endregion
 
   // if (ngam12 == 0)
@@ -1049,7 +1049,7 @@ StatusCode LambdacAlg::execute()
   // if (abs(signal) == 1)
   //   Ncut3++; // Ncut3 should equal Ncut2;
 
-  if (pi0_1c.size() == 0 || eta.size() == 0)
+  if (pi0.size() == 0 || eta.size() == 0)
     return StatusCode::SUCCESS;
 
   if (abs(signal) == 1)
@@ -1103,7 +1103,7 @@ StatusCode LambdacAlg::execute()
   // select lambda_c-, 34-> pi, 12->eta
   std::vector<MyMotherParticleFit> recoilLambdac_1c, lambdac, sigma;
   recoilLambdac_1c.clear();
-  Lambdac.clear();
+  lambdac.clear();
   sigma.clear();
   for (int i = 0; i < proton.size(); i++)
   {
@@ -1127,11 +1127,10 @@ StatusCode LambdacAlg::execute()
         sigma.push_back(tmp0);
 
         MyMotherParticleFit tmp(proton[i], pi0[k], eta[j]);
-        tmp.setLorentzVector(
-        
-
+       
         HepLorentzVector pLambda = proton[i].getLorentzVector() + pi0[k].getLorentzVector() + eta[j].getLorentzVector();
         pLambda.boost(-m_beta);
+        tmp.setLorentzVector(pLambda);
         lambdac.push_back(tmp);
 
         // 1C
@@ -1139,11 +1138,12 @@ StatusCode LambdacAlg::execute()
         kmfit1->init();
         kmfit1->setChisqCut(1e3);
         kmfit1->setIterNumber(10);
+        
         kmfit1->AddTrack(0, proton[i].getTrackParameter());
-        kmfit1->AddTrack(1, pi0.getChild1()->getRecEmcShower());
-        kmfit1->AddTrack(2, pi0.getChild2()->getRecEmcShower());
-        kmfit1->AddTrack(3, eta.getChild1()->getRecEmcShower());
-        kmfit1->AddTrack(4, eta.getChild2()->getRecEmcShower());
+        kmfit1->AddTrack(1, pi0.getChild1().getRecEmcShower());
+        kmfit1->AddTrack(2, pi0.getChild2().getRecEmcShower());
+        kmfit1->AddTrack(3, eta.getChild1().getRecEmcShower());
+        kmfit1->AddTrack(4, eta.getChild2().getRecEmcShower());
 
         kmfit1->AddMissTrack(5, 2.28646);
         kmfit1->AddFourMomentum(0, HepCMS);
