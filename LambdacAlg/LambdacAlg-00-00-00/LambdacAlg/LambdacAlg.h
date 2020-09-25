@@ -78,7 +78,7 @@ private:
 	NTuple::Array<int> m_Am_id_;
 	NTuple::Matrix<double> m_Am_ptruth_;
 
-/////
+	/////
 	NTuple::Tuple *m_tuple1;
 	NTuple::Item<int> m_run;
 	NTuple::Item<int> m_event;
@@ -87,59 +87,59 @@ private:
 	NTuple::Item<int> m_bg;
 	// NTuple::Item<int> m_yes;
 	// NTuple::Item<int> m_no;
-/////
-//Proton
-		NTuple::Item<int> m_nProton;
-		NTuple::Array<int> m_Proton_ID;
-		NTuple::Array<int> m_Proton_Charge;
-		NTuple::Matrix<double> m_Proton_P4;
-		NTuple::Matrix<double> m_Proton_PID;
+	/////
+	//Proton
+	NTuple::Item<int> m_nProton;
+	NTuple::Array<int> m_Proton_ID;
+	NTuple::Array<int> m_Proton_Charge;
+	NTuple::Matrix<double> m_Proton_P4;
+	NTuple::Matrix<double> m_Proton_PID;
 
-		//Pi0
-		NTuple::Item<int> m_nPi0;
-		NTuple::Array<int> m_Pi0_Gam1_ID;
-		NTuple::Array<int> m_Pi0_Gam2_ID;
-		NTuple::Array<double> m_Pi0;
-		NTuple::Array<double> m_Pi0_P4;
-				//eta
-		NTuple::Item<int> m_nEta;
-		NTuple::Array<int> m_Eta_Gam1_ID;
-		NTuple::Array<int> m_Eta_Gam2_ID;
-		NTuple::Array<double> m_Eta;
-		NTuple::Array<double> m_Eta_P4;
-		//Sigma+
-		NTuple::Item<int> m_nSigmap;
-		NTuple::Array<int> m_Sigmap_Proton_ID;
-		NTuple::Array<int> m_Sigmap_Pi0_ID;
-		NTuple::Array<double> m_Sigmap;
+	//Pi0
+	NTuple::Item<int> m_nPi0;
+	NTuple::Array<int> m_Pi0_Gam1_ID;
+	NTuple::Array<int> m_Pi0_Gam2_ID;
+	NTuple::Array<double> m_Pi0;
+	NTuple::Array<double> m_Pi0_P4;
+	//eta
+	NTuple::Item<int> m_nEta;
+	NTuple::Array<int> m_Eta_Gam1_ID;
+	NTuple::Array<int> m_Eta_Gam2_ID;
+	NTuple::Array<double> m_Eta;
+	NTuple::Array<double> m_Eta_P4;
+	//Sigma+
+	NTuple::Item<int> m_nSigmap;
+	NTuple::Array<int> m_Sigmap_Proton_ID;
+	NTuple::Array<int> m_Sigmap_Pi0_ID;
+	NTuple::Array<double> m_Sigmap;
 
-		//Lc
-		NTuple::Item<int> m_nLc;
-		NTuple::Array<int> m_Lc_Charge;
-		// NTuple::Array<int> m_Lc_Sigmap_ID;
-		// NTuple::Array<int> m_Lc_Ks_ID;
-		NTuple::Array<double> m_Lc_Mass;
-		NTuple::Array<double> m_Lc_MBC;
-		NTuple::Array<double> m_Lc_De;
-		//Recoil 1C
-		NTuple::Array<double> m_Lc_Chisq_1c;
-		NTuple::Matrix<double> m_Lc_Proton_P4_1c;
-		NTuple::Matrix<double> m_Lc_Pi0_P4_1c;
-		NTuple::Matrix<double> m_Lc_Ks_P4_1c;
-		NTuple::Matrix<double> m_Lc_P4_1c;
-		NTuple::Array<double> m_Lc_Mass_1c;
-		NTuple::Array<double> m_Lc_MBC_1c;
-		NTuple::Array<double> m_Lc_De_1c;
-		//2C : Recoil 1C + sigma 1C
-		// NTuple::Array<double> m_Lc_Chisq_2c;
-		// NTuple::Matrix<double> m_Lc_Proton_P4_2c;
-		// NTuple::Matrix<double> m_Lc_Pi0_P4_2c;
-		// NTuple::Matrix<double> m_Lc_Ks_P4_2c;
-		// NTuple::Matrix<double> m_Lc_P4_2c;
-		// NTuple::Array<double> m_Lc_Mass_2c;
-		// NTuple::Array<double> m_Lc_MBC_2c;
-		// NTuple::Array<double> m_Lc_De_2c;
-///
+	//Lc
+	NTuple::Item<int> m_nLc;
+	NTuple::Array<int> m_Lc_Charge;
+	// NTuple::Array<int> m_Lc_Sigmap_ID;
+	// NTuple::Array<int> m_Lc_Ks_ID;
+	NTuple::Array<double> m_Lc_Mass;
+	NTuple::Array<double> m_Lc_MBC;
+	NTuple::Array<double> m_Lc_De;
+	//Recoil 1C
+	NTuple::Array<double> m_Lc_Chisq_1c;
+	NTuple::Matrix<double> m_Lc_Proton_P4_1c;
+	NTuple::Matrix<double> m_Lc_Pi0_P4_1c;
+	NTuple::Matrix<double> m_Lc_Ks_P4_1c;
+	NTuple::Matrix<double> m_Lc_P4_1c;
+	NTuple::Array<double> m_Lc_Mass_1c;
+	NTuple::Array<double> m_Lc_MBC_1c;
+	NTuple::Array<double> m_Lc_De_1c;
+	//2C : Recoil 1C + sigma 1C
+	// NTuple::Array<double> m_Lc_Chisq_2c;
+	// NTuple::Matrix<double> m_Lc_Proton_P4_2c;
+	// NTuple::Matrix<double> m_Lc_Pi0_P4_2c;
+	// NTuple::Matrix<double> m_Lc_Ks_P4_2c;
+	// NTuple::Matrix<double> m_Lc_P4_2c;
+	// NTuple::Array<double> m_Lc_Mass_2c;
+	// NTuple::Array<double> m_Lc_MBC_2c;
+	// NTuple::Array<double> m_Lc_De_2c;
+	///
 
 	NTuple::Item<int> m_idxmc;
 	NTuple::Item<int> m_all;
@@ -150,8 +150,6 @@ private:
 	NTuple::Item<int> m_pindex;
 	NTuple::Item<int> m_Kpindex;
 	NTuple::Item<int> m_r;
-
-
 
 	NTuple::Array<int> m_pdgid;
 	NTuple::Array<int> m_motheridx;

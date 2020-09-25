@@ -1140,10 +1140,10 @@ StatusCode LambdacAlg::execute()
         kmfit1->setIterNumber(10);
         
         kmfit1->AddTrack(0, proton[i].getTrackParameter());
-        kmfit1->AddTrack(1, pi0.getChild1().getRecEmcShower());
-        kmfit1->AddTrack(2, pi0.getChild2().getRecEmcShower());
-        kmfit1->AddTrack(3, eta.getChild1().getRecEmcShower());
-        kmfit1->AddTrack(4, eta.getChild2().getRecEmcShower());
+        kmfit1->AddTrack(1, pi0[k].getChild1().getRecEmcShower());
+        kmfit1->AddTrack(2, pi0[k].getChild2().getRecEmcShower());
+        kmfit1->AddTrack(3, eta[j].getChild1().getRecEmcShower());
+        kmfit1->AddTrack(4, eta[j].getChild2().getRecEmcShower());
 
         kmfit1->AddMissTrack(5, 2.28646);
         kmfit1->AddFourMomentum(0, HepCMS);
@@ -1265,7 +1265,7 @@ StatusCode LambdacAlg::execute()
   //     cout << "a=0; b=0; "
   //          << "np: " << np << ", npbar: " << npbar << endl;
   //   return StatusCode::SUCCESS;
-}
+// }
 if (true)
 {
 
