@@ -40,7 +40,6 @@ using CLHEP::HepLorentzVector;
 
 #include "CLHEP/Geometry/Point3D.h"
 #include "DTagTool/DTagTool.h"
-#include "LambdacAlg/MyParticle.h"
 
 #include "VertexFit/Helix.h"
 #include "VertexFit/IVertexDbSvc.h"
