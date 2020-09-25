@@ -3,6 +3,13 @@
         "*.dec": "shellscript",
         "memory": "cpp",
         "istream": "cpp",
-        "functional": "cpp"
+        "functional": "cpp",
+        "array": "cpp",
+        "*.tcc": "cpp",
+        "tuple": "cpp",
+        "utility": "cpp",
+        "string_view": "cpp",
+        "initializer_list": "cpp",
+        "random": "cpp"
     }
 }

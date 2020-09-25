@@ -1,4 +1,4 @@
-#include "/LambdacAlg/MyParticle.h"
+#include "LambdacAlg/MyParticle.h"
 
 #include "CLHEP/Geometry/Point3D.h"
 #include "CLHEP/Vector/LorentzVector.h"
@@ -27,6 +27,12 @@ MyParticle::MyParticle(int index, HepLorentzVector p4, WTrackParameter *wtrkp, i
   this->wtrkp = wtrkp;
   this->charge = charge;
 }
+MyParticle::MyParticle(int index, HepLorentzVector p4, RecEmcShower *emcTrk = nullptr)
+{
+  this->index = index;
+  this->p4 = p4;
+  this->emcTrk = emcTrk;
+}
 MyParticle::~MyParticle() {}
 
 // ------  set -------
@@ -39,39 +45,35 @@ MyParticle::~MyParticle() {}
 int MyParticle::getIndex() { return index; }
 int MyParticle::getCharge() { return charge; }
 HepLorentzVector MyParticle::getLorentzVector() { return p4; }
-WTrackParameter *MyParticle::getTrackParameter() { return wtrkp }
+WTrackParameter *MyParticle::getTrackParameter() { return wtrkp; }
+RecEmcShower *MyParticle::getRecEmcShower() { return emcTrk; }
 
 #pragma endregion
 
 ///
 ///
-/// class MyMotherParticle  ///
+/// class MyMotherParticleFit  ///
 ///
 #pragma region for_motherparticle____________________________________
-MyMotherParticle::MyMotherParticle() {}
-MyMotherParticle::MyMotherParticle(MyParticle child1, HepLorentzVector fitP1, MyParticle child2,
-                                   HepLorentzVector fitP2, MyParticle child3, HepLorentzVector fitP3)
+MyMotherParticleFit::MyMotherParticleFit() {}
+MyMotherParticleFit::MyMotherParticleFit(MyParticle child1, MyParticle child2, MyParticle child3 = MyParticle(),
+                                         KalmanKinematicFit *kmfit);
 {
   this->child1 = child1;
   this->child2 = child2;
   this->child3 = child3;
-  this->fitP1 = fitP1;
-  this->fitP2 = fitP2;
-  this->fitP3 = fitP3;
+  this->kmfit = kmfit;
 }
-MyMotherParticle::~MyMotherParticle() {}
+MyMotherParticleFit::~MyMotherParticleFit() {}
 
-// void MyMotherParticle::setChild1(MyParticle child1) { this->child1 = child1; }
-// void MyMotherParticle::setChild2(MyParticle child2) { this->child2 = child2; }
-// void MyMotherParticle::setChild3(MyParticle child3) { this->child3 = child3; }
+// void MyMotherParticleFit::setChild1(MyParticle child1) { this->child1 = child1; }
+// void MyMotherParticleFit::setChild2(MyParticle child2) { this->child2 = child2; }
+// void MyMotherParticleFit::setChild3(MyParticle child3) { this->child3 = child3; }
 
-MyParticle MyMotherParticle::getChild1() { return child1; }
-MyParticle MyMotherParticle::getChild2() { return child2; }
-MyParticle MyMotherParticle::getChild3() { return child3; }
+MyParticle MyMotherParticleFit::getChild1() { return child1; }
+MyParticle MyMotherParticleFit::getChild2() { return child2; }
+MyParticle MyMotherParticleFit::getChild3() { return child3; }
 
-
-MyParticle MyMotherParticle::getFitP1() { return fitP1; }
-MyParticle MyMotherParticle::getFitP2() { return fitP2; }
-MyParticle MyMotherParticle::getFitP3() { return fitP3; }
+KalmanKinematicFit *MyMotherParticleFit::getFit() { return kmfit; }
 
 #pragma endregion

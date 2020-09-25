@@ -42,6 +42,7 @@ bool MyPid::iselectron()
 
   if (prob_e > 0.001 && (prob_e / (prob_e + prob_pi + prob_k)) > 0.8)
   {
+    // prob = prob_e;
     return true;
   }
   return false;
@@ -68,6 +69,7 @@ bool MyPid::isproton()
   }
   if (prob_p >= 0. && prob_p >= prob_k && prob_p >= prob_pi)
   {
+    // prob = prob_p;
     return true;
   }
   return false;
@@ -95,6 +97,7 @@ bool MyPid::ispion()
   }
   if (prob_pi >= 0.00 && prob_pi >= prob_k)
   {
+    // prob = prob_pi;
     return true;
   }
   return false;
@@ -122,10 +125,13 @@ bool MyPid::iskaon()
   }
   if (prob_k >= 0.00 && prob_k >= prob_pi)
   {
+    // chi = prob_k;
     return true;
   }
   return false;
 }
+
+double MyPid::getChi() { return this->chi; }
 
 // bool SimplePIDSvc::ispion_for_Lambda_Ks()
 // {
