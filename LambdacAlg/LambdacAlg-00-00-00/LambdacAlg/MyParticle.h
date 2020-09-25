@@ -27,6 +27,7 @@ class MyParticle
 public:
   MyParticle();
   MyParticle(int index, HepLorentzVector p4, WTrackParameter *wtrkp = nullptr, int charge = 0);
+  MyParticle(int index, HepLorentzVector p4, RecEmcShower *emcTrk = nullptr);
   ~MyParticle();
 
   // void setIndex(int index);
@@ -38,24 +39,27 @@ public:
   int getCharge();
   HepLorentzVector getLorentzVector();
   WTrackParameter *getTrackParameter();
+  RecEmcShower *getRecEmcShower();
 
 private:
   int index, charge;
   HepLorentzVector p4;
   WTrackParameter *wtrkp;
+  RecEmcShower *emcTrk;
 };
 
 ///
 ///
-/// class MyMotherParticle  ///
+/// class MyMotherParticleFit  ///
 ///
-class MyMotherParticle : public MyParticle
+class MyMotherParticleFit : public MyParticle
 {
 public:
-  MyMotherParticle();
-  MyMotherParticle::MyMotherParticle(MyParticle child1, HepLorentzVector fitP1, MyParticle child2, HepLorentzVector fitP2,
-                                     MyParticle child3 = MyParticle(), HepLorentzVector fitP3 = HepLorentzVector());
-  ~MyMotherParticle();
+  MyMotherParticleFit();
+  MyMotherParticleFit::MyMotherParticleFit(MyParticle child1, MyParticle child2,
+                                           MyParticle child3 = MyParticle(),
+                                           KalmanKinematicFit *kmfit=nullptr);
+  ~MyMotherParticleFit();
 
   // void setChild1(MyParticle child1);
   // void setChild2(MyParticle child2);
@@ -65,11 +69,9 @@ public:
   MyParticle getChild2();
   MyParticle getChild3();
 
-  HepLorentzVector getFitP1();
-  HepLorentzVector getFitP2();
-  HepLorentzVector getFitP3();
+  KalmanKinematicFit *getFit();
 
 private:
   MyParticle child1, child2, child3;
-  HepLorentzVector fitP1, fitP2, fitP3;
+  KalmanKinematicFit *kmfit;
 };

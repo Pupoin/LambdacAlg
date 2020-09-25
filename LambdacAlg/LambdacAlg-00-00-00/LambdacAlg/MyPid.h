@@ -27,10 +27,11 @@ public:
   bool isproton();
   bool ispion();
   bool iskaon();
-
+  double getChi();
   
 
 private:
   EvtRecTrack *track;
   double prob_e, prob_mu, prob_pi, prob_k, prob_p;
+  double chi;
 };
