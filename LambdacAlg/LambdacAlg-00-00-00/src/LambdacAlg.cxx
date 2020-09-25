@@ -829,7 +829,7 @@ StatusCode LambdacAlg::execute()
       RecMdcKalTrack *mdcKalTrk = (*itTrk)->mdcKalTrack();
       mdcKalTrk->setPidType(RecMdcKalTrack::proton);
 
-      WTrackParameter *wtrkp = new WTrackParameter(xmass[4], mdcKalTrk->getZHelixP(), mdcKalTrk->getZErrorP());
+      WTrackParameter wtrkp(xmass[4], mdcKalTrk->getZHelixP(), mdcKalTrk->getZErrorP());
       HepLorentzVector p4 = mdcKalTrk->p4(xmass[4]);
 
       MyParticle tmp(goodTrack[i], p4, mdcTrk->charge(), wtrkp);
@@ -1245,7 +1245,7 @@ StatusCode LambdacAlg::execute()
     {
       m_Pi0_Gam1_ID[i] = pi0[i].getChild1().getIndex();
       m_Pi0_Gam2_ID[i] = pi0[i].getChild2().getIndex();
-      m_Pi0[i] = pi0.getMass();
+      m_Pi0[i] = pi0[i].getMass();
 
       for (int j = 0; j < 4; j++)
       {
@@ -1256,7 +1256,7 @@ StatusCode LambdacAlg::execute()
     }
 
     // eta and 2 gamma
-    m_neta = eta.size();
+    m_nEta = eta.size();
     for (int i = 0; i < eta.size(); i++)
     {
       m_Eta_Gam1_ID[i] = eta[i].getChild1().getIndex();
@@ -1272,7 +1272,7 @@ StatusCode LambdacAlg::execute()
 
     // Sigma+ and p
     m_nSigmap = sigma.size();
-    5l for (int i = 0; i < sigma.size(); i++)
+    for (int i = 0; i < sigma.size(); i++)
     {
       m_Sigmap_Proton_ID[i] = sigma[i].getChild1().getIndex();
       m_Sigmap_Pi0_ID[i] = sigma[i].getChild2().getIndex();
