@@ -181,13 +181,8 @@ StatusCode LambdacAlg::initialize()
       status = m_tuple1->addIndexedItem("Proton_ID", m_nProton, m_Proton_ID);
       status = m_tuple1->addIndexedItem("Proton_Charge", m_nProton, m_Proton_Charge);
       status = m_tuple1->addIndexedItem("Proton_P4", m_nProton, 4, m_Proton_P4);
-      status = m_tuple1->addIndexedItem("Proton_PID", m_nProton, 5, m_Proton_PID);
+      // status = m_tuple1->addIndexedItem("Proton_PID", m_nProton, 5, m_Proton_PID);
 
-      // Shower gamma
-      // status = m_tuple1->addItem("NumOfShower", m_nShower, 0, 200);
-      // status = m_tuple1->addIndexedItem("Shower_ID", m_nShower, m_Shower_ID);
-      // status = m_tuple1->addIndexedItem("Shower_Angle", m_nShower, m_Shower_Angle);
-      // status = m_tuple1->addIndexedItem("Shower_P4", m_nShower, 4, m_Shower_P4);
 
       // Pi0
       status = m_tuple1->addItem("NumOfPi0", m_nPi0, 0, 200);
@@ -198,14 +193,15 @@ StatusCode LambdacAlg::initialize()
 
       // eta
       status = m_tuple1->addItem("NumOfEta", m_nEta, 0, 200);
-      // status = m_tuple1->addIndexedItem("Eta_Gam1_ID", m_nEta, m_Eta_Gam1_ID);
-      // status = m_tuple1->addIndexedItem("Eta_Gam2_ID", m_nEta, m_Eta_Gam2_ID);
-      status = m_tuple1->addIndexedItem("Eta_m", m_nEta, m_Pi0);
+      status = m_tuple1->addIndexedItem("Eta_Gam1_ID", m_nEta, m_Eta_Gam1_ID);
+      status = m_tuple1->addIndexedItem("Eta_Gam2_ID", m_nEta, m_Eta_Gam2_ID);
+      status = m_tuple1->addIndexedItem("Eta_m", m_nEta, m_Eta);
       status = m_tuple1->addIndexedItem("Eta_P4", m_nEta, 4, m_Eta_P4);
 
       // Sigma+
       status = m_tuple1->addItem("NumOfSigmap", m_nSigmap, 0, 200);
-      // status = m_tuple1->addIndexedItem("Sigmap_Proton_ID", m_nSigmap, m_Sigmap_Proton_ID);
+      status = m_tuple1->addIndexedItem("Sigmap_Proton_ID", m_nSigmap, m_Sigmap_Proton_ID);
+      status = m_tuple1->addIndexedItem("Sigmap_Pi0_ID", m_nSigmap, m_Sigmap_Pi0_ID);
       status = m_tuple1->addIndexedItem("Sigmap_m", m_nSigmap, m_Sigmap);
 
       // Lc
@@ -217,16 +213,14 @@ StatusCode LambdacAlg::initialize()
       status = m_tuple1->addIndexedItem("Lc_MBC", m_nLc, m_Lc_MBC);   // no Recoil 1C update, Beam constrain
       status = m_tuple1->addIndexedItem("Lc_De", m_nLc, m_Lc_De);
       // Recoil 1C
-      status = m_tuple1->addIndexedItem("Lc_Chisq_1c", m_nLc, m_Lc_Chisq_1c);
-      status = m_tuple1->addIndexedItem("Lc_Proton_P4_1c", m_nLc, 4, m_Lc_Proton_P4_1c);
-      status = m_tuple1->addIndexedItem("Lc_Pi0_P4_1c", m_nLc, 4, m_Lc_Pi0_P4_1c);
-      status = m_tuple1->addIndexedItem("Lc_Ks_P4_1c", m_nLc, 4, m_Lc_Ks_P4_1c);
-      status = m_tuple1->addIndexedItem("Lc_P4_1c", m_nLc, 4, m_Lc_P4_1c);
-      status = m_tuple1->addIndexedItem("Lc_Mass_1c", m_nLc, m_Lc_Mass_1c); // Recoil 1C update, no Beam constrain
-      status = m_tuple1->addIndexedItem("Lc_MBC_1c", m_nLc, m_Lc_MBC_1c);   // Recoil 1C update, Beam constrain
-      status = m_tuple1->addIndexedItem("Lc_De_1c", m_nLc, m_Lc_De_1c);
-
-
+      // status = m_tuple1->addIndexedItem("Lc_Chisq_1c", m_nLc, m_Lc_Chisq_1c);
+      // status = m_tuple1->addIndexedItem("Lc_Proton_P4_1c", m_nLc, 4, m_Lc_Proton_P4_1c);
+      // status = m_tuple1->addIndexedItem("Lc_Pi0_P4_1c", m_nLc, 4, m_Lc_Pi0_P4_1c);
+      // status = m_tuple1->addIndexedItem("Lc_Ks_P4_1c", m_nLc, 4, m_Lc_Ks_P4_1c);
+      // status = m_tuple1->addIndexedItem("Lc_P4_1c", m_nLc, 4, m_Lc_P4_1c);
+      // status = m_tuple1->addIndexedItem("Lc_Mass_1c", m_nLc, m_Lc_Mass_1c); // Recoil 1C update, no Beam constrain
+      // status = m_tuple1->addIndexedItem("Lc_MBC_1c", m_nLc, m_Lc_MBC_1c);   // Recoil 1C update, Beam constrain
+      // status = m_tuple1->addIndexedItem("Lc_De_1c", m_nLc, m_Lc_De_1c);
 
       status = m_tuple1->addItem("indexmc", m_idxmc, 0, 100);
       status = m_tuple1->addIndexedItem("pdgid", m_idxmc, m_pdgid);
@@ -988,6 +982,7 @@ StatusCode LambdacAlg::execute()
       //     kmfit->BuildVirtualParticle(0);
 
       MyMotherParticleFit tmp(emcGamma[i], emcGamma[j]);
+      tmp.setLorentzVector(p2geta);
       eta.push_back(tmp);
       // }
       // }
@@ -1029,6 +1024,7 @@ StatusCode LambdacAlg::execute()
       // WTrackParameter Pi0WTrk = kmfit->wVirtualTrack(0);
 
       MyMotherParticleFit tmp(emcGamma[k], emcGamma[l]);
+      tmp.setLorentzVector(p2gpi);
       pi0.push_back(tmp);
       // }
       // }
@@ -1127,16 +1123,16 @@ StatusCode LambdacAlg::execute()
         if (psigma.m() < m_SigmaMinMass || psigma.m() > m_SigmaMaxMass)
           continue;
         MyMotherParticleFit tmp0(proton[i], pi0[k]);
+        tmp0.setLorentzVector(psigma);
         sigma.push_back(tmp0);
 
         MyMotherParticleFit tmp(proton[i], pi0[k], eta[j]);
-        lambdac.push_back(tmp);
+        tmp.setLorentzVector(
+        
 
-        // HepLorentzVector pLambda = psigma + eta[j].getFit()->pfit(0) + eta[j].getFit()->pfit(1);
-        // pLambda.boost(-m_beta);
-        // double deltaEb = pLambda.t() - ebeam;
-        // double mbc2 = ebeam * ebeam - pLambda.v().mag2();
-        // m_bc = mbc2 > 0 ? sqrt(mbc2) : -10;
+        HepLorentzVector pLambda = proton[i].getLorentzVector() + pi0[k].getLorentzVector() + eta[j].getLorentzVector();
+        pLambda.boost(-m_beta);
+        lambdac.push_back(tmp);
 
         // 1C
         KalmanKinematicFit *kmfit1 = KalmanKinematicFit::instance();
@@ -1162,6 +1158,7 @@ StatusCode LambdacAlg::execute()
           // double Recoil_Chisq = kmfit1->chisq();
 
           MyMotherParticleFit tmp2(proton[i], pi0[k], eta[j], kmfit1);
+
           recoilLambdac_1c.push_back(tmp2);
 
           // proton_1C = kmfit1->pfit(0);
@@ -1334,13 +1331,11 @@ if (true)
   {
     m_Pi0_Gam1_ID[i] = pi0[i].getChild1().getIndex();
     m_Pi0_Gam2_ID[i] = pi0[i].getChild2().getIndex();
-    HepLorentzVector pi0_p4 = pi0[i].getChild1().getLorentzVector() + pi0[i].getChild2().getLorentzVector();
-    m_Pi0[i] = pi0_p4.m();
-    // m_Pi0_Chisq[i] = pi0[i].getFit()->chisq(0);
+    m_Pi0[i] = pi0.getMass();
 
     for (int j = 0; j < 4; j++)
     {
-      m_Pi0_P4[i][j] = pi0_p4[j];
+      m_Pi0_P4[i][j] = pi0[i].getLorentzVector()[j];
       // m_Pi0_Gam2_P4_1c[i][j] = pi0[i].pi0[i].getChild2().getLorentzVector()[j];
       // m_Pi0_P4_1c[i][j] = pi0[i].pi0_p4_1C[j];
     }
@@ -1350,15 +1345,14 @@ if (true)
   m_neta = eta.size();
   for (int i = 0; i < eta.size(); i++)
   {
-    // m_eta_Gam1_ID[i] = eta[i].getChild1().getIndex();
-    // m_eta_Gam2_ID[i] = eta[i].getChild2().getIndex();
-    HepLorentzVector eta_p4 = eta[i].getChild1().getLorentzVector() + eta[i].getChild2().getLorentzVector();
-    m_eta[i] = eta_p4.m();
+    m_Eta_Gam1_ID[i] = eta[i].getChild1().getIndex();
+    m_Eta_Gam2_ID[i] = eta[i].getChild2().getIndex();
+    m_Eta[i] = eta.getMass();
     // m_eta_Chisq[i] = pi0[i].getFit()->chisq(0);
 
     for (int j = 0; j < 4; j++)
     {
-      m_eta_P4[i][j] = eta_p4[j];
+      m_Eta_P4[i][j] = eta[i].getLorentzVector()[j];
     }
   }
 
@@ -1366,30 +1360,38 @@ if (true)
   m_nSigmap = sigma.size();
   for (int i = 0; i < sigma.size(); i++)
   {
-    // m_Sigmap_Proton_ID[i] = sigma[i].getChild1().getIndex();
-    HepLorentzVector psigma =
-        sigma[i].getChild1().getLorentzVector() + sigma[i].getChild2().getChild1().getLorentzVector() 
-        + pi0[k].getChild2().getLorentzVector();
-    m_Sigmap[i] = psigma.m();
+    m_Sigmap_Proton_ID[i] = sigma[i].getChild1().getIndex();
+    m_Sigmap_Pi0_ID[i] = sigma[i].getChild2().getIndex();
+    m_Sigmap[i] = sigma[i].getMass();
   }
 
-  // Lc
-  // m_nLc = lambdac.size();
+   m_nLc = lambdac.size();
+  for (int i = 0; i < lambdac.size(); i++)
+  {
+    m_Lc_Charge[i] = lambdac[i].getChild1().getCharge();
+    // m_Lc_Sigmap_ID[i] = lambdac[i].sigma_id;
+    // m_Lc_Ks_ID[i] = lambdac[i].ks_id;
+
+    m_Lc_Mass[i] = lambdac[i].getMass();
+    HepLorentzVector pLambda = lambdac[i].getLorentzVector();
+    double deltaEb = pLambda.t() - ebeam;
+    double mbc2 = ebeam * ebeam - pLambda.v().mag2();
+    m_bc = mbc2 > 0 ? sqrt(mbc2) : -10;
+    m_Lc_MBC[i] = m_bc;
+    m_Lc_De[i] = deltaEb;
+  }
+
+  m_nLc = lambdac.size();
+  // cout << 
   // for (int i = 0; i < lambdac.size(); i++)
   // {
-  //   m_Lc_Charge[i] = lambdac[i].getChild1().getCharge();
-  //   // m_Lc_Sigmap_ID[i] = lc_info[i].sigma_id;
-  //   // m_Lc_Ks_ID[i] = lc_info[i].ks_id;
-  //   HepLorentzVector lbc = lambdac[i].getChild1().getLorentzVector() + 
-  //                  lambdac[i].getChild2().getLorentzVector() + 
-  //                  lambdac[i].getChild2().getLorentzVector();
-  //   m_Lc_Mass[i] = lbc.m();
+  //   m_Lc_Chisq_1c[i] = lambdac[i].getFit()->chisq();
+  //   HepLorentzVector pLambda_1c = lambdac[i].getLorentzVector();
+  //   double deltaEb = pLambda.t() - ebeam;
+  //   double mbc2 = ebeam * ebeam - pLambda.v().mag2();
+  //   m_bc = mbc2 > 0 ? sqrt(mbc2) : -10;
 
-  //   m_Lc_MBC[i] = lc_info[i].m_bc;
-  //   m_Lc_De[i] = lc_info[i].m_de;
-    
-  //   m_Lc_Chisq_1c[i] = lc_info[i].chisq1;
-  //   m_Lc_Mass_1c[i] = lc_info[i].m_1c;
+  //   m_Lc_Mass_1c[i] = lambdac[i].m_1c;
   //   m_Lc_MBC_1c[i] = lc_info[i].m_bc_1c;
   //   m_Lc_De_1c[i] = lc_info[i].m_de_1c;
 
@@ -1397,54 +1399,43 @@ if (true)
   //   // m_Lc_Mass_2c[i] = lc_info[i].m_2c;
   //   // m_Lc_MBC_2c[i] = lc_info[i].m_bc_2c;
   //   // m_Lc_De_2c[i] = lc_info[i].m_de_2c;
+  // }
 
-  //   for (int j = 0; j < 4; j++)
-  //   {
-  //     // m_Lc_Proton_P4_1c[i][j] = lc_info[i].p4_proton_1c[j];
-  //     // m_Lc_Pi0_P4_1c[i][j] = lc_info[i].p4_pi0_1c[j];
-  //     // m_Lc_Ks_P4_1c[i][j] = lc_info[i].p4_ks_1c[j];
-  //     m_Lc_P4_1c[i][j] = lc_info[i].p4_Lc_1c[j];
+    // }
 
-  //     // m_Lc_Proton_P4_2c[i][j] = lc_info[i].p4_proton_2c[j];
-  //     // m_Lc_Pi0_P4_2c[i][j] = lc_info[i].p4_pi0_2c[j];
-  //     // m_Lc_Ks_P4_2c[i][j] = lc_info[i].p4_ks_2c[j];
-  //     // m_Lc_P4_2c[i][j] = lc_info[i].p4_Lc_2c[j];
-  //   }
-  //   // }
+    // m_bg = bg;
+    // for (int jj = 0; jj < 4; jj++)
+    //   m_pbar_p4[jj] = pbar_p4[jj];
+    // for (int jj = 0; jj < 4; jj++)
+    //   m_gam3b_p4[jj] = gam3b_p4[jj];
+    // for (int jj = 0; jj < 4; jj++)
+    //   m_gam4b_p4[jj] = gam4b_p4[jj];
+    // for (int jj = 0; jj < 4; jj++)
+    //   m_gam1b_p4[jj] = gam1b_p4[jj];
+    // for (int jj = 0; jj < 4; jj++)
+    //   m_gam2b_p4[jj] = gam2b_p4[jj];
 
-  //   m_bg = bg;
-  //   for (int jj = 0; jj < 4; jj++)
-  //     m_pbar_p4[jj] = pbar_p4[jj];
-  //   for (int jj = 0; jj < 4; jj++)
-  //     m_gam3b_p4[jj] = gam3b_p4[jj];
-  //   for (int jj = 0; jj < 4; jj++)
-  //     m_gam4b_p4[jj] = gam4b_p4[jj];
-  //   for (int jj = 0; jj < 4; jj++)
-  //     m_gam1b_p4[jj] = gam1b_p4[jj];
-  //   for (int jj = 0; jj < 4; jj++)
-  //     m_gam2b_p4[jj] = gam2b_p4[jj];
+    // m_pbarindex = pbar_index;
+    // m_p4index = 4;
+    // m_chi2 = chisq;
+    // m_pi0m1c = (pgam3b_1C4p + pgam4b_1C4p).m();
+    // m_etam1c = (pgam1b_1C4p + pgam2b_1C4p).m();
 
-  //   m_pbarindex = pbar_index;
-  //   m_p4index = 4;
-  //   m_chi2 = chisq;
-  //   m_pi0m1c = (pgam3b_1C4p + pgam4b_1C4p).m();
-  //   m_etam1c = (pgam1b_1C4p + pgam2b_1C4p).m();
+    // m_pi0m = (gam3b_p4 + gam4b_p4).m();
+    // m_etam = (gam1b_p4 + gam2b_p4).m();
+    // m_ebeam = ebeam;
+    // m_Sigmam = (pgam3b_1C4p + pgam4b_1C4p + pbar_p4).m();
+    // //	cout<<"deltaE="<<deltaE_minb<<endl;
+    // m_deltaE_min = deltaE_minb;
+    // //	cout<<"deltaE_min="<<m_deltaE_min<<endl;
+    // HepLorentzVector pLambda = pbar_p4 + pgam3b_1C4p + pgam4b_1C4p + pgam1b_1C4p + pgam2b_1C4p;
+    // pLambda.boost(-m_beta);
+    // double mbc2 = ebeam * ebeam - pLambda.v().mag2();
 
-  //   m_pi0m = (gam3b_p4 + gam4b_p4).m();
-  //   m_etam = (gam1b_p4 + gam2b_p4).m();
-  //   m_ebeam = ebeam;
-  //   m_Sigmam = (pgam3b_1C4p + pgam4b_1C4p + pbar_p4).m();
-  //   //	cout<<"deltaE="<<deltaE_minb<<endl;
-  //   m_deltaE_min = deltaE_minb;
-  //   //	cout<<"deltaE_min="<<m_deltaE_min<<endl;
-  //   HepLorentzVector pLambda = pbar_p4 + pgam3b_1C4p + pgam4b_1C4p + pgam1b_1C4p + pgam2b_1C4p;
-  //   pLambda.boost(-m_beta);
-  //   double mbc2 = ebeam * ebeam - pLambda.v().mag2();
-
-  //   m_bc = mbc2 > 0 ? sqrt(mbc2) : -10;
-  //   m_rightflag = 2;
-  //   m_np = np;
-  //   m_npbar = npbar;
+    // m_bc = mbc2 > 0 ? sqrt(mbc2) : -10;
+    // m_rightflag = 2;
+    // m_np = np;
+    // m_npbar = npbar;
     m_tuple1->write();
   }
 /*/ if (a == 1)

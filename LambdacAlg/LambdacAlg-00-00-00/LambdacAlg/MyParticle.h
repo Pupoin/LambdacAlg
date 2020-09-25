@@ -60,8 +60,8 @@ public:
   ~MyParticle();
 
   // void setIndex(int index);
-  // void setCharge(int charge);
-  // void setLorentzVector(HepLorentzVector p4);
+  void setCharge(int charge);
+  void setLorentzVector(HepLorentzVector p4);
   // void setTrackParameter(WTrackParameter *wtrkp);
 
   int getIndex();
@@ -69,6 +69,7 @@ public:
   HepLorentzVector getLorentzVector();
   WTrackParameter *getTrackParameter();
   RecEmcShower *getRecEmcShower();
+  double getMass();
 
 private:
   int index, charge;

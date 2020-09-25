@@ -53,7 +53,7 @@ using CLHEP::HepLorentzVector;
 /// class MyParticle  ///
 ///
 MyParticle::MyParticle() {}
-MyParticle::MyParticle(int index, HepLorentzVector p4, WTrackParameter *wtrkp, int charge = 0)
+MyParticle::MyParticle(int index, HepLorentzVector p4, WTrackParameter *wtrkp = nullptr, int charge = 0)
 {
   this->index = index;
   this->p4 = p4;
@@ -70,24 +70,26 @@ MyParticle::~MyParticle() {}
 
 // ------  set -------
 // void MyParticle::setIndex(int index) { this->index = index; }
-// void MyParticle::setCharge(int charge) { this->charge = charge; }
-// void MyParticle::setLorentzVector(HepLorentzVector p4) { this->p4 = p4; }
+void MyParticle::setCharge(int charge) { this->charge = charge; }
+void MyParticle::setLorentzVector(HepLorentzVector p4) { this->p4 = p4; }
 // void MyParticle::setTrackParameter(WTrackParameter *wtrkp) { this->wtrkp = wtrkp; }
 
 // -------  get --------
 int MyParticle::getIndex() { return index; }
 int MyParticle::getCharge() { return charge; }
 HepLorentzVector MyParticle::getLorentzVector() { return p4; }
+double MyParticle::getMass() { return p4.m(); }
+
 WTrackParameter *MyParticle::getTrackParameter() { return wtrkp; }
 RecEmcShower *MyParticle::getRecEmcShower() { return emcTrk; }
 
 #pragma endregion
 
+#pragma region for_motherparticle____________________________________
 ///
 ///
 /// class MyMotherParticleFit  ///
 ///
-#pragma region for_motherparticle____________________________________
 MyMotherParticleFit::MyMotherParticleFit() {}
 MyMotherParticleFit::MyMotherParticleFit(MyParticle child1, MyParticle child2, MyParticle child3 = MyParticle(),
                                          KalmanKinematicFit *kmfit);
