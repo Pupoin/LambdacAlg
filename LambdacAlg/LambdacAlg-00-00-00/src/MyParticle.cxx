@@ -1,4 +1,25 @@
-#include "LambdacAlg/MyParticle.h"
+// ucas-PRLi (lipeirong11@mails.ucas.ac.cn)
+#include "LambdacAlg/LambdacAlg.h"
+#include "BestDTagSvc/BestDTagSvc.h"
+#include "McDecayModeSvc/McDecayModeSvc.h"
+
+#include "GaudiKernel/AlgFactory.h"
+#include "GaudiKernel/IDataProviderSvc.h"
+#include "GaudiKernel/ISvcLocator.h"
+#include "GaudiKernel/MsgStream.h"
+#include "GaudiKernel/PropertyMgr.h"
+#include "GaudiKernel/SmartDataPtr.h"
+
+#include "EventModel/Event.h"
+#include "EventModel/EventHeader.h"
+#include "EventModel/EventModel.h"
+
+#include "DstEvent/TofHitStatus.h"
+#include "EvtRecEvent/EvtRecDTag.h"
+#include "EvtRecEvent/EvtRecEvent.h"
+#include "EvtRecEvent/EvtRecPi0.h"
+#include "EvtRecEvent/EvtRecTrack.h"
+#include "EvtRecEvent/EvtRecVeeVertex.h"
 
 #include "CLHEP/Geometry/Point3D.h"
 #include "CLHEP/Vector/LorentzVector.h"
@@ -9,16 +30,27 @@
 #include "GaudiKernel/INTupleSvc.h"
 #include "GaudiKernel/NTuple.h"
 #include "TMath.h"
-#include "VertexFit/WTrackParameter.h"
+
+#include "EvTimeEvent/RecEsTime.h"
+#include "McTruth/McParticle.h"
+#include "MdcRecEvent/RecMdcKalTrack.h"
+
+using CLHEP::Hep2Vector;
+using CLHEP::Hep3Vector;
+using CLHEP::HepLorentzVector;
+
+#include "CLHEP/Geometry/Point3D.h"
+#include "DTagTool/DTagTool.h"
+#include "ParticleID/ParticleID.h"
+// #include "SimplePIDSvc/ISimplePIDSvc.h"
+#include "LambdacAlg/MyParticle.h"
+#include "LambdacAlg/MyPid.h"
+
 #include "VertexFit/Helix.h"
 #include "VertexFit/IVertexDbSvc.h"
 #include "VertexFit/KalmanKinematicFit.h"
 #include "VertexFit/KinematicFit.h"
 #include "VertexFit/VertexFit.h"
-
-using CLHEP::Hep2Vector;
-using CLHEP::Hep3Vector;
-using CLHEP::HepLorentzVector;
 
 #pragma region for_myparticle________________________________________
 ///
