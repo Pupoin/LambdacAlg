@@ -1,5 +1,4 @@
 // ucas-PRLi (lipeirong11@mails.ucas.ac.cn)
-#include "LambdacAlg/LambdacAlg.h"
 #include "BestDTagSvc/BestDTagSvc.h"
 #include "McDecayModeSvc/McDecayModeSvc.h"
 
@@ -41,10 +40,7 @@ using CLHEP::HepLorentzVector;
 
 #include "CLHEP/Geometry/Point3D.h"
 #include "DTagTool/DTagTool.h"
-#include "ParticleID/ParticleID.h"
-// #include "SimplePIDSvc/ISimplePIDSvc.h"
 #include "LambdacAlg/MyParticle.h"
-#include "LambdacAlg/MyPid.h"
 
 #include "VertexFit/Helix.h"
 #include "VertexFit/IVertexDbSvc.h"
