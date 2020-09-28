@@ -25,6 +25,8 @@ using CLHEP::HepLorentzVector;
 #include "VertexFit/KinematicFit.h"
 #include "VertexFit/VertexFit.h"
 #include "LambdacAlg/MyParticle.h"
+
+#pragma region MyParticle_______________________________________________________________
 ///
 ///
 /// class MyParticle  ///
@@ -62,6 +64,8 @@ RecEmcShower *MyParticle::getRecEmcShower() { return emcTrk; }
 
 #pragma endregion
 
+
+#pragma region MyMotherParticleFit____________________________________________________________________
 ///
 ///
 /// class MyMotherParticleFit  ///

@@ -1260,6 +1260,7 @@ StatusCode LambdacAlg::execute()
     }
 
     m_nLc = lambdac.size();
+    cout << __LINE__ << lambdac.size() << endl;
     for (int i = 0; i < lambdac.size(); i++)
     {
       m_Lc_Charge[i] = lambdac[i].getChild1().getCharge();
@@ -1276,7 +1277,7 @@ StatusCode LambdacAlg::execute()
     }
 
     m_nLc = recoilLambdac_1c.size();
-    // cout <<
+    cout << __LINE__ << recoilLambdac_1c.size() << endl;
     for (int i = 0; i < recoilLambdac_1c.size(); i++)
     {
       m_Lc_Chisq_1c[i] = recoilLambdac_1c[i].getFit()->chisq();
