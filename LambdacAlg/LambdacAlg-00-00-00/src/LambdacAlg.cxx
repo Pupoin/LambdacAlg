@@ -839,7 +839,8 @@ StatusCode LambdacAlg::execute()
       // HepLorentzVector pp4 = mdcKalTrk->p4(xmass[4]);
 
       WTrackParameter wtrkp(xmass[4], mdcKalTrk->getZHelixP(), mdcKalTrk->getZErrorP());
-      cout << __LINE__ << " i " << i << " p4.m() " << p4.m() << endl;
+      if (m_debug)
+        cout << __LINE__ << " i " << i << " p4.m() " << p4.m() << endl;
       MyParticle tmp(goodTrack[i], p4, mdcTrk->charge(), wtrkp);
       proton.push_back(tmp);
     }
@@ -919,7 +920,8 @@ StatusCode LambdacAlg::execute()
           ((fabs(cosThetaSh) > m_minCosThetaEndcap) && (fabs(cosThetaSh) < m_maxCosThetaEndcap) &&
            (eraw > m_minEndcapEnergy))))
       continue;
-    cout << __LINE__ << " i " << i << " shP4.m() " << shP4.m() << endl;
+    if (m_debug)
+      cout << __LINE__ << " i " << i << " shP4.m() " << shP4.m() << endl;
 
     MyParticle tmp(i, shP4, emcTrk);
     emcGamma.push_back(tmp);
@@ -970,13 +972,14 @@ StatusCode LambdacAlg::execute()
       HepLorentzVector ptrkj = emcGamma[j].getLorentzVector();
 
       HepLorentzVector p2geta = ptrki + ptrkj;
-
-      cout << __LINE__ << " i,j  " << i << "," << j << " p2geta.m()  " << p2geta.m() << endl;
+      if (m_debug)
+        cout << __LINE__ << " i,j  " << i << "," << j << " p2geta.m()  " << p2geta.m() << endl;
 
       if (p2geta.m() < m_EtaMinMass || p2geta.m() > m_EtaMaxMass)
         continue;
-      cout << __LINE__ << " 00000000 "
-           << " p2geta.m()  " << p2geta.m() << endl;
+      if (m_debug)
+        cout << __LINE__ << " 00000000 "
+             << " p2geta.m()  " << p2geta.m() << endl;
       // if (m_test1C == 1)
       // {
       //   kmfit->init();
@@ -1013,13 +1016,14 @@ StatusCode LambdacAlg::execute()
       HepLorentzVector ptrkl = emcGamma[l].getLorentzVector();
 
       HepLorentzVector p2gpi = ptrkk + ptrkl;
-
-      cout << __LINE__ << " k,l " << k << "," << l << " p2gpi.m() " << p2gpi.m() << endl;
+      if (m_debug)
+        cout << __LINE__ << " k,l " << k << "," << l << " p2gpi.m() " << p2gpi.m() << endl;
 
       if (p2gpi.m() < m_Pi0MinMass || p2gpi.m() > m_Pi0MaxMass)
         continue;
-      cout << __LINE__ << " 00000000 "
-           << " p2gpi.m() " << p2gpi.m() << endl;
+      if (m_debug)
+        cout << __LINE__ << " 00000000 "
+             << " p2gpi.m() " << p2gpi.m() << endl;
 
       // if (m_test1C == 1)
       // {
@@ -1066,7 +1070,8 @@ StatusCode LambdacAlg::execute()
 
   if (pi0.size() == 0 || eta.size() == 0)
     return StatusCode::SUCCESS;
-  cout << __LINE__ << endl;
+  if (m_debug)
+    cout << __LINE__ << endl;
 
   if (abs(signal) == 1)
     Ncut4++;
@@ -1105,15 +1110,17 @@ StatusCode LambdacAlg::execute()
         if (eta[j].getChild2().getIndex() == pi0[k].getChild1().getIndex() ||
             eta[j].getChild2().getIndex() == pi0[k].getChild2().getIndex())
           continue;
-
-        cout << __LINE__ << proton[i].getLorentzVector()[0] << " " << proton[i].getLorentzVector()[1] << " "
-             << proton[i].getLorentzVector()[2] << " " << proton[i].getLorentzVector()[3] << " " << endl;
+        if (m_debug)
+          cout << __LINE__ << proton[i].getLorentzVector()[0] << " " << proton[i].getLorentzVector()[1] << " "
+               << proton[i].getLorentzVector()[2] << " " << proton[i].getLorentzVector()[3] << " " << endl;
         HepLorentzVector psigma = proton[i].getLorentzVector() + pi0[k].getChild1().getLorentzVector() +
                                   pi0[k].getChild2().getLorentzVector();
-        cout << __LINE__ << " psigma.m() " << psigma.m() << endl;
+        if (m_debug)
+          cout << __LINE__ << " psigma.m() " << psigma.m() << endl;
         if (psigma.m() < m_SigmaMinMass || psigma.m() > m_SigmaMaxMass)
           continue;
-        cout << __LINE__ << " psigma.m() " << psigma.m() << endl;
+        if (m_debug)
+          cout << __LINE__ << " psigma.m() " << psigma.m() << endl;
 
         MyMotherParticleFit tmp0(proton[i], pi0[k]);
         tmp0.setLorentzVector(psigma);
@@ -1143,7 +1150,7 @@ StatusCode LambdacAlg::execute()
 
         bool okvs1 = kmfit1->Fit();
         if (m_debug)
-          std::cerr << "okvs_Lc_Recoil_1C_fit=" << okvs1 << std::endl;
+          std::cerr << "okvs_Lc_Recoil_1C_fit= " << okvs1 << std::endl;
         if (okvs1)
         {
           kmfit1->BuildVirtualParticle(0);
@@ -1179,7 +1186,8 @@ StatusCode LambdacAlg::execute()
   }
 
 #pragma endregion
-  cout << __LINE__ << endl;
+  if (m_debug)
+    cout << __LINE__ << endl;
 #pragma region write__________________________________________________________________
 
   if (true)
@@ -1225,7 +1233,8 @@ StatusCode LambdacAlg::execute()
 
     // .....
     m_signal = signal;
-    cout << __LINE__ << endl;
+    if (m_debug)
+      cout << __LINE__ << endl;
     // Proton
     m_nProton = proton.size();
     for (int i = 0; i < proton.size(); i++)
@@ -1257,7 +1266,8 @@ StatusCode LambdacAlg::execute()
         // m_Pi0_P4_1c[i][j] = pi0[i].pi0_p4_1C[j];
       }
     }
-    cout << __LINE__ << endl;
+    if (m_debug)
+      cout << __LINE__ << endl;
 
     // eta and 2 gamma
     m_nEta = eta.size();
@@ -1282,10 +1292,12 @@ StatusCode LambdacAlg::execute()
       m_Sigmap_Pi0_ID[i] = sigma[i].getChild2().getIndex();
       m_Sigmap[i] = sigma[i].getMass();
     }
-    cout << __LINE__ << endl;
+    if (m_debug)
+      cout << __LINE__ << endl;
 
     m_nLc = lambdac.size();
-    cout << __LINE__ << " lambdac.size() " << lambdac.size() << endl;
+    if (m_debug)
+      cout << __LINE__ << " lambdac.size() " << lambdac.size() << endl;
     for (int i = 0; i < lambdac.size(); i++)
     {
       m_Lc_Charge[i] = lambdac[i].getChild1().getCharge();
@@ -1300,10 +1312,11 @@ StatusCode LambdacAlg::execute()
       m_Lc_MBC[i] = m_bc;
       m_Lc_De[i] = deltaEb;
     }
-
-    cout << __LINE__ << endl;
+    if (m_debug)
+      cout << __LINE__ << endl;
     m_nLc_1c = recoilLambdac_1c.size();
-    cout << __LINE__ << " recoilLambdac_1c.size() " << recoilLambdac_1c.size() << endl;
+    if (m_debug)
+      cout << __LINE__ << " recoilLambdac_1c.size() " << recoilLambdac_1c.size() << endl;
     for (int i = 0; i < recoilLambdac_1c.size(); i++)
     {
       m_Lc_Charge_1c[i] = recoilLambdac_1c[i].getChild1().getCharge();
@@ -1323,7 +1336,8 @@ StatusCode LambdacAlg::execute()
       // m_Lc_MBC_2c[i] = lc_info[i].m_bc_2c;
       // m_Lc_De_2c[i] = lc_info[i].m_de_2c;
     }
-    cout << __LINE__ << endl;
+    if (m_debug)
+      cout << __LINE__ << endl;
     // }
 
     // m_bg = bg;
@@ -1360,7 +1374,8 @@ StatusCode LambdacAlg::execute()
     // m_np = np;
     // m_npbar = npbar;
     m_tuple1->write();
-    cout << __LINE__ << " write() " << endl;
+    if (m_debug)
+      cout << __LINE__ << " write() " << endl;
   }
 
 #pragma endregion
