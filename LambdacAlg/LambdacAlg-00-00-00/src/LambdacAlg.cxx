@@ -227,59 +227,60 @@ StatusCode LambdacAlg::initialize()
       status = m_tuple1->addItem("indexmc", m_idxmc, 0, 100);
       status = m_tuple1->addIndexedItem("pdgid", m_idxmc, m_pdgid);
       status = m_tuple1->addIndexedItem("motheridx", m_idxmc, m_motheridx);
-      status = m_tuple1->addItem("p4index", m_p4index, 0, 10);
-      status = m_tuple1->addIndexedItem("Km", m_p4index, m_Km_p4);
-      status = m_tuple1->addIndexedItem("Kp", m_p4index, m_Kp_p4);
-      status = m_tuple1->addIndexedItem("p", m_p4index, m_p_p4);
-      status = m_tuple1->addIndexedItem("pbar", m_p4index, m_pbar_p4);
-      status = m_tuple1->addIndexedItem("pim", m_p4index, m_pim_p4);
-      status = m_tuple1->addIndexedItem("pip", m_p4index, m_pip_p4);
-      status = m_tuple1->addIndexedItem("gam1a", m_p4index, m_gam1a_p4);
-      status = m_tuple1->addIndexedItem("gam2a", m_p4index, m_gam2a_p4);
-      status = m_tuple1->addIndexedItem("gam3a", m_p4index, m_gam3a_p4);
-      status = m_tuple1->addIndexedItem("gam4a", m_p4index, m_gam4a_p4);
-      status = m_tuple1->addIndexedItem("pi0", m_p4index, m_pi0_p4);
-      status = m_tuple1->addIndexedItem("gam1b", m_p4index, m_gam1b_p4);
-      status = m_tuple1->addIndexedItem("gam2b", m_p4index, m_gam2b_p4);
-      status = m_tuple1->addIndexedItem("gam3b", m_p4index, m_gam3b_p4);
-      status = m_tuple1->addIndexedItem("gam4b", m_p4index, m_gam4b_p4);
-      status = m_tuple1->addIndexedItem("gamb", m_p4index, m_gamb_p4);
-      status = m_tuple1->addIndexedItem("gama", m_p4index, m_gama_p4);
+      // status = m_tuple1->addItem("p4index", m_p4index, 0, 10);
+      // status = m_tuple1->addIndexedItem("Km", m_p4index, m_Km_p4);
+      // status = m_tuple1->addIndexedItem("Kp", m_p4index, m_Kp_p4);
+      // status = m_tuple1->addIndexedItem("p", m_p4index, m_p_p4);
+      // status = m_tuple1->addIndexedItem("pbar", m_p4index, m_pbar_p4);
+      // status = m_tuple1->addIndexedItem("pim", m_p4index, m_pim_p4);
+      // status = m_tuple1->addIndexedItem("pip", m_p4index, m_pip_p4);
+      // status = m_tuple1->addIndexedItem("gam1a", m_p4index, m_gam1a_p4);
+      // status = m_tuple1->addIndexedItem("gam2a", m_p4index, m_gam2a_p4);
+      // status = m_tuple1->addIndexedItem("gam3a", m_p4index, m_gam3a_p4);
+      // status = m_tuple1->addIndexedItem("gam4a", m_p4index, m_gam4a_p4);
+      // status = m_tuple1->addIndexedItem("pi0", m_p4index, m_pi0_p4);
+      // status = m_tuple1->addIndexedItem("gam1b", m_p4index, m_gam1b_p4);
+      // status = m_tuple1->addIndexedItem("gam2b", m_p4index, m_gam2b_p4);
+      // status = m_tuple1->addIndexedItem("gam3b", m_p4index, m_gam3b_p4);
+      // status = m_tuple1->addIndexedItem("gam4b", m_p4index, m_gam4b_p4);
+      // status = m_tuple1->addIndexedItem("gamb", m_p4index, m_gamb_p4);
+      // status = m_tuple1->addIndexedItem("gama", m_p4index, m_gama_p4);
 
-      status = m_tuple1->addItem("pi0m", m_pi0m);
-      status = m_tuple1->addItem("etam", m_etam);
-      status = m_tuple1->addItem("lambda", m_lambda);
-      status = m_tuple1->addItem("ksi", m_ksi);
-      status = m_tuple1->addItem("kstar", m_kstar);
-      status = m_tuple1->addItem("sigmastar", m_sigmastar);
-      status = m_tuple1->addItem("etaprimem", m_etaprimem);
-      status = m_tuple1->addItem("all", m_all);
-      status = m_tuple1->addItem("all_m", m_all_m);
-      status = m_tuple1->addItem("all_p", m_all_p);
-      status = m_tuple1->addItem("Kmindex", m_Kmindex);
-      status = m_tuple1->addItem("pbarindex", m_pbarindex);
-      status = m_tuple1->addItem("pindex", m_pindex);
-      status = m_tuple1->addItem("Kpindex", m_Kpindex);
-      status = m_tuple1->addItem("r", m_r);
-      status = m_tuple1->addItem("pi0m1c", m_pi0m1c);
-      status = m_tuple1->addItem("etam1c", m_etam1c);
+      // status = m_tuple1->addItem("pi0m", m_pi0m);
+      // status = m_tuple1->addItem("etam", m_etam);
+      // status = m_tuple1->addItem("lambda", m_lambda);
+      // status = m_tuple1->addItem("ksi", m_ksi);
+      // status = m_tuple1->addItem("kstar", m_kstar);
+      // status = m_tuple1->addItem("sigmastar", m_sigmastar);
+      // status = m_tuple1->addItem("etaprimem", m_etaprimem);
+      // status = m_tuple1->addItem("all", m_all);
+      // status = m_tuple1->addItem("all_m", m_all_m);
+      // status = m_tuple1->addItem("all_p", m_all_p);
+      // status = m_tuple1->addItem("Kmindex", m_Kmindex);
+      // status = m_tuple1->addItem("pbarindex", m_pbarindex);
+      // status = m_tuple1->addItem("pindex", m_pindex);
+      // status = m_tuple1->addItem("Kpindex", m_Kpindex);
+      // status = m_tuple1->addItem("r", m_r);
+      // status = m_tuple1->addItem("pi0m1c", m_pi0m1c);
+      // status = m_tuple1->addItem("etam1c", m_etam1c);
 
-      status = m_tuple1->addItem("sigmam", m_Sigmam);
+      // status = m_tuple1->addItem("sigmam", m_Sigmam);
       // status = m_tuple1->addItem("num_othertrackp", m_numothertrackp);
       // status = m_tuple1->addItem("num_othertrackm", m_numothertrackm);
       status = m_tuple1->addItem("E_beam", m_ebeam);
-      status = m_tuple1->addItem("deltaE_min", m_deltaE_min);
-      status = m_tuple1->addItem("M_BC", m_bc);
+      // status = m_tuple1->addItem("deltaE_min", m_deltaE_min);
+      // status = m_tuple1->addItem("M_BC", m_bc);
       status = m_tuple1->addItem("np", m_np);
       status = m_tuple1->addItem("npbar", m_npbar);
       // status = m_tuple1->addItem("eop_pim", m_eop_pim);
       // status = m_tuple1->addItem("eop_pip", m_eop_pip);
       // status = m_tuple1->addItem("eop_p", m_eop_p);
       // status = m_tuple1->addItem("eop_pbar", m_eop_pbar);
-      status = m_tuple1->addItem("eop_Km", m_eop_Km);
-      status = m_tuple1->addItem("eop_Kp", m_eop_Kp);
-      status = m_tuple1->addItem("ngam", m_ngam);
-      status = m_tuple1->addItem("chi2", m_chi2);
+      // status = m_tuple1->addItem("eop_Km", m_eop_Km);
+      // status = m_tuple1->addItem("eop_Kp", m_eop_Kp);
+      // status = m_tuple1->addItem("ngam", m_ngam);
+      // status = m_tuple1->addItem("chi2", m_chi2);
+
       status = m_tuple1->addItem("indexmc_p", m_mcparticle_p, 0, 100);
       status = m_tuple1->addIndexedItem("pdgid_p", m_mcparticle_p, m_pdgid_p);
       status = m_tuple1->addIndexedItem("motheridx_p", m_mcparticle_p, m_motheridx_p);
@@ -842,6 +843,7 @@ StatusCode LambdacAlg::execute()
       if (m_debug)
         cout << __LINE__ << " i " << i << " p4.m() " << p4.m() << endl;
       MyParticle tmp(goodTrack[i], p4, mdcTrk->charge(), wtrkp);
+      tmp.chi = pid->getChi();
       proton.push_back(tmp);
     }
   }
@@ -851,8 +853,8 @@ StatusCode LambdacAlg::execute()
 
   int np = trackProntonP.size();
   int npbar = trackProntonPbar.size();
-  m_np = np;
-  m_npbar = npbar;
+  // m_np = np;
+  // m_npbar = npbar;
 
   if (np == 0 && npbar == 0)
     return StatusCode::SUCCESS;
@@ -1063,10 +1065,8 @@ StatusCode LambdacAlg::execute()
   //        << "2*ngam12: " << 2 * ngam12 << ", 2*ngam34: " << 2 * ngam34 << endl;
 #pragma endregion
 
-  // if (ngam12 == 0)
-  //   return StatusCode::SUCCESS;
-  // if (abs(signal) == 1)
-  //   Ncut3++; // Ncut3 should equal Ncut2;
+  if (abs(signal) == 1)
+    Ncut3++; // Ncut3 should equal Ncut2;
 
   if (pi0.size() == 0 || eta.size() == 0)
     return StatusCode::SUCCESS;
@@ -1306,11 +1306,10 @@ StatusCode LambdacAlg::execute()
 
       m_Lc_Mass[i] = lambdac[i].getMass();
       HepLorentzVector pLambda = lambdac[i].getLorentzVector();
-      double deltaEb = pLambda.t() - ebeam;
+      // pLambda.boost(-m_beta);
+      m_Lc_De[i] = pLambda.t() - ebeam;
       double mbc2 = ebeam * ebeam - pLambda.v().mag2();
-      m_bc = mbc2 > 0 ? sqrt(mbc2) : -10;
-      m_Lc_MBC[i] = m_bc;
-      m_Lc_De[i] = deltaEb;
+      m_Lc_MBC[i] = mbc2 > 0 ? sqrt(mbc2) : -10;
     }
     if (m_debug)
       cout << __LINE__ << endl;
@@ -1319,17 +1318,27 @@ StatusCode LambdacAlg::execute()
       cout << __LINE__ << " recoilLambdac_1c.size() " << recoilLambdac_1c.size() << endl;
     for (int i = 0; i < recoilLambdac_1c.size(); i++)
     {
+      HepLorentzVector proton_1C = recoilLambdac_1c[i].getFit()->pfit(0);
+      HepLorentzVector pi1g_1c = recoilLambdac_1c[i].getFit()->pfit(1);
+      HepLorentzVector pi2g_1c = recoilLambdac_1c[i].getFit()->pfit(2);
+      HepLorentzVector eta1g_1c = recoilLambdac_1c[i].getFit()->pfit(3);
+      HepLorentzVector eta2g_1c = recoilLambdac_1c[i].getFit()->pfit(4);
+
+      HepLorentzVector pLambda_1c = proton_1C + pi1g_1c + pi2g_1c + eta1g_1c + eta2g_1c;
+      m_Lc_Mass_1c[i] = pLambda_1c.m();
+
+      pLambda_1c.boost(-m_beta);
+
+      m_Lc_De_1c[i] = pLambda_1c.t() - ebeam;
+      double mbc2 = ebeam * ebeam - pLambda_1c.v().mag2();
+      m_Lc_MBC_1c[i] = mbc2 > 0 ? sqrt(mbc2) : -10;
+
       m_Lc_Charge_1c[i] = recoilLambdac_1c[i].getChild1().getCharge();
-
-      m_Lc_Chisq_1c[i] = recoilLambdac_1c[i].getFit()->chisq();
-      HepLorentzVector pLambda = recoilLambdac_1c[i].getLorentzVector();
-      double deltaEb = pLambda.t() - ebeam;
-      double mbc2 = ebeam * ebeam - pLambda.v().mag2();
-      m_bc = mbc2 > 0 ? sqrt(mbc2) : -10;
-
-      m_Lc_Mass_1c[i] = recoilLambdac_1c[i].getMass();
-      m_Lc_MBC_1c[i] = mbc2;
-      m_Lc_De_1c[i] = deltaEb;
+      if (m_debug)
+      {
+        cout << __LINE__ << "proton[i].getChi()" << proton[i].chi << endl;
+      }
+      m_Lc_Chisq_1c[i] = recoilLambdac_1c[i].getFit()->chisq() + proton[i].chi;
 
       // m_Lc_Chisq_2c[i] = lc_info[i].chisq2;
       // m_Lc_Mass_2c[i] = lc_info[i].m_2c;
@@ -1360,7 +1369,7 @@ StatusCode LambdacAlg::execute()
 
     // m_pi0m = (gam3b_p4 + gam4b_p4).m();
     // m_etam = (gam1b_p4 + gam2b_p4).m();
-    // m_ebeam = ebeam;
+    m_ebeam = ebeam;
     // m_Sigmam = (pgam3b_1C4p + pgam4b_1C4p + pbar_p4).m();
     // //	cout<<"deltaE="<<deltaE_minb<<endl;
     // m_deltaE_min = deltaE_minb;
@@ -1371,8 +1380,8 @@ StatusCode LambdacAlg::execute()
 
     // m_bc = mbc2 > 0 ? sqrt(mbc2) : -10;
     // m_rightflag = 2;
-    // m_np = np;
-    // m_npbar = npbar;
+    m_np = np;
+    m_npbar = npbar;
     m_tuple1->write();
     if (m_debug)
       cout << __LINE__ << " write() " << endl;
@@ -1415,7 +1424,7 @@ StatusCode LambdacAlg::finalize()
   cout << "Ncut4   " << Ncut4 << endl;
   cout << "Ncut5   " << Ncut5 << endl;
   cout << "all       " << all << endl;
-  //	cout << "al       " <<al << endl;
+  //	cout << "al       " << al << endl;
   //	cout << "yes     " << yes << endl;
   //	cout << "Npp>0:  " << Npp << endl;
   //	cout << "Npm>0:  " << Npm << endl;

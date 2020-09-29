@@ -49,6 +49,8 @@ public:
   RecEmcShower *getRecEmcShower();
   double getMass();
 
+  double chi;
+
 private:
   int index, charge;
   HepLorentzVector p4;
@@ -66,7 +68,7 @@ public:
   MyMotherParticleFit();
   MyMotherParticleFit(MyParticle child1, MyParticle child2,
                       MyParticle child3 = MyParticle(),
-                      KalmanKinematicFit *kmfit=nullptr);
+                      KalmanKinematicFit *kmfit = nullptr);
   ~MyMotherParticleFit();
 
   // void setChild1(MyParticle child1);

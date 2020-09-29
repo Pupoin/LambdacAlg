@@ -19,6 +19,17 @@
 MyPid::MyPid(EvtRecTrack *track) { this->track = track; }
 MyPid::~MyPid() {}
 
+double CalChi(ParticleID *pid)
+{
+  double tmp = 0;
+  for (int i = 0; i < 5; ++i)
+  {
+    // prob_dEdx_TOF_Kpip[n_charged][i] = pid->prob(i);
+    tmp += pid->chi(i);
+  }
+  return tmp;
+}
+
 bool MyPid::iselectron()
 {
   // pid for electron
@@ -42,7 +53,7 @@ bool MyPid::iselectron()
 
   if (prob_e > 0.001 && (prob_e / (prob_e + prob_pi + prob_k)) > 0.8)
   {
-    // prob = prob_e;
+    chi = CalChi(pid);
     return true;
   }
   return false;
@@ -69,7 +80,7 @@ bool MyPid::isproton()
   }
   if (prob_p >= 0. && prob_p >= prob_k && prob_p >= prob_pi)
   {
-    // prob = prob_p;
+    chi = CalChi(pid);
     return true;
   }
   return false;
@@ -97,7 +108,7 @@ bool MyPid::ispion()
   }
   if (prob_pi >= 0.00 && prob_pi >= prob_k)
   {
-    // prob = prob_pi;
+    chi = CalChi(pid);
     return true;
   }
   return false;
@@ -125,7 +136,7 @@ bool MyPid::iskaon()
   }
   if (prob_k >= 0.00 && prob_k >= prob_pi)
   {
-    // chi = prob_k;
+    chi = CalChi(pid);
     return true;
   }
   return false;
