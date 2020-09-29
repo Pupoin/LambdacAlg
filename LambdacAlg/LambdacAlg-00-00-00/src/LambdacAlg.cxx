@@ -961,11 +961,11 @@ StatusCode LambdacAlg::execute()
       HepLorentzVector ptrkj = emcGamma[j].getLorentzVector();
 
       HepLorentzVector p2geta = ptrki + ptrkj;
-      cout << __LINE__ << " 00000000 " << p2geta.px() << " " << p2geta.py() << " " << p2geta.pz() << " " << p2geta.e()
-           << " " << p2geta.m() << endl;
 
       if (p2geta.m() < m_EtaMinMass || p2geta.m() > m_EtaMaxMass)
         continue;
+      cout << __LINE__ << " 00000000 "
+           << " p2geta.m()  " << p2geta.m() << endl;
       // if (m_test1C == 1)
       // {
       //   kmfit->init();
@@ -1005,6 +1005,9 @@ StatusCode LambdacAlg::execute()
 
       if (p2gpi.m() < m_Pi0MinMass || p2gpi.m() > m_Pi0MaxMass)
         continue;
+      cout << __LINE__ << " 00000000 "
+           << " p2gpi.m() " << p2gpi.m() << endl;
+
       // if (m_test1C == 1)
       // {
       //   kmfit->init();
@@ -1050,6 +1053,7 @@ StatusCode LambdacAlg::execute()
 
   if (pi0.size() == 0 || eta.size() == 0)
     return StatusCode::SUCCESS;
+  cout << __LINE__ << endl;
 
   if (abs(signal) == 1)
     Ncut4++;
@@ -1093,6 +1097,9 @@ StatusCode LambdacAlg::execute()
                                   pi0[k].getChild1().getLorentzVector();
         if (psigma.m() < m_SigmaMinMass || psigma.m() > m_SigmaMaxMass)
           continue;
+        cout << __LINE__ << " 00000000 "
+             << " psigma.m() " << psigma.m() << endl;
+
         MyMotherParticleFit tmp0(proton[i], pi0[k]);
         tmp0.setLorentzVector(psigma);
         sigma.push_back(tmp0);
