@@ -1106,8 +1106,10 @@ StatusCode LambdacAlg::execute()
             eta[j].getChild2().getIndex() == pi0[k].getChild2().getIndex())
           continue;
 
+        cout << __LINE__ << proton[i].getLorentzVector()[0] << " " << proton[i].getLorentzVector()[1] << " "
+             << proton[i].getLorentzVector()[2] << " " << proton[i].getLorentzVector()[3] << " " << endl;
         HepLorentzVector psigma = proton[i].getLorentzVector() + pi0[k].getChild1().getLorentzVector() +
-                                  pi0[k].getChild1().getLorentzVector();
+                                  pi0[k].getChild2().getLorentzVector();
         cout << __LINE__ << " psigma.m() " << psigma.m() << endl;
         if (psigma.m() < m_SigmaMinMass || psigma.m() > m_SigmaMaxMass)
           continue;
