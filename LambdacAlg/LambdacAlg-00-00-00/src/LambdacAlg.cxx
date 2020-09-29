@@ -801,8 +801,8 @@ StatusCode LambdacAlg::execute()
   m_np = np;
   m_npbar = npbar;
 
-  if (np == 0 && npbar == 0)
-    return StatusCode::SUCCESS;
+  // if (np == 0 && npbar == 0)
+  //   return StatusCode::SUCCESS;
 
   if (abs(signal) == 1)
     Ncut1++;
