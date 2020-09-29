@@ -122,6 +122,8 @@ private:
 	NTuple::Array<double> m_Lc_MBC;
 	NTuple::Array<double> m_Lc_De;
 	//Recoil 1C
+	NTuple::Item<int> m_nLc_1c;
+	NTuple::Array<int> m_Lc_Charge_1c;
 	NTuple::Array<double> m_Lc_Chisq_1c;
 	NTuple::Matrix<double> m_Lc_Proton_P4_1c;
 	NTuple::Matrix<double> m_Lc_Pi0_P4_1c;

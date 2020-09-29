@@ -206,20 +206,23 @@ StatusCode LambdacAlg::initialize()
       // Lc
       status = m_tuple1->addItem("NumOfLc", m_nLc, 0, 1000);
       status = m_tuple1->addIndexedItem("Lc_Charge", m_nLc, m_Lc_Charge);
-      // status = m_tuple1->addIndexedItem("Lc_Sigmap_ID", m_nLc, m_Lc_Sigmap_ID);
-      // status = m_tuple1->addIndexedItem("Lc_Ks_ID", m_nLc, m_Lc_Ks_ID);
       status = m_tuple1->addIndexedItem("Lc_Mass", m_nLc, m_Lc_Mass); // no Recoil 1C update, no Beam constrain
       status = m_tuple1->addIndexedItem("Lc_MBC", m_nLc, m_Lc_MBC);   // no Recoil 1C update, Beam constrain
       status = m_tuple1->addIndexedItem("Lc_De", m_nLc, m_Lc_De);
       // Recoil 1C
-      // status = m_tuple1->addIndexedItem("Lc_Chisq_1c", m_nLc, m_Lc_Chisq_1c);
-      // status = m_tuple1->addIndexedItem("Lc_Proton_P4_1c", m_nLc, 4, m_Lc_Proton_P4_1c);
-      // status = m_tuple1->addIndexedItem("Lc_Pi0_P4_1c", m_nLc, 4, m_Lc_Pi0_P4_1c);
-      // status = m_tuple1->addIndexedItem("Lc_Ks_P4_1c", m_nLc, 4, m_Lc_Ks_P4_1c);
-      // status = m_tuple1->addIndexedItem("Lc_P4_1c", m_nLc, 4, m_Lc_P4_1c);
-      // status = m_tuple1->addIndexedItem("Lc_Mass_1c", m_nLc, m_Lc_Mass_1c); // Recoil 1C update, no Beam constrain
-      // status = m_tuple1->addIndexedItem("Lc_MBC_1c", m_nLc, m_Lc_MBC_1c);   // Recoil 1C update, Beam constrain
-      // status = m_tuple1->addIndexedItem("Lc_De_1c", m_nLc, m_Lc_De_1c);
+      status = m_tuple1->addIndexedItem("Lc_Charge_1c", m_nLc, m_Lc_Charge_1c);
+      status = m_tuple1->addItem("NumOfLc_1c", m_nLc_1c, 0, 1000);
+      status = m_tuple1->addIndexedItem("Lc_Chisq_1c", m_nLc, m_Lc_Chisq_1c);
+      status = m_tuple1->addIndexedItem("Lc_Proton_P4_1c", m_nLc, 4, m_Lc_Proton_P4_1c);
+      status = m_tuple1->addIndexedItem("Lc_Pi0_P4_1c", m_nLc, 4, m_Lc_Pi0_P4_1c);
+      status = m_tuple1->addIndexedItem("Lc_P4_1c", m_nLc, 4, m_Lc_P4_1c);
+      status = m_tuple1->addIndexedItem("Lc_Mass_1c", m_nLc, m_Lc_Mass_1c); // Recoil 1C update, no Beam constrain
+      status = m_tuple1->addIndexedItem("Lc_MBC_1c", m_nLc, m_Lc_MBC_1c);   // Recoil 1C update, Beam constrain
+      status = m_tuple1->addIndexedItem("Lc_De_1c", m_nLc, m_Lc_De_1c);
+
+      // Recoil 2c
+
+      // Recoil 3c
 
       status = m_tuple1->addItem("indexmc", m_idxmc, 0, 100);
       status = m_tuple1->addIndexedItem("pdgid", m_idxmc, m_pdgid);
@@ -828,9 +831,14 @@ StatusCode LambdacAlg::execute()
 
       RecMdcKalTrack *mdcKalTrk = (*itTrk)->mdcKalTrack();
       mdcKalTrk->setPidType(RecMdcKalTrack::proton);
+      HepLorentzVector p4 = mdcKalTrk->p4(xmass[4]);
+
+      // EvtRecTrackIterator itTrk = evtRecTrkCol->begin() + ip[i];
+      // RecMdcKalTrack *mdcKalTrk = (*itTrk)->mdcKalTrack();
+      // mdcKalTrk->setPidType(RecMdcKalTrack::proton);
+      // HepLorentzVector pp4 = mdcKalTrk->p4(xmass[4]);
 
       WTrackParameter wtrkp(xmass[4], mdcKalTrk->getZHelixP(), mdcKalTrk->getZErrorP());
-      HepLorentzVector p4 = mdcKalTrk->p4(xmass[4]);
 
       MyParticle tmp(goodTrack[i], p4, mdcTrk->charge(), wtrkp);
       proton.push_back(tmp);
@@ -911,6 +919,7 @@ StatusCode LambdacAlg::execute()
           ((fabs(cosThetaSh) > m_minCosThetaEndcap) && (fabs(cosThetaSh) < m_maxCosThetaEndcap) &&
            (eraw > m_minEndcapEnergy))))
       continue;
+    cout << __LINE__ << " i " << i << " shP4.m() " << shP4.m()  <<  endl;
 
     MyParticle tmp(i, shP4, emcTrk);
     emcGamma.push_back(tmp);
@@ -959,7 +968,7 @@ StatusCode LambdacAlg::execute()
     {
       RecEmcShower *emcTrkj = emcGamma[j].getRecEmcShower();
       HepLorentzVector ptrkj = emcGamma[j].getLorentzVector();
-
+    
       HepLorentzVector p2geta = ptrki + ptrkj;
 
       if (p2geta.m() < m_EtaMinMass || p2geta.m() > m_EtaMaxMass)
@@ -1095,6 +1104,8 @@ StatusCode LambdacAlg::execute()
 
         HepLorentzVector psigma = proton[i].getLorentzVector() + pi0[k].getChild1().getLorentzVector() +
                                   pi0[k].getChild1().getLorentzVector();
+        cout << __LINE__ << " 00000000 "
+             << " psigma.m() " << psigma.m() << endl;
         if (psigma.m() < m_SigmaMinMass || psigma.m() > m_SigmaMaxMass)
           continue;
         cout << __LINE__ << " 00000000 "
@@ -1164,7 +1175,7 @@ StatusCode LambdacAlg::execute()
   }
 
 #pragma endregion
-
+  cout << __LINE__ << endl;
 #pragma region write__________________________________________________________________
 
   if (true)
@@ -1174,6 +1185,7 @@ StatusCode LambdacAlg::execute()
     m_mode2 = mm_mode2;
     m_mode3 = mm_mode3;
     m_idxmc = numParticle;
+
     for (int i = 0; i < numParticle; i++)
     {
       m_pdgid[i] = M_pdgid[i];
@@ -1209,7 +1221,7 @@ StatusCode LambdacAlg::execute()
 
     // .....
     m_signal = signal;
-
+    cout << __LINE__ << endl;
     // Proton
     m_nProton = proton.size();
     for (int i = 0; i < proton.size(); i++)
@@ -1241,6 +1253,7 @@ StatusCode LambdacAlg::execute()
         // m_Pi0_P4_1c[i][j] = pi0[i].pi0_p4_1C[j];
       }
     }
+    cout << __LINE__ << endl;
 
     // eta and 2 gamma
     m_nEta = eta.size();
@@ -1265,9 +1278,10 @@ StatusCode LambdacAlg::execute()
       m_Sigmap_Pi0_ID[i] = sigma[i].getChild2().getIndex();
       m_Sigmap[i] = sigma[i].getMass();
     }
+    cout << __LINE__ << endl;
 
     m_nLc = lambdac.size();
-    cout << __LINE__ << lambdac.size() << endl;
+    cout << __LINE__ << " lambdac.size() " << lambdac.size() << endl;
     for (int i = 0; i < lambdac.size(); i++)
     {
       m_Lc_Charge[i] = lambdac[i].getChild1().getCharge();
@@ -1283,10 +1297,13 @@ StatusCode LambdacAlg::execute()
       m_Lc_De[i] = deltaEb;
     }
 
-    m_nLc = recoilLambdac_1c.size();
-    cout << __LINE__ << recoilLambdac_1c.size() << endl;
+    cout << __LINE__ << endl;
+    m_nLc_1c = recoilLambdac_1c.size();
+    cout << __LINE__ << " recoilLambdac_1c.size() " << recoilLambdac_1c.size() << endl;
     for (int i = 0; i < recoilLambdac_1c.size(); i++)
     {
+      m_Lc_Charge_1c[i] = recoilLambdac_1c[i].getChild1().getCharge();
+
       m_Lc_Chisq_1c[i] = recoilLambdac_1c[i].getFit()->chisq();
       HepLorentzVector pLambda = recoilLambdac_1c[i].getLorentzVector();
       double deltaEb = pLambda.t() - ebeam;
@@ -1302,7 +1319,7 @@ StatusCode LambdacAlg::execute()
       // m_Lc_MBC_2c[i] = lc_info[i].m_bc_2c;
       // m_Lc_De_2c[i] = lc_info[i].m_de_2c;
     }
-
+    cout << __LINE__ << endl;
     // }
 
     // m_bg = bg;
@@ -1339,6 +1356,7 @@ StatusCode LambdacAlg::execute()
     // m_np = np;
     // m_npbar = npbar;
     m_tuple1->write();
+    cout << __LINE__ << " write() " << endl;
   }
 
 #pragma endregion
