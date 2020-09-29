@@ -822,6 +822,8 @@ StatusCode LambdacAlg::execute()
     HepLorentzVector pp4 = mdcKalTrk->p4(xmass[4]);
     double p3 = pp4.rho();
     pp.push_back(pp4);
+    cout << __LINE__ << " pp.m() " << pp.m() << endl;
+
     double penergy = 0.;
     double eop_p = 0.;
     if ((*itTrk)->isEmcShowerValid())
@@ -843,6 +845,7 @@ StatusCode LambdacAlg::execute()
     HepLorentzVector ppbar4 = mdcKalTrk->p4(xmass[4]);
     double pbar3 = ppbar4.rho();
     ppbar.push_back(ppbar4);
+    cout << __LINE__ << " ppbar4.m() " << ppbar4.m() << endl;
     double pbarenergy = 0.;
     double eop_pbar = 0.;
     if ((*itTrk)->isEmcShowerValid())
@@ -913,6 +916,8 @@ StatusCode LambdacAlg::execute()
           ((fabs(cosThetaSh) > m_minCosThetaEndcap) && (fabs(cosThetaSh) < m_maxCosThetaEndcap) &&
            (eraw > m_minEndcapEnergy))))
       continue;
+    
+    cout << __LINE__ << " i " << i << " shP4.m() " << shP4.m()  <<  endl;
 
     iGam.push_back(i);
   }
