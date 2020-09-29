@@ -968,6 +968,7 @@ StatusCode LambdacAlg::execute()
 
       HepLorentzVector p2geta = ptrki + ptrkj;
 
+      cout << __LINE__ << " i,j " << i << "," << j << " p2geta.m() " << p2geta.m() << endl;
       if (p2geta.m() < m_EtaMinMass || p2geta.m() > m_EtaMaxMass)
         continue;
       if (m_test1C == 1)
@@ -1009,6 +1010,7 @@ StatusCode LambdacAlg::execute()
       HepLorentzVector ptrkl = getP4(emcTrkl, xorigin);
 
       HepLorentzVector p2gpi = ptrkk + ptrkl;
+      cout << __LINE__ << " k,l " << k << "," << l << " p2gpi.m() " << p2gpi.m() << endl;
 
       if (p2gpi.m() < m_Pi0MinMass || p2gpi.m() > m_Pi0MaxMass)
         continue;
@@ -1116,6 +1118,10 @@ StatusCode LambdacAlg::execute()
       for (int k = 0; k < ngam34; k++)
       {
         HepLorentzVector psigma = ppbar[i] + pgam3_1C[k] + pgam4_1C[k];
+
+        HepLorentzVector psigma_tmp = ppbar[i] + pgam3[k] + pgam4[k];
+
+        cout << __LINE__ << " i,k " << i << "," << k << " psigma_tmp.m() " << psigma_tmp.m() << endl;
 
         if (psigma.m() < m_SigmaMinMass || psigma.m() > m_SigmaMaxMass)
           continue;
