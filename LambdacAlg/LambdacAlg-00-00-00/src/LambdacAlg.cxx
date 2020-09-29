@@ -1217,7 +1217,6 @@ StatusCode LambdacAlg::execute()
   }
   if (b == 1)
   {
-
     m_mode1 = mm_mode1;
     m_mode2 = mm_mode2;
     m_mode3 = mm_mode3;
@@ -1378,7 +1377,7 @@ StatusCode LambdacAlg::execute()
   cout << "Ncut3   " << Ncut3 << endl;
   cout << "Ncut4   " << Ncut4 << endl;
   cout << "Ncut5   " << Ncut5 << endl;
-  cout << "all       " << all << endl;
+  cout << "all     " << all << endl;
 
   return StatusCode::SUCCESS;
 }
