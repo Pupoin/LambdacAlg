@@ -99,8 +99,8 @@ LambdacAlg::LambdacAlg(const std::string &name, ISvcLocator *pSvcLocator) : Algo
   declareProperty("PhotonMaxCosThetaEndcap", m_maxCosThetaEndcap = 0.92);
   declareProperty("PhotonMinEndcapEnergy", m_minEndcapEnergy = 0.050);
 
-  declareProperty("EtaMinMass", m_EtaMinMass = 0.50);
-  declareProperty("EtaMaxMass", m_EtaMaxMass = 0.56);
+  declareProperty("EtaMinMass", m_EtaMinMass = 0.115);
+  declareProperty("EtaMaxMass", m_EtaMaxMass = 0.15);
   declareProperty("Pi0MinMass", m_Pi0MinMass = 0.115);
   declareProperty("Pi0MaxMass", m_Pi0MaxMass = 0.15);
   declareProperty("SigmaMinMass", m_SigmaMinMass = 1.174);
@@ -450,8 +450,8 @@ StatusCode LambdacAlg::execute()
             ndaughterAp++;
           } // End of "gc.size() > 0" IF
         }
-        if (pdg == 221 && motherpdg == 4122)
-        { //// eta->gam gam
+        if (pdg == 111 && motherpdg == 4122)
+        { //// pi0 2 ->gam gam
           const SmartRefVector<Event::McParticle> &gc = (*iter_mc)->daughterList();
           for (unsigned int ii = 0; ii < gc.size(); ii++)
           {
@@ -521,8 +521,8 @@ StatusCode LambdacAlg::execute()
             ndaughterAm++;
           } // End of "gc.size() > 0" IF
         }
-        if (pdg == 221 && motherpdg == -4122)
-        { //// eta->gam gam
+        if (pdg == 111 && motherpdg == -4122)
+        { //// pi0 2 ->gam gam
           const SmartRefVector<Event::McParticle> &gc = (*iter_mc)->daughterList();
           for (unsigned int ii = 0; ii < gc.size(); ii++)
           {
@@ -648,14 +648,14 @@ StatusCode LambdacAlg::execute()
         }
       }
 
-      if (ndaughterAp == 8 && Ap_id[0] == 3222 && Ap_id[1] == 221 && Ap_id[2] == 2212 && Ap_id[3] == 111 &&
+      if (ndaughterAp == 8 && Ap_id[0] == 3222 && Ap_id[1] == 111 && Ap_id[2] == 2212 && Ap_id[3] == 111 &&
           Ap_id[4] == 22 && Ap_id[5] == 22 && Ap_id[6] == 22 && Ap_id[7] == 22)
       {
         signal = 1;
         all++;
         all_p++;
       }
-      if (ndaughterAm == 8 && Am_id[0] == -3222 && Am_id[1] == 221 && Am_id[2] == -2212 && Am_id[3] == 111 &&
+      if (ndaughterAm == 8 && Am_id[0] == -3222 && Am_id[1] == 111 && Am_id[2] == -2212 && Am_id[3] == 111 &&
           Am_id[4] == 22 && Am_id[5] == 22 && Am_id[6] == 22 && Am_id[7] == 22)
       {
         signal = -1;
@@ -951,7 +951,7 @@ StatusCode LambdacAlg::execute()
 
   KalmanKinematicFit *kmfit = KalmanKinematicFit::instance();
 
-  // Loop each gamma pair, check eta mass  ----------------------------
+  // Loop each gamma pair, check pi0 2 mass  ----------------------------
   for (int i = 0; i < iGam.size() - 1; i++)
   {
     EvtRecTrackIterator itTrki = evtRecTrkCol->begin() + iGam[i];
@@ -979,7 +979,7 @@ StatusCode LambdacAlg::execute()
         kmfit->AddTrack(0, 0.0, emcTrki);
         kmfit->AddTrack(1, 0.0, emcTrkj);
         // 0.547862
-        kmfit->AddResonance(0, 0.547862, 0, 1);
+        kmfit->AddResonance(0, 0.1349770, 0, 1);
         bool oksq = kmfit->Fit();
         if (oksq)
         {
