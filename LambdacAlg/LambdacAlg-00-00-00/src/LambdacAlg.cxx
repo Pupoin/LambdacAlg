@@ -822,7 +822,7 @@ StatusCode LambdacAlg::execute()
     HepLorentzVector pp4 = mdcKalTrk->p4(xmass[4]);
     double p3 = pp4.rho();
     pp.push_back(pp4);
-    cout << __LINE__ << " pp.m() " << pp.m() << endl;
+    cout << __LINE__ << " pp4.m() " << pp4.m() << endl;
 
     double penergy = 0.;
     double eop_p = 0.;
