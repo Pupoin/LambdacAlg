@@ -1288,7 +1288,7 @@ StatusCode LambdacAlg::execute()
     for (int i = 0; i < recoilLambdac_1c.size(); i++)
     {
       m_Lc_Chisq_1c[i] = recoilLambdac_1c[i].getFit()->chisq();
-      HepLorentzVector recoilLambdac_1c = recoilLambdac_1c[i].getLorentzVector();
+      HepLorentzVector pLambda = recoilLambdac_1c[i].getLorentzVector();
       double deltaEb = pLambda.t() - ebeam;
       double mbc2 = ebeam * ebeam - pLambda.v().mag2();
       m_bc = mbc2 > 0 ? sqrt(mbc2) : -10;
