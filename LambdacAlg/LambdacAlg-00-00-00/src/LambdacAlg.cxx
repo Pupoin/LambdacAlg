@@ -109,6 +109,8 @@ LambdacAlg::LambdacAlg(const std::string &name, ISvcLocator *pSvcLocator) : Algo
   declareProperty("SigmaMaxMass", m_SigmaMaxMass = 1.2);
 
   declareProperty("Debug", m_debug = false);
+  declareProperty("Isqqbar", m_isqqbar = false);
+
   declareProperty("BeamE", m_beamE = 2.313);
   declareProperty("ReadBeamEFromDB", m_ReadBeamEFromDB = false);
   declareProperty("UseCalibBeamE", m_usecalibBeamE = false);
@@ -856,8 +858,11 @@ StatusCode LambdacAlg::execute()
   // m_np = np;
   // m_npbar = npbar;
 
-  if (np == 0 && npbar == 0)
-    return StatusCode::SUCCESS;
+  if (m_isqqbar)
+  {
+    if (np == 0 && npbar == 0)
+      return StatusCode::SUCCESS;
+  }
 
   if (abs(signal) == 1)
     Ncut1++;
@@ -1181,6 +1186,62 @@ StatusCode LambdacAlg::execute()
           // tmp_lc.m_bc_1c = mLc_1C_bc;
           // tmp_lc.m_de_1c = dE_Lc_1C;
         }
+
+        // // 2c
+        // KalmanKinematicFit *kmfit2 = KalmanKinematicFit::instance();
+        // kmfit2->init();
+        // kmfit2->setChisqCut(1e3);
+        // kmfit2->setIterNumber(10);
+
+        // kmfit2->AddTrack(0, proton[i].getTrackParameter());
+        // kmfit2->AddTrack(1, 0.0, pi0[k].getChild1().getRecEmcShower());
+        // kmfit2->AddTrack(2, 0.0, pi0[k].getChild2().getRecEmcShower());
+        // kmfit2->AddTrack(3, 0.0, eta[j].getChild1().getRecEmcShower());
+        // kmfit2->AddTrack(4, 0.0, eta[j].getChild2().getRecEmcShower());
+
+        // kmfit2->AddMissTrack(5, 2.28646);
+        // kmfit2->AddFourMomentum(0, HepCMS);
+        // kmfit2->AddResonance(0, 1.18937, 0, 1, 2, 3);
+
+        // bool okvs1 = kmfit2->Fit();
+        // if (m_debug)
+        //   std::cerr << "okvs_Lc_Recoil_1C_fit= " << okvs1 << std::endl;
+        // if (okvs1)
+        // {
+        //   kmfit2->BuildVirtualParticle(0);
+        //   // LcWTrk_1C = kmfit2->wVirtualTrack(0);
+        //   MyMotherParticleFit tmp3(proton[i], pi0[k], eta[j], kmfit2);
+        //   recoilLambdac_2c.push_back(tmp3);
+        // }
+
+        // // 3c
+        // KalmanKinematicFit *kmfit3 = KalmanKinematicFit::instance();
+        // kmfit3->init();
+        // kmfit3->setChisqCut(1e3);
+        // kmfit3->setIterNumber(10);
+
+        // kmfit3->AddTrack(0, proton[i].getTrackParameter());
+        // kmfit3->AddTrack(1, 0.0, pi0[k].getChild1().getRecEmcShower());
+        // kmfit3->AddTrack(2, 0.0, pi0[k].getChild2().getRecEmcShower());
+        // kmfit3->AddTrack(3, 0.0, eta[j].getChild1().getRecEmcShower());
+        // kmfit3->AddTrack(4, 0.0, eta[j].getChild2().getRecEmcShower());
+
+        // kmfit3->AddMissTrack(5, 2.28646);
+        // kmfit3->AddFourMomentum(0, HepCMS);
+        // kmfit3->AddResonance(0, 1.18937, 0, 1, 2, 3);
+
+
+        // bool okvs1 = kmfit3->Fit();
+        // if (m_debug)
+        //   std::cerr << "okvs_Lc_Recoil_1C_fit= " << okvs1 << std::endl;
+        // if (okvs1)
+        // {
+        //   kmfit3->BuildVirtualParticle(0);
+        //   // LcWTrk_1C = kmfit3->wVirtualTrack(0);
+        //   MyMotherParticleFit tmp4(proton[i], pi0[k], eta[j], kmfit3);
+        //   recoilLambdac_2c.push_back(tmp4);
+        // }
+
       }
     }
   }

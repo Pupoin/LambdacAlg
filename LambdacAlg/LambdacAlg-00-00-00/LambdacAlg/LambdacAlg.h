@@ -55,6 +55,7 @@ private:
 	double m_SigmaMaxMass;
 
 	bool m_debug;
+	bool m_isqqbar;
 	double m_beamE;
 	bool m_ReadBeamEFromDB;
 	bool m_usecalibBeamE;

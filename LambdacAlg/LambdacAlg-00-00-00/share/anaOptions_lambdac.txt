@@ -28,6 +28,7 @@ LambdacAlg.PhotonMaxCosThetaEndcap = 0.92;
 LambdacAlg.PhotonMinEndcapEnergy  = 0.050;
 
 LambdacAlg.Debug = false;
+LambdacAlg.Isqqbar = false;
 LambdacAlg.BeamE = 2.313;
 LambdacAlg.ReadBeamEFromDB = false;
 LambdacAlg.UseCalibBeamE = false;
