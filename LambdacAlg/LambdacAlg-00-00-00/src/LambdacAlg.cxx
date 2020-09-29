@@ -839,7 +839,7 @@ StatusCode LambdacAlg::execute()
       // HepLorentzVector pp4 = mdcKalTrk->p4(xmass[4]);
 
       WTrackParameter wtrkp(xmass[4], mdcKalTrk->getZHelixP(), mdcKalTrk->getZErrorP());
-
+      cout << __LINE__ << " i " << i << " p4.m() " << p4.m() << endl;
       MyParticle tmp(goodTrack[i], p4, mdcTrk->charge(), wtrkp);
       proton.push_back(tmp);
     }
@@ -919,7 +919,7 @@ StatusCode LambdacAlg::execute()
           ((fabs(cosThetaSh) > m_minCosThetaEndcap) && (fabs(cosThetaSh) < m_maxCosThetaEndcap) &&
            (eraw > m_minEndcapEnergy))))
       continue;
-    cout << __LINE__ << " i " << i << " shP4.m() " << shP4.m()  <<  endl;
+    cout << __LINE__ << " i " << i << " shP4.m() " << shP4.m() << endl;
 
     MyParticle tmp(i, shP4, emcTrk);
     emcGamma.push_back(tmp);
@@ -968,8 +968,10 @@ StatusCode LambdacAlg::execute()
     {
       RecEmcShower *emcTrkj = emcGamma[j].getRecEmcShower();
       HepLorentzVector ptrkj = emcGamma[j].getLorentzVector();
-    
+
       HepLorentzVector p2geta = ptrki + ptrkj;
+
+      cout << __LINE__ << " i,j  " << i << "," << j << " p2geta.m()  " << p2geta.m() << endl;
 
       if (p2geta.m() < m_EtaMinMass || p2geta.m() > m_EtaMaxMass)
         continue;
@@ -1011,6 +1013,8 @@ StatusCode LambdacAlg::execute()
       HepLorentzVector ptrkl = emcGamma[l].getLorentzVector();
 
       HepLorentzVector p2gpi = ptrkk + ptrkl;
+
+      cout << __LINE__ << " k,l " << k << "," << l << " p2gpi.m() " << p2gpi.m() << endl;
 
       if (p2gpi.m() < m_Pi0MinMass || p2gpi.m() > m_Pi0MaxMass)
         continue;
@@ -1104,12 +1108,10 @@ StatusCode LambdacAlg::execute()
 
         HepLorentzVector psigma = proton[i].getLorentzVector() + pi0[k].getChild1().getLorentzVector() +
                                   pi0[k].getChild1().getLorentzVector();
-        cout << __LINE__ << " 00000000 "
-             << " psigma.m() " << psigma.m() << endl;
+        cout << __LINE__ << " psigma.m() " << psigma.m() << endl;
         if (psigma.m() < m_SigmaMinMass || psigma.m() > m_SigmaMaxMass)
           continue;
-        cout << __LINE__ << " 00000000 "
-             << " psigma.m() " << psigma.m() << endl;
+        cout << __LINE__ << " psigma.m() " << psigma.m() << endl;
 
         MyMotherParticleFit tmp0(proton[i], pi0[k]);
         tmp0.setLorentzVector(psigma);
