@@ -916,8 +916,8 @@ StatusCode LambdacAlg::execute()
           ((fabs(cosThetaSh) > m_minCosThetaEndcap) && (fabs(cosThetaSh) < m_maxCosThetaEndcap) &&
            (eraw > m_minEndcapEnergy))))
       continue;
-    
-    cout << __LINE__ << " i " << i << " shP4.m() " << shP4.m()  <<  endl;
+
+    cout << __LINE__ << " i " << i << " shP4.m() " << shP4.m() << endl;
 
     iGam.push_back(i);
   }
@@ -1119,15 +1119,15 @@ StatusCode LambdacAlg::execute()
       {
         HepLorentzVector psigma = ppbar[i] + pgam3_1C[k] + pgam4_1C[k];
 
-        HepLorentzVector psigma_tmp = ppbar[i] + pgam3[k] + pgam4[k];
-
-        cout << __LINE__ << " i,k " << i << "," << k << " psigma_tmp.m() " << psigma_tmp.m() << endl;
-
-        if (psigma.m() < m_SigmaMinMass || psigma.m() > m_SigmaMaxMass)
-          continue;
         if (igam1[j] == igam3[k] || igam1[j] == igam4[k])
           continue;
         if (igam2[j] == igam3[k] || igam2[j] == igam4[k])
+          continue;
+
+        HepLorentzVector psigma_tmp = ppbar[i] + pgam3[k] + pgam4[k];
+        cout << __LINE__ << " i,k " << i << "," << k << " psigma_tmp.m() " << psigma_tmp.m() << endl;
+
+        if (psigma.m() < m_SigmaMinMass || psigma.m() > m_SigmaMaxMass)
           continue;
 
         HepLorentzVector pLambda = ppbar[i] + pgam3_1C[k] + pgam4_1C[k] + pgam1_1C[j] + pgam2_1C[j];
@@ -1166,11 +1166,16 @@ StatusCode LambdacAlg::execute()
       {
         HepLorentzVector psigma = pp[i] + pgam3_1C[k] + pgam4_1C[k];
 
-        if (psigma.m() < m_SigmaMinMass || psigma.m() > m_SigmaMaxMass)
-          continue;
         if (igam1[j] == igam3[k] || igam1[j] == igam4[k])
           continue;
         if (igam2[j] == igam3[k] || igam2[j] == igam4[k])
+          continue;
+
+        HepLorentzVector psigma_tmp = pp[i] + pgam3[k] + pgam4[k];
+        cout << __LINE__ << " pp[i].e() " << pp[i].e() << " pp[i].m() " << pp[i].m() << " i,k " << i << "," << k
+             << " psigma_tmp.m() " << psigma_tmp.m() << endl;
+
+        if (psigma.m() < m_SigmaMinMass || psigma.m() > m_SigmaMaxMass)
           continue;
 
         HepLorentzVector pLambda = pp[i] + pgam3_1C[k] + pgam4_1C[k] + pgam1_1C[j] + pgam2_1C[j];
