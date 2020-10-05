@@ -71,6 +71,12 @@ RecEmcShower *MyParticle::getRecEmcShower() { return emcTrk; }
 /// class MyMotherParticleFit  ///
 ///
 MyMotherParticleFit::MyMotherParticleFit() {}
+MyMotherParticleFit::MyMotherParticleFit(MyParticle child1, MyParticle child2, KalmanKinematicFit *kmfit)
+{
+  this->child1 = child1;
+  this->child2 = child2;
+  this->kmfit = kmfit;
+}
 MyMotherParticleFit::MyMotherParticleFit(MyParticle child1, MyParticle child2, MyParticle child3,
                                          KalmanKinematicFit *kmfit)
 {

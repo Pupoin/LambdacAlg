@@ -179,6 +179,25 @@ private:
 	NTuple::Array<double> m_gama_p4;
 	NTuple::Array<double> m_gamb_p4;
 	NTuple::Array<double> m_pi0_p4;
+	// 1c _________________________________________________________________
+	NTuple::Array<double> m_pall_p4;
+	NTuple::Array<double> m_gam1_p4;
+	NTuple::Array<double> m_gam2_p4;
+	NTuple::Array<double> m_gam3_p4;
+	NTuple::Array<double> m_gam4_p4;
+	NTuple::Item<double> m_chi2_min;
+
+	NTuple::Array<double> m_pall_p4_r1c;
+	NTuple::Array<double> m_gam1_p4_r1c;
+	NTuple::Array<double> m_gam2_p4_r1c;
+	NTuple::Array<double> m_gam3_p4_r1c;
+	NTuple::Array<double> m_gam4_p4_r1c;
+	NTuple::Item<double> m_chi2_min_r1c;
+
+	NTuple::Item<double> m_pi0mR1c;
+	NTuple::Item<double> m_etamR1c;	
+	NTuple::Item<double> m_SigmamR1c;
+	//  _________________________________________________________________
 
 	NTuple::Item<double> m_pi0m;
 	NTuple::Item<double> m_etam;

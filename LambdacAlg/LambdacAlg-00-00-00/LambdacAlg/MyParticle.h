@@ -66,9 +66,11 @@ class MyMotherParticleFit : public MyParticle
 {
 public:
   MyMotherParticleFit();
-  MyMotherParticleFit(MyParticle child1, MyParticle child2,
-                      MyParticle child3 = MyParticle(),
+    MyMotherParticleFit(MyParticle child1, MyParticle child2,
                       KalmanKinematicFit *kmfit = nullptr);
+
+  MyMotherParticleFit(MyParticle child1, MyParticle child2,
+                      MyParticle child3, KalmanKinematicFit *kmfit = nullptr);
   ~MyMotherParticleFit();
 
   // void setChild1(MyParticle child1);
