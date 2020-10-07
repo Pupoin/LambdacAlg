@@ -107,7 +107,7 @@ LambdacAlg::LambdacAlg(const std::string &name, ISvcLocator *pSvcLocator) : Algo
   declareProperty("SigmaMaxMass", m_SigmaMaxMass = 1.2);
 
   declareProperty("Debug", m_debug = false);
-  declareProperty("BeamE", m_beamE = 2.313);
+  declareProperty("BeamE", m_beamE = 2.3);
   declareProperty("ReadBeamEFromDB", m_ReadBeamEFromDB = false);
   declareProperty("UseCalibBeamE", m_usecalibBeamE = false);
   declareProperty("CheckTotal", m_checktotal = true);
@@ -765,7 +765,11 @@ StatusCode LambdacAlg::execute()
     cout << __LINE__ << endl;
   int nGoodforp = iGoodforp.size();
   if (nGoodforp < 1)
+  {
+    if(m_debug)
+      cout << __LINE__ << "end because:  nGoodforp < 1" <<endl;
     return StatusCode::SUCCESS;
+  }
 
   //  int nothertrack = othertrack.size();
   Vint ip, ipbar;
@@ -877,8 +881,6 @@ StatusCode LambdacAlg::execute()
     // double dthe = 200.;
     // double dphi = 200.;
     double dang = 200.;
-    if (m_debug)
-      cout << __LINE__ << " choose good gamma" << endl;
 
     for (int j = 0; j < evtRecEvent->totalCharged(); j++)
     {
@@ -920,6 +922,9 @@ StatusCode LambdacAlg::execute()
     cout << __LINE__ << " i " << i << " shP4.m() " << shP4.m() << endl;
 
     iGam.push_back(i);
+    if (m_debug)
+      cout << __LINE__ << " choose a good gamma" << endl;
+
   }
   // Finish Good Photon Slection
 #pragma endregion
@@ -927,7 +932,11 @@ StatusCode LambdacAlg::execute()
   if (m_debug)
     cout << __LINE__ << endl;
   if (iGam.size() < 4)
+  {    
+    if(m_debug)
+      cout <<__LINE__ << "end because:  iGam.size() < 4" <<endl;
     return StatusCode::SUCCESS;
+  }  
   if (abs(signal) == 1)
   {
     if (m_debug)
@@ -966,37 +975,36 @@ StatusCode LambdacAlg::execute()
   //     Hep3Vector emcposj(emcTrkj->x(), emcTrkj->y(), emcTrkj->z());
   //     HepLorentzVector ptrkj = getP4(emcTrkj, xorigin);
 
-    //   HepLorentzVector p2geta = ptrki + ptrkj;
+  //     HepLorentzVector p2geta = ptrki + ptrkj;
 
-    //   cout << __LINE__ << " i,j " << i << "," << j << " p2geta.m() " << p2geta.m() << endl;
-    //   if (p2geta.m() < m_EtaMinMass || p2geta.m() > m_EtaMaxMass)
-    //     continue;
-    //   if (m_test1C == 1)
-    //   {
-    //     kmfit->init();
-    //     kmfit->setChisqCut(m_chisqMax);
+  //     cout << __LINE__ << " i,j " << i << "," << j << " p2geta.m() " << p2geta.m() << endl;
+  //     if (p2geta.m() < m_EtaMinMass || p2geta.m() > m_EtaMaxMass)
+  //       continue;
+  //     if (m_test1C == 1)
+  //     {
+  //       kmfit->init();
+  //       kmfit->setChisqCut(m_chisqMax);
 
-    //     kmfit->AddTrack(0, 0.0, emcTrki);
-    //     kmfit->AddTrack(1, 0.0, emcTrkj);
-    //     // 0.547862
-    //     kmfit->AddResonance(0, 0.1349770, 0, 1);
-    //     bool oksq = kmfit->Fit();
-    //     if (oksq)
-    //     {
-    //       igam1.push_back(iGam[i]);
-    //       pgam1.push_back(ptrki);
-    //       pgam1_1C.push_back(kmfit->pfit(0));
-    //       igam2.push_back(iGam[j]);
-    //       pgam2.push_back(ptrkj);
-    //       pgam2_1C.push_back(kmfit->pfit(1));
-    //     }
-    //   }
-    // }
-    
-  }
+  //       kmfit->AddTrack(0, 0.0, emcTrki);
+  //       kmfit->AddTrack(1, 0.0, emcTrkj);
+  //       // 0.547862
+  //       kmfit->AddResonance(0, 0.1349770, 0, 1);
+  //       bool oksq = kmfit->Fit();
+  //       if (oksq)
+  //       {
+  //         igam1.push_back(iGam[i]);
+  //         pgam1.push_back(ptrki);
+  //         pgam1_1C.push_back(kmfit->pfit(0));
+  //         igam2.push_back(iGam[j]);
+  //         pgam2.push_back(ptrkj);
+  //         pgam2_1C.push_back(kmfit->pfit(1));
+  //       }
+  //     }
+  //   }
+  // }
 
 #pragma region loop_gamma_check_pi0
-  // Loop each gamma pair, check pi0 mass -----------------------------
+  // Loop each gamma pair, check two pi0 mass -----------------------------
   for (int k = 0; k < iGam.size() - 1; k++)
   {
     EvtRecTrackIterator itTrkk = evtRecTrkCol->begin() + iGam[k];
@@ -1011,10 +1019,14 @@ StatusCode LambdacAlg::execute()
       HepLorentzVector ptrkl = getP4(emcTrkl, xorigin);
 
       HepLorentzVector p2gpi = ptrkk + ptrkl;
-      cout << __LINE__ << " k,l " << k << "," << l << " p2gpi.m() " << p2gpi.m() << endl;
-
+      if(m_debug)
+        cout << __LINE__ << " k,l " << k << "," << l << " p2gpi.m() " << p2gpi.m() << endl;
+      
       if (p2gpi.m() < m_Pi0MinMass || p2gpi.m() > m_Pi0MaxMass)
         continue;
+      if(m_debug)
+        cout << __LINE__ << " k,l " << k << "," << l << " p2gpi.m() " << p2gpi.m() << endl;
+
       if (m_test1C == 1)
       {
         kmfit->init();
@@ -1045,7 +1057,12 @@ StatusCode LambdacAlg::execute()
   int ngam3 = igam3.size();
   int ngam4 = igam4.size();
   if ((ngam3 != ngam4) /*|| (ngam1 != ngam2)*/ )
+  {
+    if(m_debug)
+      cout << __LINE__ <<  "end because: ngam3 != ngam4" << endl;
     return StatusCode::SUCCESS;
+  }
+    
   // int ngam12 = ngam1;
   int ngam34 = ngam3;
 
@@ -1060,8 +1077,12 @@ StatusCode LambdacAlg::execute()
 
   // if (ngam12 == 0)
   //   return StatusCode::SUCCESS;
-  if (ngam34 == 0)
+  if (ngam34 < 2)
+  {
+    if(m_debug)
+      cout << __LINE__ << "end because:  ngam34 < 2" << endl;
     return StatusCode::SUCCESS;
+  }
 
   // cout<<"a="<<ngam<<endl;
   if (abs(signal) == 1)
@@ -1109,14 +1130,16 @@ StatusCode LambdacAlg::execute()
       pgam1b_1C4p(0, 0, 0, 0), pgam2b_1C4p(0, 0, 0, 0), pgam3a_1C4p(0, 0, 0, 0), pgam4a_1C4p(0, 0, 0, 0),
       pgam3b_1C4p(0, 0, 0, 0), pgam4b_1C4p(0, 0, 0, 0), pKp_p4(0, 0, 0, 0), pbar_p4(0, 0, 0, 0), pim_p4(0, 0, 0, 0);
 
+  cout << __LINE__<<endl;
 #pragma region save_lambda_c - _and_lambda_c +
   // save lambda_c-
   for (int i = 0; i < npbar; i++)
   {
     for (int j = 0; j < ngam34; j++)
     {
-    for (int k = j; k < ngam34; k++)
+      for (int k = j+1; k < ngam34; k++)
       {
+        // k is pi from sigma
         HepLorentzVector psigma = ppbar[i] + pgam3_1C[k] + pgam4_1C[k];
 
         // if (igam1[j] == igam3[k] || igam1[j] == igam4[k])
@@ -1126,10 +1149,12 @@ StatusCode LambdacAlg::execute()
 
         HepLorentzVector psigma_tmp = ppbar[i] + pgam3[k] + pgam4[k];
         if (m_debug)
-          cout << __LINE__ << " i,k " << i << "," << k << " psigma_tmp.m() " << psigma_tmp.m() << endl;
-
+          cout << __LINE__ << " i,j,k " << i << "," << j << ","<< k << " psigma_tmp.m() " << psigma_tmp.m() << endl;
         if (psigma.m() < m_SigmaMinMass || psigma.m() > m_SigmaMaxMass)
           continue;
+          
+        if (m_debug)
+          cout << __LINE__ << " i,j,k " << i << "," << j << "," << k << " psigma_tmp.m() " << psigma_tmp.m() << endl;
 
         HepLorentzVector pLambda = ppbar[i] + pgam3_1C[k] + pgam4_1C[k] + pgam3_1C[j] + pgam4_1C[j];
         pLambda.boost(-m_beta);
@@ -1153,20 +1178,23 @@ StatusCode LambdacAlg::execute()
           chisq = chi2[k];
           pgam3b_1C4p = pgam3_1C[k];
           pgam4b_1C4p = pgam4_1C[k];
-
+          // here is pi from sigma+ pi 
           pgam1b_1C4p = pgam3_1C[j];
           pgam2b_1C4p = pgam4_1C[j];
+
+          
         }
       }
     }
   }
 
   // save lambda_c+ a ....
+  cout <<__LINE__<<endl;
   for (int i = 0; i < np; i++)
   {
     for (int j = 0; j < ngam34; j++)
     {
-      for (int k = j; k < ngam34; k++)
+      for (int k = j+1; k < ngam34; k++)
       {
         HepLorentzVector psigma = pp[i] + pgam3_1C[k] + pgam4_1C[k];
 
@@ -1176,12 +1204,17 @@ StatusCode LambdacAlg::execute()
         //   continue;
 
         HepLorentzVector psigma_tmp = pp[i] + pgam3[k] + pgam4[k];
+
         if (m_debug)
-          cout << __LINE__ << " pp[i].e() " << pp[i].e() << " pp[i].m() " << pp[i].m() << " i,k " << i << "," << k
+          cout << __LINE__ << " i,j,k " << i << "," << j << "," << k << " pp[i].e() " << pp[i].e() << " pp[i].m() " << pp[i].m() << " i,k " << i << "," << k
              << " psigma_tmp.m() " << psigma_tmp.m() << endl;
 
         if (psigma.m() < m_SigmaMinMass || psigma.m() > m_SigmaMaxMass)
           continue;
+        
+        if (m_debug)
+          cout << __LINE__ << " i,j,k " << i << "," << j << "," << k << " pp[i].e() " << pp[i].e() << " pp[i].m() " << pp[i].m() << " i,k " << i << "," << k
+             << " psigma_tmp.m() " << psigma_tmp.m() << endl;
 
         HepLorentzVector pLambda = pp[i] + pgam3_1C[k] + pgam4_1C[k] + pgam3_1C[j] + pgam4_1C[j];
         pLambda.boost(-m_beta);
@@ -1206,7 +1239,7 @@ StatusCode LambdacAlg::execute()
           chisq = chi2[k];
           pgam3a_1C4p = pgam3_1C[k];
           pgam4a_1C4p = pgam4_1C[k];
-
+          // here is pi from sigma+ pi
           pgam1a_1C4p = pgam3_1C[j];
           pgam2a_1C4p = pgam4_1C[j];
         }
@@ -1220,8 +1253,7 @@ StatusCode LambdacAlg::execute()
   if (a == 0 && b == 0)
   {
     if (m_debug)
-      cout << "a=0; b=0; "
-           << "np: " << np << ", npbar: " << npbar << endl;
+      cout << __LINE__ << "end because: a=0; b=0; " << "np: " << np << ", npbar: " << npbar << endl;
     return StatusCode::SUCCESS;
   }
   if (b == 1)
@@ -1291,10 +1323,20 @@ StatusCode LambdacAlg::execute()
     m_deltaE_min = deltaE_minb;
     //	cout<<"deltaE_min="<<m_deltaE_min<<endl;
     HepLorentzVector pLambda = pbar_p4 + pgam3b_1C4p + pgam4b_1C4p + pgam1b_1C4p + pgam2b_1C4p;
+    // cout << __LINE__<<  pgam3b_1C4p.t() << pgam4b_1C4p.t() << pgam1b_1C4p.t() << pgam2b_1C4p.t() << endl;
     pLambda.boost(-m_beta);
     double mbc2 = ebeam * ebeam - pLambda.v().mag2();
 
+    // cout << pLambda.px() << " " << pLambda.py() << " " << pLambda.pz() 
+    //      << " " << pLambda.t() << " " << pLambda.m() << " " << pLambda.e() 
+    //      << endl;
+
     m_bc = mbc2 > 0 ? sqrt(mbc2) : -10;
+    if(m_debug)
+    {
+      cout << __LINE__ << " m_bc: " << m_bc << " deltaE_minb:" << deltaE_minb  << " deltaE_mina: " 
+           <<" pLambda.t():" << pLambda.t() << deltaE_mina  << " m_Sigmam:" << m_Sigmam  << " pLambda.v().mag2(): " << pLambda.v().mag2() <<  endl;
+    }
     m_rightflag = 2;
     m_np = np;
     m_npbar = npbar;
@@ -1372,6 +1414,13 @@ StatusCode LambdacAlg::execute()
     m_rightflag = 1;
     m_np = np;
     m_npbar = npbar;
+    
+    if(m_debug)
+    {
+      cout << __LINE__ << " m_bc: " << m_bc << " deltaE_minb:" << deltaE_minb  << " deltaE_mina: " 
+           <<" pLambda.e():" << pLambda.e() << deltaE_mina  << " m_Sigmam:" << m_Sigmam  << " pLambda.v().mag2(): " << pLambda.v().mag2() <<  endl;
+    }
+    
     m_tuple1->write();
   }
 #pragma endregion
