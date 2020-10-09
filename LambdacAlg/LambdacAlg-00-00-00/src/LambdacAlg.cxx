@@ -834,8 +834,8 @@ StatusCode LambdacAlg::execute()
 
   // if (m_isqqbar)
   // {
-    if (np == 0 && npbar == 0)
-      return StatusCode::SUCCESS;
+    //if (np == 0 && npbar == 0)
+      //return StatusCode::SUCCESS;
   // }
 
   if (abs(signal) == 1)
