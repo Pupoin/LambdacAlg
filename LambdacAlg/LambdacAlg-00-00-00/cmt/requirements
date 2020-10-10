@@ -27,6 +27,8 @@ apply_pattern component_library
 
 library LambdacAlg *.cxx  components/*.cxx
 
+#package TestRelease#############################################################################
+
 #========  setup gaudi env         ============
 use GaudiInterface      GaudiInterface-*        External
 use BesCLHEP            *                       External
@@ -90,7 +92,6 @@ use TrigMakerAlg   TrigMakerAlg-*    Event
 #========   for EventFilter
 use EventFilter    EventFilter-*
 use HltMakerAlg    HltMakerAlg-*   Event
-use TagSetAlg      TagSetAlg-*       Event
 use EventPreSelect EventPreSelect-*  EvtPreSelect
 use EventWriter    EventWriter-*     EvtPreSelect
 
@@ -119,7 +120,6 @@ use PartPropSvc    *
 use KKMC   KKMC-*     Generator
 use BesEvtGen BesEvtGen-* Generator
 use Bhwide Bhwide-*   Generator
-
 use Bhagen Bhagen-*   Generator/BesGenInterface
 use Ddgen  Ddgen-*    Generator/BesGenInterface
 use Ddprod Ddprod-*   Generator/BesGenInterface
