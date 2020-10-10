@@ -1247,7 +1247,7 @@ StatusCode LambdacAlg::execute()
     
     //   1,2 -> eta             3,4 -> pi       
     for (int jj = 0; jj < 4; jj++)
-      m_p_p4_r1c[jj] = m_p_p4_r1c[jj];
+      m_pall_p4_r1c[jj] = m_p_p4_r1c[jj];
     for (int jj = 0; jj < 4; jj++)
       m_gam1_p4_r1c[jj] = m_etag1_p4_r1c[jj];
     for (int jj = 0; jj < 4; jj++)
@@ -1271,8 +1271,10 @@ StatusCode LambdacAlg::execute()
     // m_pbarindex = pbar_index;
     m_p4index = 4;
     m_chi2_min_r1c = minChi2_r1c;
+    
     m_pi0m = (pi_pg3 + pi_pg4).m();
     m_etam = (eta_pg1 + eta_pg2).m();
+    m_Sigmam = (p_p4 + pi_pg3 + pi_pg4).m();
 
     cout << __LINE__ << " m_pi0m " << m_pi0m << " m_etam " << m_etam << " m_chi2_min_r1c " << m_chi2_min_r1c<< endl;
 
