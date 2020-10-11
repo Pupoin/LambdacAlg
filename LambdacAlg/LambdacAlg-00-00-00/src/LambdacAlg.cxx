@@ -497,7 +497,7 @@ StatusCode LambdacAlg::execute()
             Am_id[ndaughterAm] = gc[ii]->particleProperty();
 
             if (m_debug)
-              cout << "-4122 221 ndaughterAm[" << ndaughterAm << "]: " << Ap_id[ndaughterAm] << endl;
+              cout << "-4122 111 ndaughterAm[" << ndaughterAm << "]: " << Ap_id[ndaughterAm] << endl;
 
             for (int ll = 0; ll < 4; ll++)
               Am_ptruth[ndaughterAm][ll] = gc[ii]->initialFourMomentum()[ll];
@@ -514,7 +514,7 @@ StatusCode LambdacAlg::execute()
             Am_id[ndaughterAm] = gc[ii]->particleProperty();
 
             if (m_debug)
-              cout << "4122 221 ndaughterAm[" << ndaughterAm << "]: " << Ap_id[ndaughterAm] << endl;
+              cout << "4122 111 ndaughterAm[" << ndaughterAm << "]: " << Ap_id[ndaughterAm] << endl;
 
             for (int ll = 0; ll < 4; ll++)
               Am_ptruth[ndaughterAm][ll] = gc[ii]->initialFourMomentum()[ll];
@@ -531,7 +531,7 @@ StatusCode LambdacAlg::execute()
             Am_id[ndaughterAm] = gc[ii]->particleProperty();
 
             if (m_debug)
-              cout << "4122 221 ndaughterAm[" << ndaughterAm << "]: " << Ap_id[ndaughterAm] << endl;
+              cout << "4122 111 ndaughterAm[" << ndaughterAm << "]: " << Ap_id[ndaughterAm] << endl;
 
             for (int ll = 0; ll < 4; ll++)
               Am_ptruth[ndaughterAm][ll] = gc[ii]->initialFourMomentum()[ll];
