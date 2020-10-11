@@ -924,7 +924,7 @@ StatusCode LambdacAlg::execute()
   if (m_debug)
     cout << __LINE__ << endl;
 
-#pragma region loop_gamma_check_eta_pi0______________________________________________________________
+#pragma region loop_gamma_check_2_pi0______________________________________________________________
 
   // Vint igam1, igam2, igam3, igam4;
   // igam1.clear(), igam2.clear(), igam3.clear(), igam4.clear();
@@ -936,49 +936,49 @@ StatusCode LambdacAlg::execute()
   // Vdouble chi2;
   // chi2.clear();
 
-  std::vector<MyMotherParticleFit> eta;
-  eta.clear();
+  // std::vector<MyMotherParticleFit> eta;
+  // eta.clear();
 
-  // KalmanKinematicFit *kmfit = KalmanKinematicFit::instance();
-  // Loop each gamma pair, check eta mass  ----------------------------
-  for (int i = 0; i < emcGamma.size() - 1; i++)
-  {
-    RecEmcShower *emcTrki = emcGamma[i].getRecEmcShower();
-    HepLorentzVector ptrki = emcGamma[i].getLorentzVector();
+  // // KalmanKinematicFit *kmfit = KalmanKinematicFit::instance();
+  // // Loop each gamma pair, check eta mass  ----------------------------
+  // for (int i = 0; i < emcGamma.size() - 1; i++)
+  // {
+  //   RecEmcShower *emcTrki = emcGamma[i].getRecEmcShower();
+  //   HepLorentzVector ptrki = emcGamma[i].getLorentzVector();
 
-    for (int j = i + 1; j < emcGamma.size(); j++)
-    {
-      RecEmcShower *emcTrkj = emcGamma[j].getRecEmcShower();
-      HepLorentzVector ptrkj = emcGamma[j].getLorentzVector();
+  //   for (int j = i + 1; j < emcGamma.size(); j++)
+  //   {
+  //     RecEmcShower *emcTrkj = emcGamma[j].getRecEmcShower();
+  //     HepLorentzVector ptrkj = emcGamma[j].getLorentzVector();
 
-      HepLorentzVector p2geta = ptrki + ptrkj;
-      // if (m_debug)
-      //   cout << __LINE__ << " i,j  " << i << "," << j << " p2geta.m()  " << p2geta.m() << endl;
+  //     HepLorentzVector p2geta = ptrki + ptrkj;
+  //     // if (m_debug)
+  //     //   cout << __LINE__ << " i,j  " << i << "," << j << " p2geta.m()  " << p2geta.m() << endl;
 
-      if (p2geta.m() < m_EtaMinMass || p2geta.m() > m_EtaMaxMass)
-        continue;
-      if (m_debug)
-        cout << __LINE__ << " 00000000 " << " p2geta.m()  " << p2geta.m() << endl;
-      // if (m_test1C == 1)
-      // {
-      //   kmfit->init();
-      //   kmfit->setChisqCut(m_chisqMax);
+  //     if (p2geta.m() < m_EtaMinMass || p2geta.m() > m_EtaMaxMass)
+  //       continue;
+  //     if (m_debug)
+  //       cout << __LINE__ << " 00000000 " << " p2geta.m()  " << p2geta.m() << endl;
+  //     // if (m_test1C == 1)
+  //     // {
+  //     //   kmfit->init();
+  //     //   kmfit->setChisqCut(m_chisqMax);
 
-      //   kmfit->AddTrack(0, 0.0, emcTrki);
-      //   kmfit->AddTrack(1, 0.0, emcTrkj);
-      //   // 0.547862
-      //   kmfit->AddResonance(0, 0.547862, 0, 1);
-      //   bool oksq = kmfit->Fit();
-      //   if (oksq)
-      //   {
-      //     kmfit->BuildVirtualParticle(0);
-      MyMotherParticleFit tmp(emcGamma[i], emcGamma[j]);
-      tmp.setLorentzVector(p2geta);
-      eta.push_back(tmp);
-        // }
-      // }
-    }
-  }
+  //     //   kmfit->AddTrack(0, 0.0, emcTrki);
+  //     //   kmfit->AddTrack(1, 0.0, emcTrkj);
+  //     //   // 0.547862
+  //     //   kmfit->AddResonance(0, 0.547862, 0, 1);
+  //     //   bool oksq = kmfit->Fit();
+  //     //   if (oksq)
+  //     //   {
+  //     //     kmfit->BuildVirtualParticle(0);
+  //     MyMotherParticleFit tmp(emcGamma[i], emcGamma[j]);
+  //     tmp.setLorentzVector(p2geta);
+  //     eta.push_back(tmp);
+  //       // }
+  //     // }
+  //   }
+  // }
 
   // Loop each gamma pair, check pi0 mass ---------------------
   std::vector<MyMotherParticleFit> pi0;
@@ -1044,8 +1044,11 @@ StatusCode LambdacAlg::execute()
   if (abs(signal) == 1)
     Ncut3++; // Ncut3 should equal Ncut2;
 
-  if (pi0.size() == 0 || eta.size() == 0)
+  if (pi0.size() < 2 )
+  {
+    cout << __LINE__ << "return StatusCode::SUCCESS; pi0.size() < 2" << endl;
     return StatusCode::SUCCESS;
+  }
   if (m_debug)
     cout << __LINE__ << endl;
 
@@ -1077,16 +1080,17 @@ StatusCode LambdacAlg::execute()
 
   for (int i = 0; i < proton.size(); i++)
   {
-    for (int j = 0; j < eta.size(); j++)
+    for (int j = 0; j < pi0.size(); j++)
     {
-      for (int k = 0; k < pi0.size(); k++)
+      // k is the pi from sigma
+      for (int k = j; k < pi0.size(); k++)
       {
-        if (eta[j].getChild1().getIndex() == pi0[k].getChild1().getIndex() ||
-            eta[j].getChild1().getIndex() == pi0[k].getChild2().getIndex())
-          continue;
-        if (eta[j].getChild2().getIndex() == pi0[k].getChild1().getIndex() ||
-            eta[j].getChild2().getIndex() == pi0[k].getChild2().getIndex())
-          continue;
+        // if (pi0[j].getChild1().getIndex() == pi0[k].getChild1().getIndex() ||
+        //     pi0[j].getChild1().getIndex() == pi0[k].getChild2().getIndex())
+        //   continue;
+        // if (pi0[j].getChild2().getIndex() == pi0[k].getChild1().getIndex() ||
+        //     pi0[j].getChild2().getIndex() == pi0[k].getChild2().getIndex())
+        //   continue;
 
         // if (m_debug)
         //   cout << __LINE__ << proton[i].getLorentzVector()[0] << " " << proton[i].getLorentzVector()[1] << " "
@@ -1094,8 +1098,8 @@ StatusCode LambdacAlg::execute()
 
         HepLorentzVector psigma = proton[i].getLorentzVector() + pi0[k].getChild1().getLorentzVector() +
                                   pi0[k].getChild2().getLorentzVector();
-        // if (m_debug)
-        //   cout << __LINE__ << " psigma.m() " << psigma.m() << endl;
+        if (m_debug)
+          cout << __LINE__ << " i_proton:"<< i << "  j_pi0:" << j << " k_pi0:"  <<  k << " psigma.m() " << psigma.m() << endl;
         if (psigma.m() < m_SigmaMinMass || psigma.m() > m_SigmaMaxMass)
           continue;
 
@@ -1126,11 +1130,11 @@ StatusCode LambdacAlg::execute()
         kmfit1->AddTrack(0, proton[i].getTrackParameter());
         kmfit1->AddTrack(1, 0.0, pi0[k].getChild1().getRecEmcShower());
         kmfit1->AddTrack(2, 0.0, pi0[k].getChild2().getRecEmcShower());
-        kmfit1->AddTrack(3, 0.0, eta[j].getChild1().getRecEmcShower());
-        kmfit1->AddTrack(4, 0.0, eta[j].getChild2().getRecEmcShower());
+        kmfit1->AddTrack(3, 0.0, pi0[j].getChild1().getRecEmcShower());
+        kmfit1->AddTrack(4, 0.0, pi0[j].getChild2().getRecEmcShower());
         kmfit1->AddMissTrack(5, 2.28646);
 
-        kmfit1->AddResonance(0, 0.547862, 3, 4);
+        kmfit1->AddResonance(0, 0.1349770, 3, 4);
         kmfit1->AddResonance(1, 0.1349770, 1, 2);
         kmfit1->AddFourMomentum(2, HepCMS);
 
