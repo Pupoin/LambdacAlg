@@ -481,7 +481,7 @@ StatusCode LambdacAlg::execute()
             ndaughterAp++;
           } // End of "gc.size() > 0" IF
         }
-        if (pdg == 221 && motherpdg == 4122)
+        if (pdg == 111 && motherpdg == 4122)
         { //// eta->gam gam
           const SmartRefVector<Event::McParticle> &gc = (*iter_mc)->daughterList();
           for (unsigned int ii = 0; ii < gc.size(); ii++)
@@ -491,7 +491,7 @@ StatusCode LambdacAlg::execute()
             Ap_id[ndaughterAp] = gc[ii]->particleProperty();
 
             if (m_debug)
-              cout << "4122 221 ndaughterAp[" << ndaughterAp << "]: " << Ap_id[ndaughterAp] << endl;
+              cout << "4122 111 ndaughterAp[" << ndaughterAp << "]: " << Ap_id[ndaughterAp] << endl;
 
             for (int ll = 0; ll < 4; ll++)
               Ap_ptruth[ndaughterAp][ll] = gc[ii]->initialFourMomentum()[ll];
@@ -528,7 +528,7 @@ StatusCode LambdacAlg::execute()
             Am_id[ndaughterAm] = gc[ii]->particleProperty();
 
             if (m_debug)
-              cout << "-4122 221 ndaughterAm[" << ndaughterAm << "]: " << Ap_id[ndaughterAm] << endl;
+              cout << "-4122 111 ndaughterAm[" << ndaughterAm << "]: " << Ap_id[ndaughterAm] << endl;
 
             for (int ll = 0; ll < 4; ll++)
               Am_ptruth[ndaughterAm][ll] = gc[ii]->initialFourMomentum()[ll];
@@ -545,14 +545,14 @@ StatusCode LambdacAlg::execute()
             Am_id[ndaughterAm] = gc[ii]->particleProperty();
 
             if (m_debug)
-              cout << "4122 221 ndaughterAm[" << ndaughterAm << "]: " << Ap_id[ndaughterAm] << endl;
+              cout << "4122 111 ndaughterAm[" << ndaughterAm << "]: " << Ap_id[ndaughterAm] << endl;
 
             for (int ll = 0; ll < 4; ll++)
               Am_ptruth[ndaughterAm][ll] = gc[ii]->initialFourMomentum()[ll];
             ndaughterAm++;
           } // End of "gc.size() > 0" IF
         }
-        if (pdg == 221 && motherpdg == -4122)
+        if (pdg == 111 && motherpdg == -4122)
         { //// eta->gam gam
           const SmartRefVector<Event::McParticle> &gc = (*iter_mc)->daughterList();
           for (unsigned int ii = 0; ii < gc.size(); ii++)
@@ -562,7 +562,7 @@ StatusCode LambdacAlg::execute()
             Am_id[ndaughterAm] = gc[ii]->particleProperty();
 
             if (m_debug)
-              cout << "4122 221 ndaughterAm[" << ndaughterAm << "]: " << Ap_id[ndaughterAm] << endl;
+              cout << "4122 111 ndaughterAm[" << ndaughterAm << "]: " << Ap_id[ndaughterAm] << endl;
 
             for (int ll = 0; ll < 4; ll++)
               Am_ptruth[ndaughterAm][ll] = gc[ii]->initialFourMomentum()[ll];
@@ -679,14 +679,14 @@ StatusCode LambdacAlg::execute()
         }
       }
 
-      if (ndaughterAp == 8 && Ap_id[0] == 3222 && Ap_id[1] == 221 && Ap_id[2] == 2212 && Ap_id[3] == 111 &&
+      if (ndaughterAp == 8 && Ap_id[0] == 3222 && Ap_id[1] == 111 && Ap_id[2] == 2212 && Ap_id[3] == 111 &&
           Ap_id[4] == 22 && Ap_id[5] == 22 && Ap_id[6] == 22 && Ap_id[7] == 22)
       {
         signal = 1;
         all++;
         all_p++;
       }
-      if (ndaughterAm == 8 && Am_id[0] == -3222 && Am_id[1] == 221 && Am_id[2] == -2212 && Am_id[3] == 111 &&
+      if (ndaughterAm == 8 && Am_id[0] == -3222 && Am_id[1] == 111 && Am_id[2] == -2212 && Am_id[3] == 111 &&
           Am_id[4] == 22 && Am_id[5] == 22 && Am_id[6] == 22 && Am_id[7] == 22)
       {
         signal = -1;
@@ -837,8 +837,8 @@ StatusCode LambdacAlg::execute()
 
   // if (m_isqqbar)
   // {
-    if (np == 0 && npbar == 0)
-      return StatusCode::SUCCESS;
+    // if (np == 0 && npbar == 0)
+    //   return StatusCode::SUCCESS;
   // }
 
   if (abs(signal) == 1)
