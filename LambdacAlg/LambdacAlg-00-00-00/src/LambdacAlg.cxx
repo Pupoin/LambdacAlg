@@ -216,6 +216,7 @@ StatusCode LambdacAlg::initialize()
 
       status = m_tuple1->addItem("pi0mR1c", m_pi0mR1c);
       status = m_tuple1->addItem("etamR1c", m_etamR1c);
+      status = m_tuple1->addItem("pi0mORetam1mR1c", m_pi0mORetam1mR1c);
       status = m_tuple1->addItem("sigmamR1c", m_SigmamR1c);
       // 2c _________________________________________________________________
 
@@ -223,6 +224,8 @@ StatusCode LambdacAlg::initialize()
 
       // ____________________________________________________________________
       status = m_tuple1->addItem("pi0m", m_pi0m);
+      status = m_tuple1->addItem("pi0mORetam1m", m_pi0mORetam1m);
+
       status = m_tuple1->addItem("etam", m_etam);
       status = m_tuple1->addItem("lambda", m_lambda);
       status = m_tuple1->addItem("ksi", m_ksi);
@@ -1026,7 +1029,7 @@ StatusCode LambdacAlg::execute()
       // }
     }
   }
-  cout << __LINE__ << " proton.size() "<< proton.size() << " pi0.size() " << pi0.size() << " eta.size() "<< eta.size() << endl;
+  cout << __LINE__ << " proton.size() "<< proton.size() << " pi0.size() " << pi0.size() /*<< " eta.size() "<< eta.size()*/ << endl;
   // int ngam1 = igam1.size();
   // int ngam2 = igam2.size();
   // int ngam3 = igam3.size();
@@ -1161,8 +1164,8 @@ StatusCode LambdacAlg::execute()
             m_etag2_p4_r1c = kmfit1->pfit(4);
 
             p_p4 = proton[i].getLorentzVector();
-            eta_pg1 = eta[j].getChild1().getLorentzVector();
-            eta_pg2 = eta[j].getChild2().getLorentzVector();
+            eta_pg1 = pi0[j].getChild1().getLorentzVector();
+            eta_pg2 = pi0[j].getChild2().getLorentzVector();
             pi_pg3 = pi0[k].getChild1().getLorentzVector();
             pi_pg4 = pi0[k].getChild2().getLorentzVector();
 
@@ -1249,9 +1252,9 @@ StatusCode LambdacAlg::execute()
     // m_bg = bg;
     m_ebeam = ebeam;
     
-    //   1,2 -> eta             3,4 -> pi       
+    //   1,2 -> eta/pi             3,4 -> pi       
     for (int jj = 0; jj < 4; jj++)
-      m_p_p4_r1c[jj] = m_p_p4_r1c[jj];
+       m_pall_p4_r1c[jj] = m_p_p4_r1c[jj];
     for (int jj = 0; jj < 4; jj++)
       m_gam1_p4_r1c[jj] = m_etag1_p4_r1c[jj];
     for (int jj = 0; jj < 4; jj++)
@@ -1275,17 +1278,19 @@ StatusCode LambdacAlg::execute()
     // m_pbarindex = pbar_index;
     m_p4index = 4;
     m_chi2_min_r1c = minChi2_r1c;
-    m_pi0m = (pi_pg3 + pi_pg4).m();
-    m_etam = (eta_pg1 + eta_pg2).m();
 
-    cout << __LINE__ << " m_pi0m " << m_pi0m << " m_etam " << m_etam << " m_chi2_min_r1c " << m_chi2_min_r1c<< endl;
+    m_pi0m = (pi_pg3 + pi_pg4).m();
+    m_pi0mORetam1m = (eta_pg1 + eta_pg2).m();
+    m_Sigmam = (p_p4 + pi_pg3 + pi_pg4).m();
+
+    cout << __LINE__ << " m_pi0m " << m_pi0m << " m_pi0mORetam1m " << m_pi0mORetam1m << " m_chi2_min_r1c " << m_chi2_min_r1c<< endl;
 
 
     m_pi0mR1c = (m_pi0g1_p4_r1c + m_pi0g2_p4_r1c).m();
-    m_etamR1c = (m_etag1_p4_r1c + m_etag2_p4_r1c).m();
+    m_pi0mORetam1mR1c = (m_etag1_p4_r1c + m_etag2_p4_r1c).m();
     m_SigmamR1c = (m_p_p4_r1c + m_pi0g1_p4_r1c + m_pi0g2_p4_r1c).m();
 
-    cout << __LINE__ << " m_pi0mR1c " << m_pi0mR1c << " m_etamR1c " << m_etamR1c << " m_SigmamR1c " <<  m_SigmamR1c << endl;
+    cout << __LINE__ << " m_pi0mR1c " << m_pi0mR1c << " m_pi0mORetam1mR1c " << m_pi0mORetam1mR1c << " m_SigmamR1c " <<  m_SigmamR1c << endl;
 
 
     HepLorentzVector pLambda = m_p_p4_r1c + m_pi0g1_p4_r1c + m_pi0g2_p4_r1c + m_etag1_p4_r1c + m_etag2_p4_r1c;

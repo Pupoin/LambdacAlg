@@ -196,9 +196,11 @@ private:
 
 	NTuple::Item<double> m_pi0mR1c;
 	NTuple::Item<double> m_etamR1c;	
+	NTuple::Item<double> m_pi0mORetam1mR1c;
 	NTuple::Item<double> m_SigmamR1c;
 	//  _________________________________________________________________
 
+	NTuple::Item<double> m_pi0mORetam1m;
 	NTuple::Item<double> m_pi0m;
 	NTuple::Item<double> m_etam;
 	NTuple::Item<double> m_lambda;
