@@ -44,13 +44,14 @@ MyParticle::MyParticle(int index, HepLorentzVector p4, RecEmcShower *emcTrk)
   this->index = index;
   this->p4 = p4;
   this->emcTrk = emcTrk;
+  // this->charge = 0;
 }
 MyParticle::~MyParticle() {}
 
 // ------  set -------
 // void MyParticle::setIndex(int index) { this->index = index; }
-void MyParticle::setCharge(int charge) { this->charge = charge; }
-void MyParticle::setLorentzVector(HepLorentzVector p4) { this->p4 = p4; }
+// void MyParticle::setCharge(int charge) { this->charge = charge; }
+// void MyParticle::setLorentzVector(HepLorentzVector p4) { this->p4 = p4; }
 // void MyParticle::setTrackParameter(WTrackParameter *wtrkp) { this->wtrkp = wtrkp; }
 
 // -------  get --------
@@ -71,11 +72,12 @@ RecEmcShower *MyParticle::getRecEmcShower() { return emcTrk; }
 /// class MyMotherParticleFit  ///
 ///
 MyMotherParticleFit::MyMotherParticleFit() {}
-MyMotherParticleFit::MyMotherParticleFit(MyParticle child1, MyParticle child2, KalmanKinematicFit *kmfit)
+// MyMotherParticleFit::MyMotherParticleFit(MyParticle mf) {}
+MyMotherParticleFit::MyMotherParticleFit(MyParticle child1, MyParticle child2)
 {
   this->child1 = child1;
   this->child2 = child2;
-  this->kmfit = kmfit;
+  // this->kmfit = kmfit;
 }
 MyMotherParticleFit::MyMotherParticleFit(MyParticle child1, MyParticle child2, MyParticle child3,
                                          KalmanKinematicFit *kmfit)
