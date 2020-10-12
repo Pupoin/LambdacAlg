@@ -97,4 +97,20 @@ MyParticle MyMotherParticleFit::getChild3() { return child3; }
 
 KalmanKinematicFit *MyMotherParticleFit::getFit() { return kmfit; }
 
+HepLorentzVector MyMotherParticleFit::getMotherLorentzVector(int childrenNumber)
+{
+  HepLorentzVector LorenMother(0, 0, 0, 0);
+  if (childrenNumber == 2)
+  {
+    LorenMother = child1.getLorentzVector() + child2.getLorentzVector();
+    return LorenMother;
+  }
+  else if(childrenNumber == 3)
+  {
+    LorenMother = child1.getLorentzVector() + child2.getLorentzVector() + child3.getLorentzVector();
+    return LorenMother;
+  }
+}
+
+
 #pragma endregion

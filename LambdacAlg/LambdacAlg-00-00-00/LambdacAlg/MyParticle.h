@@ -66,7 +66,7 @@ class MyMotherParticleFit : public MyParticle
 {
 public:
   MyMotherParticleFit();
-    MyMotherParticleFit(MyParticle child1, MyParticle child2,
+  MyMotherParticleFit(MyParticle child1, MyParticle child2,
                       KalmanKinematicFit *kmfit = nullptr);
 
   MyMotherParticleFit(MyParticle child1, MyParticle child2,
@@ -80,8 +80,10 @@ public:
   MyParticle getChild1();
   MyParticle getChild2();
   MyParticle getChild3();
+  
 
   KalmanKinematicFit *getFit();
+  HepLorentzVector getMotherLorentzVector(int childrenNumber);
 
 private:
   MyParticle child1, child2, child3;

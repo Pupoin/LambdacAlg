@@ -108,8 +108,11 @@ LambdacAlg::LambdacAlg(const std::string &name, ISvcLocator *pSvcLocator) : Algo
   declareProperty("SigmaMinMass", m_SigmaMinMass = 1.174);
   declareProperty("SigmaMaxMass", m_SigmaMaxMass = 1.2);
 
-  declareProperty("Debug", m_debug = false);
-  declareProperty("Isqqbar", m_isqqbar = false);
+  declareProperty("Pi0MinMass", m_Pi0MinMass = 0.115);
+  declareProperty("Pi0MaxMass", m_Pi0MaxMass = 0.15);
+
+  declareProperty("EtaPrimeMinMass", m_EtaPrimeMinMass = 0.946);
+  declareProperty("EtaPrimeMaxMass", m_EtaPrimeMaxMass = 0.968);
 
   declareProperty("BeamE", m_beamE = 2.313);
   declareProperty("ReadBeamEFromDB", m_ReadBeamEFromDB = false);
@@ -970,10 +973,11 @@ StatusCode LambdacAlg::execute()
   // Vdouble chi2;
   // chi2.clear();
 
-  std::vector<MyMotherParticleFit> eta;
+  std::vector<MyMotherParticleFit> eta, eta_1c;
   eta.clear();
+  eta_1c.clear();
 
-  // KalmanKinematicFit *kmfit = KalmanKinematicFit::instance();
+  KalmanKinematicFit *kmfit = KalmanKinematicFit::instance();
   // Loop each gamma pair, check eta mass  ----------------------------
   for (int i = 0; i < emcGamma.size() - 1; i++)
   {
@@ -993,31 +997,31 @@ StatusCode LambdacAlg::execute()
         continue;
       if (m_debug)
         cout << __LINE__ << " 00000000 " << " i,j  " << i << "," << j << " p2geta.m()  " << p2geta.m() << endl;
-      // if (m_test1C == 1)
-      // {
-      //   kmfit->init();
-      //   kmfit->setChisqCut(m_chisqMax);
+      if (m_test1C == 1)
+      {
+        kmfit->init();
+        kmfit->setChisqCut(m_chisqMax);
 
-      //   kmfit->AddTrack(0, 0.0, emcTrki);
-      //   kmfit->AddTrack(1, 0.0, emcTrkj);
-      //   // 0.547862
-      //   kmfit->AddResonance(0, 0.547862, 0, 1);
-      //   bool oksq = kmfit->Fit();
-      //   if (oksq)
-      //   {
-      //     kmfit->BuildVirtualParticle(0);
-      MyMotherParticleFit tmp(emcGamma[i], emcGamma[j]);
-      tmp.setLorentzVector(p2geta);
-      eta.push_back(tmp);
-        // }
-      // }
+        kmfit->AddTrack(0, 0.0, emcTrki);
+        kmfit->AddTrack(1, 0.0, emcTrkj);
+        // 0.547862
+        kmfit->AddResonance(0, 0.547862, 0, 1);
+        bool oksq = kmfit->Fit();
+        if (oksq)
+        {
+          // kmfit->BuildVirtualParticle(0);
+          MyMotherParticleFit tmp(emcGamma[i], emcGamma[j], kmfit);
+          tmp.setLorentzVector(p2geta);
+          eta.push_back(tmp);
+
+        }
+      }
     }
   }
 
   // Loop each gamma pair, check pi0 mass ---------------------
   std::vector<MyMotherParticleFit> pi0;
   pi0.clear();
-  // KalmanKinematicFit *kmfit_pi = KalmanKinematicFit::instance();
   for (int k = 0; k < emcGamma.size() - 1; k++)
   {
     RecEmcShower *emcTrkk = emcGamma[k].getRecEmcShower();
@@ -1036,31 +1040,65 @@ StatusCode LambdacAlg::execute()
       if (m_debug)
         cout << __LINE__ << " 00000000 "<< " k,l " << k << "," << l << " p2gpi.m() " << p2gpi.m() << endl;
 
-      // if (m_test1C == 1)
-      // {
-      //   kmfit_pi->init();
-      //   kmfit_pi->setChisqCut(m_chisqMax);
+      if (m_test1C == 1)
+      {
+        kmfit->init();
+        kmfit->setChisqCut(m_chisqMax);
 
-      //   kmfit_pi->AddTrack(0, 0.0, emcTrkk);
-      //   kmfit_pi->AddTrack(1, 0.0, emcTrkl);
-      //   // 0.1349770
-      //   kmfit_pi->AddResonance(0, 0.1349770, 0, 1);
-      //   bool oksq = kmfit_pi->Fit();
+        kmfit->AddTrack(0, 0.0, emcTrkk);
+        kmfit->AddTrack(1, 0.0, emcTrkl);
+        // 0.1349770
+        kmfit->AddResonance(0, 0.1349770, 0, 1);
+        bool oksq = kmfit->Fit();
 
-      //   if (oksq)
-      //   {
-      //     // double chisq_1C = kmfit_pi->chisq(0);
-      //     kmfit_pi->BuildVirtualParticle(0);
-      //     // WTrackParameter Pi0WTrk = kmfit_pi->wVirtualTrack(0);
+        if (oksq)
+        {
+          // double chisq_1C = kmfit->chisq(0);
+          // kmfit->BuildVirtualParticle(0);
+          // WTrackParameter Pi0WTrk = kmfit->wVirtualTrack(0);
 
-      MyMotherParticleFit tmp(emcGamma[k], emcGamma[l]);
-      tmp.setLorentzVector(p2gpi);
-      pi0.push_back(tmp);
-        // }
-      // }
+          MyMotherParticleFit tmp(emcGamma[k], emcGamma[l], kmfit);
+          tmp.setLorentzVector(p2gpi);
+          pi0.push_back(tmp);
+        }
+      }
     }
   }
-  cout << __LINE__ << " proton.size() "<< proton.size() << " pi0.size() " << pi0.size() << " eta.size() "<< eta.size() << endl;
+
+  // Loop each pi+ pi- gamma pair, check eta' mass ---------------------
+  std::vector<MyMotherParticleFit> etaPrime;
+  etaPrime.clear();
+  for (int i = 0; i < piMin.size(); i++)
+  {
+    for(int j = 0; j< piPlus.size(); j++)
+    {
+      for(int k = 0; k<eta.size(); k++)
+      {
+        // if (eta[j].getChild1().getIndex() == pi0[k].getChild1().getIndex() ||
+        //     eta[j].getChild1().getIndex() == pi0[k].getChild2().getIndex())
+        //   continue;
+        // if (eta[j].getChild2().getIndex() == pi0[k].getChild1().getIndex() ||
+        //     eta[j].getChild2().getIndex() == pi0[k].getChild2().getIndex())
+        //   continue;
+
+        HepLorentzVector tmp =
+            piMin[i].getLorentzVector() + piPlus[j].getLorentzVector() + eta[k].getMotherLorentzVector(2);
+
+        if (tmp.m() > m_EtaPrimeMaxMass || tmp.m() < m_EtaPrimeMinMass )
+          continue;
+        if(m_debug)
+          cout << __LINE__ <<  " eta prime m(): " << tmp.m() << endl;
+
+        // MyMotherParticleFit tmp(piMin[i], piPlus[j], eta[k]);
+        etaPrime.push_back( MyMotherParticleFit(piMin[i], piPlus[j], eta[k]) );
+
+      }
+    }
+  }
+
+  // cout << __LINE__ << " proton.size() "<< proton.size() << " pi0.size() " << pi0.size() 
+  //                  << " eta.size() "<< eta.size() << << endl;
+
   // int ngam1 = igam1.size();
   // int ngam2 = igam2.size();
   // int ngam3 = igam3.size();
@@ -1078,9 +1116,9 @@ StatusCode LambdacAlg::execute()
   if (abs(signal) == 1)
     Ncut3++; // Ncut3 should equal Ncut2;
 
-  if (pi0.size() == 0 || eta.size() == 0)
+  if (pi0.size() == 0 || eta.size() == 0 || etaPrime.size()==0)
   {
-    cout << __LINE__ << "return StatusCode::SUCCESS; pi0.size() == 0 || eta.size() == 0" << endl;
+    cout << __LINE__ << "return StatusCode::SUCCESS; pi0.size() == 0 || eta.size() == 0 || etaPrime.size()==0" << endl;
     return StatusCode::SUCCESS;
   }
   if (m_debug)
@@ -1114,7 +1152,7 @@ StatusCode LambdacAlg::execute()
 
   for (int i = 0; i < proton.size(); i++)
   {
-    for (int j = 0; j < eta.size(); j++)
+    for (int j = 0; j < etaPrime.size(); j++)
     {
       for (int k = 0; k < pi0.size(); k++)
       {

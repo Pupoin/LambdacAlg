@@ -54,6 +54,9 @@ private:
 	double m_SigmaMinMass;
 	double m_SigmaMaxMass;
 
+	double m_EtaPrimeMinMass;
+	double m_EtaPrimeMaxMass;
+
 	bool m_debug;
 	bool m_isqqbar;
 	double m_beamE;
