@@ -786,12 +786,19 @@ StatusCode LambdacAlg::execute()
     nCharge += mdcTrk->charge();
   }
   // Finish Good Charged Track SKction
-  if (goodTrack.size() < 1)
+  if (goodTrack.size() < 3)
+  {
+    cout << __LINE__ << "return StatusCode::SUCCESS; goodTrack.size() < 3" << endl;
     return StatusCode::SUCCESS;
+  }
+  if (abs(signal) == 1)
+    Ncut0++;
 
   Vint trackProntonP, trackProntonPbar;
-  std::vector<MyParticle> proton;
+  std::vector<MyParticle> proton, piPlus, piMin;
   proton.clear();
+  piPlus.clear();
+  piMin.clear();
   trackProntonP.clear();
   trackProntonPbar.clear();
   for (int i = 0; i < goodTrack.size(); i++)
@@ -809,12 +816,7 @@ StatusCode LambdacAlg::execute()
       RecMdcKalTrack *mdcKalTrk = (*itTrk)->mdcKalTrack();
       mdcKalTrk->setPidType(RecMdcKalTrack::proton);
       HepLorentzVector p4 = mdcKalTrk->p4(xmass[4]);
-
-      // EvtRecTrackIterator itTrk = evtRecTrkCol->begin() + ip[i];
-      // RecMdcKalTrack *mdcKalTrk = (*itTrk)->mdcKalTrack();
-      // mdcKalTrk->setPidType(RecMdcKalTrack::proton);
-      // HepLorentzVector pp4 = mdcKalTrk->p4(xmass[4]);
-
+      
       WTrackParameter wtrkp(xmass[4], mdcKalTrk->getZHelixP(), mdcKalTrk->getZErrorP());
       if (m_debug)
         cout << __LINE__ << " i " << i << " p4.m() " << p4.m() << endl;
@@ -822,10 +824,40 @@ StatusCode LambdacAlg::execute()
       tmp.chi = pid->getChi();
       proton.push_back(tmp);
     }
+
+    if (pid->ispion())
+    {
+      RecMdcKalTrack *mdcKalTrk = (*itTrk)->mdcKalTrack();
+      mdcKalTrk->setPidType(RecMdcKalTrack::proton);
+      HepLorentzVector p4 = mdcKalTrk->p4(xmass[4]);
+      WTrackParameter wtrkp(xmass[4], mdcKalTrk->getZHelixP(), mdcKalTrk->getZErrorP());
+
+      if (mdcTrk->charge() == 1)
+      {
+        MyParticle tmp(goodTrack[i], p4, mdcTrk->charge(), wtrkp);
+        tmp.chi = pid->getChi();
+        piPlus.push_back(tmp);
+        // piPlus.push_back(goodTrack[i]);
+      }
+        
+      if (mdcTrk->charge() == -1)
+      {
+        MyParticle tmp(goodTrack[i], p4, mdcTrk->charge(), wtrkp);
+        tmp.chi = pid->getChi();
+        piMin.push_back(tmp);
+        // piMin.push_back(goodTrack[i]);
+      }
+    }
   }
 
+
+  if(piMin.size()<1 ||  piPlus.size()<1 || proton.size() <1)
+  {
+      cout << __LINE__ << "return StatusCode::SUCCESS; piMin.size()<1 ||  piPlus.size()<1 || proton.size() <1" << endl;
+      return StatusCode::SUCCESS;
+  }
   if (abs(signal) == 1)
-    Ncut0++;
+    Ncut1++;
 
   int np = trackProntonP.size();
   int npbar = trackProntonPbar.size();
@@ -838,8 +870,6 @@ StatusCode LambdacAlg::execute()
       //return StatusCode::SUCCESS;
   // }
 
-  if (abs(signal) == 1)
-    Ncut1++;
 
 #pragma endregion
 
@@ -913,7 +943,11 @@ StatusCode LambdacAlg::execute()
   if (m_debug)
     cout << __LINE__ << endl;
   if (emcGamma.size() < 4)
+  {
+    cout << __LINE__ << "return StatusCode::SUCCESS;  emcGamma.size() < 4" << endl;
     return StatusCode::SUCCESS;
+  }
+  
   if (abs(signal) == 1)
   {
     if (m_debug)
@@ -958,7 +992,7 @@ StatusCode LambdacAlg::execute()
       if (p2geta.m() < m_EtaMinMass || p2geta.m() > m_EtaMaxMass)
         continue;
       if (m_debug)
-        cout << __LINE__ << " 00000000 " << " p2geta.m()  " << p2geta.m() << endl;
+        cout << __LINE__ << " 00000000 " << " i,j  " << i << "," << j << " p2geta.m()  " << p2geta.m() << endl;
       // if (m_test1C == 1)
       // {
       //   kmfit->init();
@@ -1000,7 +1034,7 @@ StatusCode LambdacAlg::execute()
       if (p2gpi.m() < m_Pi0MinMass || p2gpi.m() > m_Pi0MaxMass)
         continue;
       if (m_debug)
-        cout << __LINE__ << " 00000000 " << " p2gpi.m() " << p2gpi.m() << endl;
+        cout << __LINE__ << " 00000000 "<< " k,l " << k << "," << l << " p2gpi.m() " << p2gpi.m() << endl;
 
       // if (m_test1C == 1)
       // {
@@ -1045,7 +1079,10 @@ StatusCode LambdacAlg::execute()
     Ncut3++; // Ncut3 should equal Ncut2;
 
   if (pi0.size() == 0 || eta.size() == 0)
+  {
+    cout << __LINE__ << "return StatusCode::SUCCESS; pi0.size() == 0 || eta.size() == 0" << endl;
     return StatusCode::SUCCESS;
+  }
   if (m_debug)
     cout << __LINE__ << endl;
 
@@ -1347,6 +1384,7 @@ StatusCode LambdacAlg::finalize()
   cout << "Ncut5   " << Ncut5 << endl;
   cout << "Ncut6   " << Ncut6 << endl; 
   cout << "all       " << all << endl;
+  cout << " sigma eta' " << endl;
   //	cout << "al       " << al << endl;
   //	cout << "yes     " << yes << endl;
   //	cout << "Npp>0:  " << Npp << endl;
