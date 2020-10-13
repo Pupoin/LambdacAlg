@@ -23,7 +23,7 @@ S'../../../InstallArea/x86_64-slc6-gcc46-opt/lib/libGaudiSvc.so'
 p11
 sS'../../../../../../../../../../cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/Generator/KKMC/KKMC-00-00-62/x86_64-slc6-gcc46-opt/libkkmc.so'
 p12
-S'../../../InstallArea/x86_64-slc6-gcc46-opt/lib/libkkmc.so'
+S'../x86_64-slc6-gcc46-opt/libkkmc.so'
 p13
 sS'../../../../../../../cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/Generator/Bhwide/Bhwide-00-00-11/x86_64-slc6-gcc46-opt/libbhwide.so'
 p14
@@ -39,7 +39,7 @@ S'../../../InstallArea/x86_64-slc6-gcc46-opt/lib/libbhwide.so'
 p19
 sS'../../../../../../../../../../cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/Generator/Bhwide/Bhwide-00-00-11/x86_64-slc6-gcc46-opt/libbhwide.so'
 p20
-S'../../../InstallArea/x86_64-slc6-gcc46-opt/lib/libbhwide.so'
+S'../x86_64-slc6-gcc46-opt/libbhwide.so'
 p21
 sS'../../../../../../../../../../cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/GaudiCoreSvc/x86_64-slc6-gcc46-opt/libGaudiCoreSvc.so'
 p22
