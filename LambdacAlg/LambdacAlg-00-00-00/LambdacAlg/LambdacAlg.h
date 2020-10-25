@@ -198,6 +198,9 @@ private:
 	NTuple::Item<double> m_chi2_min;
 
 	NTuple::Array<double> m_pall_p4_r1c;
+	NTuple::Array<double> m_pim_p4_r1c;
+	NTuple::Array<double> m_pip_p4_r1c;
+
 	NTuple::Array<double> m_gam1_p4_r1c;
 	NTuple::Array<double> m_gam2_p4_r1c;
 	NTuple::Array<double> m_gam3_p4_r1c;
