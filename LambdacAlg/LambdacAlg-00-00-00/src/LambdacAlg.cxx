@@ -1020,10 +1020,8 @@ StatusCode LambdacAlg::execute()
 
 #pragma region loop_gamma_check_eta_pi0______________________________________________________________
 
-  std::vector<MyMotherParticleFit> eta, eta_1c;
+  std::vector<MyMotherParticleFit> eta;
   eta.clear();
-  eta_1c.clear();
-
   KalmanKinematicFit *kmfit = KalmanKinematicFit::instance();
   // Loop each gamma pair, check eta mass  ----------------------------
   for (int i = 0; i < emcGamma.size() - 1; i++)
@@ -1052,9 +1050,8 @@ StatusCode LambdacAlg::execute()
     }
   }
   // Loop each gamma pair, check pi0 mass ---------------------
-  std::vector<MyMotherParticleFit> pi0, pi0_1c;
+  std::vector<MyMotherParticleFit> pi0;
   pi0.clear();
-  pi0_1c.clear();
   for (int k = 0; k < emcGamma.size() - 1; k++)
   {
     RecEmcShower *emcTrkk = emcGamma[k].getRecEmcShower();
@@ -1086,12 +1083,12 @@ StatusCode LambdacAlg::execute()
     cout << __LINE__ <<" pi0.size() " << pi0.size()  << endl;
   }
 
-  // if (eta_1c.size() != eta.size() || pi0_1c.size() != pi0.size() )
-  // {
-  //   if(m_debug)
-  //     cout << __LINE__ << "return StatusCode::SUCCESS; eta_1c.size() != eta.size() || pi0_1c.size() != pi0.size()" << endl;
-  //   return StatusCode::SUCCESS;
-  // }
+  if (eta.size() == 0|| pi0.size() == 0 )
+  {
+    if(m_debug)
+      cout << __LINE__ << " eta.size() == 0|| pi0.size() == 0" << endl;
+    return StatusCode::SUCCESS;
+  }
 
   if (abs(signal) == 1)
     Ncut3++; // Ncut3 should equal Ncut2;
@@ -1103,8 +1100,8 @@ StatusCode LambdacAlg::execute()
   //     cout << __LINE__ << "return StatusCode::SUCCESS; pi0.size() == 0 || eta.size() == 0 || eta_1c.size() == 0|| pi0_1c.size()==0" << endl;
   //   return StatusCode::SUCCESS;
   // }
-  if (abs(signal) == 1)
-    Ncut4++; // Ncut4 should equal Ncut5;
+  // if (abs(signal) == 1)
+  //   Ncut4++; // Ncut4 should equal Ncut5;
 
   
   // Loop each pi+ pi- gamma pair, check eta' mass ---------------------
@@ -1135,7 +1132,7 @@ StatusCode LambdacAlg::execute()
               eta[k].getChild2().getIndex() == pi0[l].getChild2().getIndex())
           continue;
 
-          HepLorentzVector tmp = piMin[i].getLorentzVector() + piPlus[j].getLorentzVector() + eta_1c[k].getMotherLorentzVector(2);
+          HepLorentzVector tmp = piMin[i].getLorentzVector() + piPlus[j].getLorentzVector() + eta[k].getMotherLorentzVector(2);
           
           if(m_debug)
             cout << __LINE__ << " eta prime m(): " << tmp.m() << endl;
@@ -1154,22 +1151,25 @@ StatusCode LambdacAlg::execute()
     }
   }
 
-  if(pipm_afterSelectEtaPrime.size()!=eta_afterSelectEtaPrime.size() )
-  {
-    if(m_debug)
-      cout << __LINE__ << "return StatusCode::SUCCESS; pipm_afterSelectEtaPrime.size()!=eta_afterSelectEtaPrime.size() " << endl;
-    return StatusCode::SUCCESS;
-  }
-
-  if (abs(signal) == 1)
-    Ncut5++; // Ncut4 should equal Ncut5;
-
   if( pipm_afterSelectEtaPrime.size()==0 || eta_afterSelectEtaPrime.size()==0)
   {
     if(m_debug)
       cout << __LINE__ << "return StatusCode::SUCCESS; pipm_afterSelectEtaPrime.size()==0 || eta_afterSelectEtaPrime.size()==0" << endl;
     return StatusCode::SUCCESS;
   }
+
+  if (abs(signal) == 1)
+    Ncut4++; // Ncut4 should equal Ncut5;
+  if(pipm_afterSelectEtaPrime.size()!=eta_afterSelectEtaPrime.size() )
+  {
+    if(m_debug)
+      cout << __LINE__ << "return StatusCode::SUCCESS; pipm_afterSelectEtaPrime.size()!=eta_afterSelectEtaPrime.size() " << endl;
+    return StatusCode::SUCCESS;
+  }
+  if (abs(signal) == 1)
+    Ncut5++; // Ncut4 should equal Ncut5;
+
+
 
 #pragma endregion
 
@@ -1498,7 +1498,7 @@ StatusCode LambdacAlg::finalize()
   cout << "-------------------------------------------------------------------------" << endl;
   cout << "-------------------------------           -------------------------------" << endl;
   cout << "--------------------                                ---------------------" << endl;
-  cout << "-----------------  s i g m a    e t a '  1 c   v1.1 ------------------" << endl;
+  cout << "-----------------  s i g m a    e t a '  1 c   v1.2 ------------------" << endl;
   cout << "--------------------                               ----------------------" << endl;
   cout << "------------------------------           --------------------------------" << endl;
   cout << "-------------------------------------------------------------------------" << endl;

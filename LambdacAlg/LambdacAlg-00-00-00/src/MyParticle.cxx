@@ -19,12 +19,12 @@ using CLHEP::HepLorentzVector;
 #include "CLHEP/Geometry/Point3D.h"
 #include "DTagTool/DTagTool.h"
 
+#include "LambdacAlg/MyParticle.h"
 #include "VertexFit/Helix.h"
 #include "VertexFit/IVertexDbSvc.h"
 #include "VertexFit/KalmanKinematicFit.h"
 #include "VertexFit/KinematicFit.h"
 #include "VertexFit/VertexFit.h"
-#include "LambdacAlg/MyParticle.h"
 
 #pragma region MyParticle_______________________________________________________________
 ///
@@ -65,7 +65,6 @@ RecEmcShower *MyParticle::getRecEmcShower() { return emcTrk; }
 
 #pragma endregion
 
-
 #pragma region MyMotherParticleFit____________________________________________________________________
 ///
 ///
@@ -102,17 +101,30 @@ KalmanKinematicFit *MyMotherParticleFit::getFit() { return kmfit; }
 HepLorentzVector MyMotherParticleFit::getMotherLorentzVector(int childrenNumber)
 {
   HepLorentzVector LorenMother(0, 0, 0, 0);
-  if (childrenNumber == 2)
+  switch (childrenNumber)
   {
+  case 2:
     LorenMother = child1.getLorentzVector() + child2.getLorentzVector();
     return LorenMother;
-  }
-  else if(childrenNumber == 3)
-  {
+    break;
+  case 3:
     LorenMother = child1.getLorentzVector() + child2.getLorentzVector() + child3.getLorentzVector();
     return LorenMother;
+    break;
+  default:
+    break;
   }
-}
 
+  // if (childrenNumber == 2)
+  // {
+  //   LorenMother = child1.getLorentzVector() + child2.getLorentzVector();
+  //   return LorenMother;
+  // }
+  // else if(childrenNumber == 3)
+  // {
+  //   LorenMother = child1.getLorentzVector() + child2.getLorentzVector() + child3.getLorentzVector();
+  //   return LorenMother;
+  // }
+}
 
 #pragma endregion
