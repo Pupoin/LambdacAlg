@@ -195,7 +195,7 @@ StatusCode LambdacAlg::initialize()
       status = m_tuple1->addIndexedItem("gam2a", m_p4index, m_gam2a_p4);
       status = m_tuple1->addIndexedItem("gam3a", m_p4index, m_gam3a_p4);
       status = m_tuple1->addIndexedItem("gam4a", m_p4index, m_gam4a_p4);
-      status = m_tuple1->addIndexedItem("pi0", m_p4index, m_pi0_p4);
+      // status = m_tuple1->addIndexedItem("pi0", m_p4index, m_pi0_p4);
       status = m_tuple1->addIndexedItem("gam1b", m_p4index, m_gam1b_p4);
       status = m_tuple1->addIndexedItem("gam2b", m_p4index, m_gam2b_p4);
       status = m_tuple1->addIndexedItem("gam3b", m_p4index, m_gam3b_p4);
