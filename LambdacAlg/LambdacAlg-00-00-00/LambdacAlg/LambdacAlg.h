@@ -208,7 +208,8 @@ private:
 	NTuple::Item<double> m_chi2_min_r1c;
 
 	NTuple::Item<double> m_pi0mR1c;
-	NTuple::Item<double> m_etamR1c;	
+	NTuple::Item<double> m_etamR1c;
+	NTuple::Item<double> m_etaprimemR1c;
 	NTuple::Item<double> m_SigmamR1c;
 	NTuple::Item<double> m_pcharge;
 
