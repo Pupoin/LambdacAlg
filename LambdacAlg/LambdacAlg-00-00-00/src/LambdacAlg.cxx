@@ -1024,7 +1024,7 @@ StatusCode LambdacAlg::execute()
 
   std::vector<MyMotherParticleFit> eta;
   eta.clear();
-  KalmanKinematicFit *kmfit = KalmanKinematicFit::instance();
+  //KalmanKinematicFit *kmfit = KalmanKinematicFit::instance();
   // Loop each gamma pair, check eta mass  ----------------------------
   for (int i = 0; i < emcGamma.size() - 1; i++)
   {
@@ -1504,7 +1504,7 @@ StatusCode LambdacAlg::finalize()
   cout << "-------------------------------------------------------------------------" << endl;
   cout << "-------------------------------           -------------------------------" << endl;
   cout << "--------------------                                ---------------------" << endl;
-  cout << "-----------------  s i g m a    e t a '  1 c   v1.2.1 ------------------" << endl;
+  cout << "-----------------  s i g m a    e t a '  1 c   v1.2.2 ------------------" << endl;
   cout << "--------------------                               ----------------------" << endl;
   cout << "------------------------------           --------------------------------" << endl;
   cout << "-------------------------------------------------------------------------" << endl;
