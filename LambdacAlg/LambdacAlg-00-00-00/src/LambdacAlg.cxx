@@ -1193,7 +1193,7 @@ StatusCode LambdacAlg::execute()
 
   double ebeam = m_beamE;
   HepLorentzVector HepCMS(0.011 * 2 * ebeam, 0., 0., 2 * ebeam);
-
+  eta.clear(); // delete, no using next time
 #pragma region save_lambda_c - _and_lambda_c + ________________________________________________________________________
 
   // for data from raw
@@ -1311,8 +1311,8 @@ StatusCode LambdacAlg::execute()
             p_p4 = proton[i].getLorentzVector();
             pim_p4 = pipm_afterSelectEtaPrime[k].getChild1().getLorentzVector();
             pip_p4 = pipm_afterSelectEtaPrime[k].getChild2().getLorentzVector();
-            eta_pg1 = eta[k].getChild1().getLorentzVector();
-            eta_pg2 = eta[k].getChild2().getLorentzVector();
+            eta_pg1 = eta_afterSelectEtaPrime[k].getChild1().getLorentzVector();
+            eta_pg2 = eta_afterSelectEtaPrime[k].getChild2().getLorentzVector();
             pi0_pg3 = pi0[j].getChild1().getLorentzVector();
             pi0_pg4 = pi0[j].getChild2().getLorentzVector();
           }
@@ -1504,7 +1504,7 @@ StatusCode LambdacAlg::finalize()
   cout << "-------------------------------------------------------------------------" << endl;
   cout << "-------------------------------           -------------------------------" << endl;
   cout << "--------------------                                ---------------------" << endl;
-  cout << "-----------------  s i g m a    e t a '  1 c   v1.2.2 ------------------" << endl;
+  cout << "-----------------  s i g m a    e t a '  1 c   v1.2.3 ------------------" << endl;
   cout << "--------------------                               ----------------------" << endl;
   cout << "------------------------------           --------------------------------" << endl;
   cout << "-------------------------------------------------------------------------" << endl;
