@@ -1387,13 +1387,13 @@ StatusCode LambdacAlg::execute()
       m_pip_p4_r1c[jj] = pip_p4_r1c[jj];
     //   1,2 -> eta             3,4 -> pi
     for (int jj = 0; jj < 4; jj++)
-      m_gam1_p4_1c[jj] = etag1_p4_r1c[jj];
+      m_gam1_p4_r1c[jj] = etag1_p4_r1c[jj];
     for (int jj = 0; jj < 4; jj++)
-      m_gam2_p4_1c[jj] = etag2_p4_r1c[jj];
+      m_gam2_p4_r1c[jj] = etag2_p4_r1c[jj];
     for (int jj = 0; jj < 4; jj++)
-      m_gam3_p4_1c[jj] = pi0g1_p4_r1c[jj];
+      m_gam3_p4_r1c[jj] = pi0g1_p4_r1c[jj];
     for (int jj = 0; jj < 4; jj++)
-      m_gam4_p4_1c[jj] = pi0g2_p4_r1c[jj];
+      m_gam4_p4_r1c[jj] = pi0g2_p4_r1c[jj];
 
     // ___________ from raw ___________________
     // proton, pi+, pi-, from raw
@@ -1504,7 +1504,7 @@ StatusCode LambdacAlg::finalize()
   cout << "-------------------------------------------------------------------------" << endl;
   cout << "-------------------------------           -------------------------------" << endl;
   cout << "--------------------                                ---------------------" << endl;
-  cout << "-----------------  s i g m a    e t a '  1 c   v1.2 ------------------" << endl;
+  cout << "-----------------  s i g m a    e t a '  1 c   v1.2.1 ------------------" << endl;
   cout << "--------------------                               ----------------------" << endl;
   cout << "------------------------------           --------------------------------" << endl;
   cout << "-------------------------------------------------------------------------" << endl;
