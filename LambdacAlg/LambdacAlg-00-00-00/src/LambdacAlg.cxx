@@ -1400,6 +1400,7 @@ StatusCode LambdacAlg::execute()
     // retail 3c ______________________________________________
     if(flag_r3c == 1)
     {
+      m_chi2_min_r3c = minChi2_r3c;
       m_pi0mr3c = (pi0g1_p4_r3c + pi0g2_p4_r3c).m();
       m_etamr3c = (etag1_p4_r3c + etag2_p4_r3c).m();
       m_Sigmamr3c = (p_p4_r3c + pi0g1_p4_r3c + pi0g2_p4_r3c).m();
@@ -1424,8 +1425,6 @@ StatusCode LambdacAlg::execute()
     // 1c _______________________________________________________
     if(flag_1c == 1)
     {
-      m_chi2_min_r3c = minChi2_r3c;
-
       m_pi0m1c = (pi0g1_p4_1c + pi0g2_p4_1c).m();
       m_etam1c = (etag1_p4_1c + etag2_p4_1c).m();
       m_Sigmam1c = (p_p4 + pi0g1_p4_1c + pi0g2_p4_1c).m();
