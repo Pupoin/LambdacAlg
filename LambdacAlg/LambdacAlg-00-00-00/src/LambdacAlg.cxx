@@ -1086,7 +1086,7 @@ StatusCode LambdacAlg::execute()
     for (int j = 0; j < pi0.size(); j++)
     {
       // k is the pi from sigma
-      for (int k = j; k < pi0.size(); k++)
+      for (int k = 0; k < pi0.size(); k++)
       {
         // if (pi0[j].getChild1().getIndex() == pi0[k].getChild1().getIndex() ||
         //     pi0[j].getChild1().getIndex() == pi0[k].getChild2().getIndex())
@@ -1098,7 +1098,8 @@ StatusCode LambdacAlg::execute()
         // if (m_debug)
         //   cout << __LINE__ << proton[i].getLorentzVector()[0] << " " << proton[i].getLorentzVector()[1] << " "
         //        << proton[i].getLorentzVector()[2] << " " << proton[i].getLorentzVector()[3] << " " << endl;
-
+        if(j==k)
+            continue;
         HepLorentzVector psigma = proton[i].getLorentzVector() + pi0[k].getChild1().getLorentzVector() +
                                   pi0[k].getChild2().getLorentzVector();
         if (m_debug)
