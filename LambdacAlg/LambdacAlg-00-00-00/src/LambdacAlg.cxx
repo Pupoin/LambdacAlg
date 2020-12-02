@@ -209,8 +209,10 @@ StatusCode LambdacAlg::initialize()
       status = m_tuple1->addIndexedItem("gam3", m_p4index, m_gam3_p4);
       status = m_tuple1->addIndexedItem("gam4", m_p4index, m_gam4_p4);
       status = m_tuple1->addItem("pcharge", m_pcharge);
+      status = m_tuple1->addItem("flag_raw", m_flag_raw);
 
       // 1c __________________________________________________________________
+      status = m_tuple1->addItem("flag_1c", m_flag_1c);
       status = m_tuple1->addIndexedItem("gam1_1c", m_p4index, m_gam1_p4_1c);
       status = m_tuple1->addIndexedItem("gam2_1c", m_p4index, m_gam2_p4_1c);
       status = m_tuple1->addIndexedItem("gam3_1c", m_p4index, m_gam3_p4_1c);
@@ -219,6 +221,7 @@ StatusCode LambdacAlg::initialize()
       status = m_tuple1->addItem("etaprimem1c", m_etaprimem1c);
 
       // r3c _________________________________________________________________
+      status = m_tuple1->addItem("flag_r3c", m_flag_r3c);
       // for pi
       status = m_tuple1->addIndexedItem("p_pim_r3c", m_p4index, m_pim_p4_r3c);
       status = m_tuple1->addIndexedItem("p_pip_r3c", m_p4index, m_pip_p4_r3c);
@@ -1348,42 +1351,8 @@ StatusCode LambdacAlg::execute()
       m_gam3_p4[jj] = pi0_pg3[jj];
     for (int jj = 0; jj < 4; jj++)
       m_gam4_p4[jj] = pi0_pg4[jj];
-      
-    //  _____________  1c  _______________________
-    if(flag_1c == 1)
-    {
-      //   1,2 -> eta             3,4 -> pi       
-      for (int jj = 0; jj < 4; jj++)
-        m_gam1_p4_1c[jj] = etag1_p4_1c[jj];
-      for (int jj = 0; jj < 4; jj++)
-        m_gam2_p4_1c[jj] = etag2_p4_1c[jj];
-      for (int jj = 0; jj < 4; jj++)
-        m_gam3_p4_1c[jj] = pi0g1_p4_1c[jj];
-      for (int jj = 0; jj < 4; jj++)
-        m_gam4_p4_1c[jj] = pi0g2_p4_1c[jj];
-    }
 
-    //  _____________  retail 1c  _______________________
-    if(flag_r3c == 1)
-    {
-      for (int jj = 0; jj < 4; jj++)
-        m_pall_p4_r3c[jj] = p_p4_r3c[jj];
-      for (int jj = 0; jj < 4; jj++)
-        m_pim_p4_r3c[jj] = pim_p4_r3c[jj];
-      for (int jj = 0; jj < 4; jj++)
-        m_pip_p4_r3c[jj] = pip_p4_r3c[jj];
-      //   1,2 -> eta             3,4 -> pi
-      for (int jj = 0; jj < 4; jj++)
-        m_gam1_p4_r3c[jj] = etag1_p4_r3c[jj];
-      for (int jj = 0; jj < 4; jj++)
-        m_gam2_p4_r3c[jj] = etag2_p4_r3c[jj];
-      for (int jj = 0; jj < 4; jj++)
-        m_gam3_p4_r3c[jj] = pi0g1_p4_r3c[jj];
-      for (int jj = 0; jj < 4; jj++)
-        m_gam4_p4_r3c[jj] = pi0g2_p4_r3c[jj];
-    }
-
-
+    m_flag_raw = flag_raw; 
     m_p4index = 4;
     m_pcharge = pcharge;
     // raw
@@ -1397,34 +1366,20 @@ StatusCode LambdacAlg::execute()
       cout << __LINE__ << " m_pi0m " << m_pi0m << " m_etam " << m_etam << " m_Sigmam " << m_Sigmam << " m_etaprimem "
            << m_etaprimem << endl;
 
-    // retail 3c ______________________________________________
-    if(flag_r3c == 1)
-    {
-      m_chi2_min_r3c = minChi2_r3c;
-      m_pi0mr3c = (pi0g1_p4_r3c + pi0g2_p4_r3c).m();
-      m_etamr3c = (etag1_p4_r3c + etag2_p4_r3c).m();
-      m_Sigmamr3c = (p_p4_r3c + pi0g1_p4_r3c + pi0g2_p4_r3c).m();
-      m_etaprimemr3c = (pim_p4_r3c + pip_p4_r3c + etag1_p4_r3c + etag2_p4_r3c).m();
-
-      if (m_debug)
-        cout << __LINE__ << " m_pi0m1c " << m_pi0m1c << " m_etam1c " << m_etam1c << " m_Sigmam1c " << m_Sigmam1c
-            << " m_etaprimem1c " << m_etaprimem1c << endl;
-
-      HepLorentzVector pLambda =
-          p_p4_r3c + pim_p4_r3c + pip_p4_r3c + etag1_p4_r3c + etag2_p4_r3c + pi0g1_p4_r3c + pi0g2_p4_r3c;
-      if (m_debug)
-        cout << __LINE__ << " pLambda.m() " << pLambda.m() << endl;
-      pLambda.boost(-m_beta);
-
-      m_deltaE_min_r3c = pLambda.t() - ebeam;
-      double mbc2 = ebeam * ebeam - pLambda.v().mag2();
-      m_bc_r3c = mbc2 > 0 ? sqrt(mbc2) : -10;
-
-      cout << __LINE__ << " m_bc_r3c " << m_bc_r3c << " m_deltaE_min_r3c " << m_deltaE_min_r3c << endl;
-    }
-    // 1c _______________________________________________________
+    //  _____________  1c  _______________________
     if(flag_1c == 1)
     {
+      m_flag_1c = flag_1c;
+      //   1,2 -> eta             3,4 -> pi       
+      for (int jj = 0; jj < 4; jj++)
+        m_gam1_p4_1c[jj] = etag1_p4_1c[jj];
+      for (int jj = 0; jj < 4; jj++)
+        m_gam2_p4_1c[jj] = etag2_p4_1c[jj];
+      for (int jj = 0; jj < 4; jj++)
+        m_gam3_p4_1c[jj] = pi0g1_p4_1c[jj];
+      for (int jj = 0; jj < 4; jj++)
+        m_gam4_p4_1c[jj] = pi0g2_p4_1c[jj];
+
       m_pi0m1c = (pi0g1_p4_1c + pi0g2_p4_1c).m();
       m_etam1c = (etag1_p4_1c + etag2_p4_1c).m();
       m_Sigmam1c = (p_p4 + pi0g1_p4_1c + pi0g2_p4_1c).m();
@@ -1444,7 +1399,55 @@ StatusCode LambdacAlg::execute()
       m_bc_1c = mbc2 > 0 ? sqrt(mbc2) : -10;
 
       cout << __LINE__  << " m_bc_1c " << m_bc_1c  << " m_deltaE_min_1c " << m_deltaE_min_1c<< endl;
+
     }
+
+    //  _____________  retail 1c  _______________________
+    if(flag_r3c == 1)
+    {
+      m_flag_r3c = flag_r3c;
+      
+      for (int jj = 0; jj < 4; jj++)
+        m_pall_p4_r3c[jj] = p_p4_r3c[jj];
+      for (int jj = 0; jj < 4; jj++)
+        m_pim_p4_r3c[jj] = pim_p4_r3c[jj];
+      for (int jj = 0; jj < 4; jj++)
+        m_pip_p4_r3c[jj] = pip_p4_r3c[jj];
+      //   1,2 -> eta             3,4 -> pi
+      for (int jj = 0; jj < 4; jj++)
+        m_gam1_p4_r3c[jj] = etag1_p4_r3c[jj];
+      for (int jj = 0; jj < 4; jj++)
+        m_gam2_p4_r3c[jj] = etag2_p4_r3c[jj];
+      for (int jj = 0; jj < 4; jj++)
+        m_gam3_p4_r3c[jj] = pi0g1_p4_r3c[jj];
+      for (int jj = 0; jj < 4; jj++)
+        m_gam4_p4_r3c[jj] = pi0g2_p4_r3c[jj];
+
+      m_chi2_min_r3c = minChi2_r3c;
+      m_pi0mr3c = (pi0g1_p4_r3c + pi0g2_p4_r3c).m();
+      m_etamr3c = (etag1_p4_r3c + etag2_p4_r3c).m();
+      m_Sigmamr3c = (p_p4_r3c + pi0g1_p4_r3c + pi0g2_p4_r3c).m();
+      m_etaprimemr3c = (pim_p4_r3c + pip_p4_r3c + etag1_p4_r3c + etag2_p4_r3c).m();
+
+      if (m_debug)
+        cout << __LINE__ << " m_pi0mr3c " << m_pi0mr3c << " m_etamr3c " << m_etamr3c << " m_Sigmamr3c " << m_Sigmamr3c
+            << " m_etaprimemr3c " << m_etaprimemr3c << endl;
+
+      HepLorentzVector pLambda =
+          p_p4_r3c + pim_p4_r3c + pip_p4_r3c + etag1_p4_r3c + etag2_p4_r3c + pi0g1_p4_r3c + pi0g2_p4_r3c;
+      if (m_debug)
+        cout << __LINE__ << " pLambda.m() " << pLambda.m() << endl;
+      pLambda.boost(-m_beta);
+
+      m_deltaE_min_r3c = pLambda.t() - ebeam;
+      double mbc2 = ebeam * ebeam - pLambda.v().mag2();
+      m_bc_r3c = mbc2 > 0 ? sqrt(mbc2) : -10;
+
+      cout << __LINE__ << " m_bc_r3c " << m_bc_r3c << " m_deltaE_min_r3c " << m_deltaE_min_r3c << endl;
+
+    }
+
+
     // _____________________________________________________________
 
     m_tuple1->write();
@@ -1500,7 +1503,7 @@ StatusCode LambdacAlg::finalize()
   cout << "-------------------------------------------------------------------------" << endl;
   cout << "-------------------------------           -------------------------------" << endl;
   cout << "--------------------                                ---------------------" << endl;
-  cout << "-------------  sigma eta prime 1c and retail 3c, v1.3.0 ------------------" << endl;
+  cout << "-------------  sigma eta prime 1c and retail 3c, v1.4.0 ------------------" << endl;
   cout << "--------------------                               ----------------------" << endl;
   cout << "------------------------------           --------------------------------" << endl;
   cout << "-------------------------------------------------------------------------" << endl;
