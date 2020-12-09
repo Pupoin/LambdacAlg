@@ -845,7 +845,7 @@ StatusCode LambdacAlg::execute()
     nCharge += mdcTrk->charge();
   }
   // Finish Good Charged Track SKction
-  if (goodTrack.size() < 3)
+  if (goodTrack.size() != 3)
   {
     cout << __LINE__ << "return StatusCode::SUCCESS; goodTrack.size() < 3" << endl;
     return StatusCode::SUCCESS;
@@ -1236,7 +1236,8 @@ StatusCode LambdacAlg::execute()
 
             kmfit->AddResonance(0, 0.547862, 3, 4);
             kmfit->AddResonance(1, 0.1349770, 1, 2);
-            kmfit->AddFourMomentum(2, HepCMS);
+            kmfit->AddResonance(2, 0.95778, 3, 4, 5, 6);
+            kmfit->AddFourMomentum(3, HepCMS);
 
             // MyMotherParticleFit tmp2;
             bool okvs1 = kmfit->Fit();
@@ -1503,7 +1504,7 @@ StatusCode LambdacAlg::finalize()
   cout << "-------------------------------------------------------------------------" << endl;
   cout << "-------------------------------           -------------------------------" << endl;
   cout << "--------------------                                ---------------------" << endl;
-  cout << "-------------  sigma eta prime 1c and retail 3c, v1.4.0 ------------------" << endl;
+  cout << "-------------  sigma eta prime 1c and retail 3c, v1.5.0 ------------------" << endl;
   cout << "--------------------                               ----------------------" << endl;
   cout << "------------------------------           --------------------------------" << endl;
   cout << "-------------------------------------------------------------------------" << endl;
