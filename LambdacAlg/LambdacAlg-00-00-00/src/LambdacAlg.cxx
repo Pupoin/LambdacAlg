@@ -1167,23 +1167,6 @@ StatusCode LambdacAlg::execute()
                 eta[i_eta].getChild2().getIndex() == pi0[i_pi0].getChild2().getIndex())
               continue;
 
-            // cut for eta prime
-            HepLorentzVector p_etaprime = piMin[i_piMin].getLorentzVector() + piPlus[i_piPlus].getLorentzVector() +
-                                          eta[i_eta].getMotherLorentzVector(2);
-            if (m_debug)
-              cout << __LINE__ << " eta prime m(): " << p_etaprime.m() << endl;
-            if (p_etaprime.m() > m_EtaPrimeMaxMass || p_etaprime.m() < m_EtaPrimeMinMass)
-              continue;
-            if (m_debug)
-              cout << __LINE__ << "00000000" << " eta prime m(): " << p_etaprime.m() << endl;
-            // cut for sigma
-            HepLorentzVector psigma = proton[i_proton].getLorentzVector() + pi0[i_pi0].getMotherLorentzVector(2);
-            if (m_debug)
-              cout << __LINE__ << "  psigma.m():" << psigma.m() << endl;
-            if (psigma.m() < m_SigmaMinMass || psigma.m() > m_SigmaMaxMass)
-              continue;
-            if (m_debug)
-              cout << __LINE__ << "  psigma.m():" << psigma.m() << endl;
 
             // raw infomation
             flag_raw = 1;
@@ -1196,31 +1179,8 @@ StatusCode LambdacAlg::execute()
             pi0_pg3 = pi0[i_pi0].getChild1().getLorentzVector();
             pi0_pg4 = pi0[i_pi0].getChild2().getLorentzVector();
 
-            HepLorentzVector pLambda_1c = proton[i_proton].getLorentzVector() +
-                                          pi0_1c[i_pi0].getMotherLorentzVector(2) +
-                                          eta_1c[i_eta].getMotherLorentzVector(2) + 
-                                          piMin[i_piMin].getLorentzVector() +
-                                          piPlus[i_piPlus].getLorentzVector();
-            pLambda_1c.boost(-m_beta);
-            double deltaE1c = pLambda_1c.t() - ebeam;
-            // ______________________________  minimum delta E ____________________________________
-            if (m_debug)
-              cout << "fabs(deltaE1c): " << fabs(deltaE1c) << ", fabs(deltaE_min1c): " << fabs(deltaE_min1c) << endl;
-            if (fabs(deltaE1c) < fabs(deltaE_min1c))
-            {
-              flag_1c = 1;
-              deltaE_min1c = deltaE1c;
-              // chisq = chi2[k];
-              // m_p_p4_r3c = kmfit1->pfit(0);
-              pi0g1_p4_1c = pi0_1c[i_pi0].getChild1().getLorentzVector();
-              pi0g2_p4_1c = pi0_1c[i_pi0].getChild2().getLorentzVector();
-              etag1_p4_1c = eta_1c[i_eta].getChild1().getLorentzVector();
-              etag2_p4_1c = eta_1c[i_eta].getChild2().getLorentzVector();
 
-              // p_p4 = proton[i_proton].getLorentzVector();
-            }
-
-            // _______________________________________________  1C  ______________________________________________
+            // _______________________________________________  r4C  ______________________________________________
             kmfit->init();
             kmfit->setChisqCut(1e3);
             kmfit->setIterNumber(10);
@@ -1263,6 +1223,48 @@ StatusCode LambdacAlg::execute()
                 pim_p4_r3c = kmfit->pfit(5);
                 pip_p4_r3c = kmfit->pfit(6);
               }
+            }
+
+            // cut for eta prime
+            HepLorentzVector p_etaprime = piMin[i_piMin].getLorentzVector() + piPlus[i_piPlus].getLorentzVector() +
+                                          eta_1c[i_eta].getMotherLorentzVector(2);
+            if (m_debug)
+              cout << __LINE__ << " eta prime m(): " << p_etaprime.m() << endl;
+            if (p_etaprime.m() > m_EtaPrimeMaxMass || p_etaprime.m() < m_EtaPrimeMinMass)
+              continue;
+            if (m_debug)
+              cout << __LINE__ << "00000000" << " eta prime m(): " << p_etaprime.m() << endl;
+            // cut for sigma
+            HepLorentzVector psigma = proton[i_proton].getLorentzVector() + pi0_1c[i_pi0].getMotherLorentzVector(2);
+            if (m_debug)
+              cout << __LINE__ << "  psigma.m():" << psigma.m() << endl;
+            if (psigma.m() < m_SigmaMinMass || psigma.m() > m_SigmaMaxMass)
+              continue;
+            if (m_debug)
+              cout << __LINE__ << "  psigma.m():" << psigma.m() << endl;
+
+            HepLorentzVector pLambda_1c = proton[i_proton].getLorentzVector() +
+                                          pi0_1c[i_pi0].getMotherLorentzVector(2) +
+                                          eta_1c[i_eta].getMotherLorentzVector(2) + 
+                                          piMin[i_piMin].getLorentzVector() +
+                                          piPlus[i_piPlus].getLorentzVector();
+            pLambda_1c.boost(-m_beta);
+            double deltaE1c = pLambda_1c.t() - ebeam;
+            // ______________________________  minimum delta E ____________________________________
+            if (m_debug)
+              cout << "fabs(deltaE1c): " << fabs(deltaE1c) << ", fabs(deltaE_min1c): " << fabs(deltaE_min1c) << endl;
+            if (fabs(deltaE1c) < fabs(deltaE_min1c))
+            {
+              flag_1c = 1;
+              deltaE_min1c = deltaE1c;
+              // chisq = chi2[k];
+              // m_p_p4_r3c = kmfit1->pfit(0);
+              pi0g1_p4_1c = pi0_1c[i_pi0].getChild1().getLorentzVector();
+              pi0g2_p4_1c = pi0_1c[i_pi0].getChild2().getLorentzVector();
+              etag1_p4_1c = eta_1c[i_eta].getChild1().getLorentzVector();
+              etag2_p4_1c = eta_1c[i_eta].getChild2().getLorentzVector();
+
+              // p_p4 = proton[i_proton].getLorentzVector();
             }
           }
         }
@@ -1504,7 +1506,7 @@ StatusCode LambdacAlg::finalize()
   cout << "-------------------------------------------------------------------------" << endl;
   cout << "-------------------------------           -------------------------------" << endl;
   cout << "--------------------                                ---------------------" << endl;
-  cout << "-------------  sigma eta prime 1c and retail 3c, v1.5.0 ------------------" << endl;
+  cout << "-------------  sigma eta prime 1c and retail 3c, v1.6.0 ------------------" << endl;
   cout << "--------------------                               ----------------------" << endl;
   cout << "------------------------------           --------------------------------" << endl;
   cout << "-------------------------------------------------------------------------" << endl;
