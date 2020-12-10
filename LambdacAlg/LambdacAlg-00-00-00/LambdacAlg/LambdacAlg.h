@@ -57,6 +57,9 @@ private:
 	double m_EtaPrimeMinMass;
 	double m_EtaPrimeMaxMass;
 
+	double m_OmegaMinMass;
+	double m_OmegaMaxMass;
+
 	bool m_debug;
 	bool m_isqqbar;
 	double m_beamE;
@@ -216,9 +219,6 @@ private:
 	NTuple::Item<double> m_etaprimemr3c;
 	NTuple::Item<double> m_Sigmamr3c;
 	NTuple::Item<double> m_pcharge;
-
-
-
 
 	NTuple::Array<double> m_pall_p4r;
 	NTuple::Array<double> m_pim_p4r;
