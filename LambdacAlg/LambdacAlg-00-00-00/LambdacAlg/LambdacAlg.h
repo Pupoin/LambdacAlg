@@ -217,6 +217,25 @@ private:
 	NTuple::Item<double> m_Sigmamr3c;
 	NTuple::Item<double> m_pcharge;
 
+
+
+
+	NTuple::Array<double> m_pall_p4r;
+	NTuple::Array<double> m_pim_p4r;
+	NTuple::Array<double> m_pip_p4r;
+
+	NTuple::Array<double> m_gam1_p4r;
+	NTuple::Array<double> m_gam2_p4r;
+	NTuple::Array<double> m_gam3_p4r;
+	NTuple::Array<double> m_gam4_p4r;
+
+	NTuple::Item<double> m_pi0mr;
+	NTuple::Item<double> m_etamr;
+	NTuple::Item<double> m_etaprimemr;
+	NTuple::Item<double> m_Sigmamr;
+	NTuple::Item<double> m_pcharger;
+	NTuple::Item<double> m_signalr;
+
 	//  _________________________________________________________________
 
 	NTuple::Item<double> m_pi0m;
