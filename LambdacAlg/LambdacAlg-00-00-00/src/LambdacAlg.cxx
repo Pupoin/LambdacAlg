@@ -1092,15 +1092,15 @@ StatusCode LambdacAlg::execute()
         //   cout << __LINE__ << proton[i].getLorentzVector()[0] << " " << proton[i].getLorentzVector()[1] << " "
         //        << proton[i].getLorentzVector()[2] << " " << proton[i].getLorentzVector()[3] << " " << endl;
 
-        HepLorentzVector psigma = proton[i].getLorentzVector() + pi0[k].getChild1().getLorentzVector() +
-                                  pi0[k].getChild2().getLorentzVector();
+        // HepLorentzVector psigma = proton[i].getLorentzVector() + pi0[k].getChild1().getLorentzVector() +
+        //                           pi0[k].getChild2().getLorentzVector();
         // if (m_debug)
         //   cout << __LINE__ << " psigma.m() " << psigma.m() << endl;
-        if (psigma.m() < m_SigmaMinMass || psigma.m() > m_SigmaMaxMass)
-          continue;
+        // if (psigma.m() < m_SigmaMinMass || psigma.m() > m_SigmaMaxMass)
+        //   continue;
 
-        if (m_debug)
-          cout << __LINE__ << " i_proton:"<< i << "  j_eta:" << j << " k_pi0:"  <<  k << "  psigma.m():" << psigma.m() << endl;
+        // if (m_debug)
+        //   cout << __LINE__ << " i_proton:"<< i << "  j_eta:" << j << " k_pi0:"  <<  k << "  psigma.m():" << psigma.m() << endl;
 
         // MyMotherParticleFit tmp0(proton[i], pi0[k]);
         // tmp0.setLorentzVector(psigma);
@@ -1141,6 +1141,16 @@ StatusCode LambdacAlg::execute()
         {
           kmfit1->BuildVirtualParticle(0);
           // LcWTrk_1C = kmfit1->wVirtualTrack(0);
+
+          // cut for sigma
+          HepLorentzVector psigma = kmfit1->pfit(0) + kmfit1->pfit(1) + kmfit1->pfit(2);
+          if (m_debug)
+            cout << __LINE__ << "  psigma.m():" << psigma.m() << endl;
+          if (psigma.m() < m_SigmaMinMass || psigma.m() > m_SigmaMaxMass)
+            continue;
+          if (m_debug)
+            cout << __LINE__ << "  psigma.m():" << psigma.m() << endl;
+
           
           // ______________________________  1c minimum chi2 ____________________________________
           if (m_debug) 
