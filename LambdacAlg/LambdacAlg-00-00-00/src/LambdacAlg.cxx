@@ -1180,7 +1180,7 @@ StatusCode LambdacAlg::execute()
             pi0_pg4 = pi0[i_pi0].getChild2().getLorentzVector();
 
 
-            // _______________________________________________  r4C  ______________________________________________
+            // _______________________________________________  r3C  ______________________________________________
             kmfit->init();
             kmfit->setChisqCut(1e3);
             kmfit->setIterNumber(10);
@@ -1196,8 +1196,8 @@ StatusCode LambdacAlg::execute()
 
             kmfit->AddResonance(0, 0.547862, 3, 4);
             kmfit->AddResonance(1, 0.1349770, 1, 2);
-            kmfit->AddResonance(2, 0.95778, 3, 4, 5, 6);
-            kmfit->AddFourMomentum(3, HepCMS);
+            // kmfit->AddResonance(2, 0.95778, 3, 4, 5, 6);
+            kmfit->AddFourMomentum(2, HepCMS);
 
             // MyMotherParticleFit tmp2;
             bool okvs1 = kmfit->Fit();
