@@ -1171,7 +1171,7 @@ StatusCode LambdacAlg::execute()
         if (igam2[j] == igam3[k] || igam2[j] == igam4[k])
           continue;
 
-        HepLorentzVector psigma_tmp = pp[i] + pgam3[k] + pgam4[k];
+        HepLorentzVector psigma_tmp = pp[i] + pgam3_1c[k] + pgam4_1c[k];
         cout << __LINE__ << " pp[i].e() " << pp[i].e() << " pp[i].m() " << pp[i].m() << " i,k " << i << "," << k
              << " psigma_tmp.m() " << psigma_tmp.m() << endl;
 
@@ -1409,7 +1409,7 @@ StatusCode LambdacAlg::finalize()
   cout << "-------------------------------------------------------------------------" << endl;
   cout << "-------------------------------           -------------------------------" << endl;
   cout << "--------------------                                ---------------------" << endl;
-  cout << "--------------------------   sigma eta v1.4.0  -----------------" << endl;
+  cout << "--------------------------   sigma eta v1.4.1  -----------------" << endl;
   cout << "--------------------                               ----------------------" << endl;
   cout << "------------------------------           --------------------------------" << endl;
   cout << "-------------------------------------------------------------------------" << endl;
