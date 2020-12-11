@@ -1147,7 +1147,7 @@ StatusCode LambdacAlg::execute()
         // if (igam2[j] == igam3[k] || igam2[j] == igam4[k])
         //   continue;
 
-        HepLorentzVector psigma_tmp = ppbar[i] + pgam3[k] + pgam4[k];
+        HepLorentzVector psigma_tmp = ppbar[i] + pgam3_c[k] + pgam4_c[k];
         if (m_debug)
           cout << __LINE__ << " i,j,k " << i << "," << j << ","<< k << " psigma_tmp.m() " << psigma_tmp.m() << endl;
         if (psigma.m() < m_SigmaMinMass || psigma.m() > m_SigmaMaxMass)
@@ -1467,7 +1467,7 @@ StatusCode LambdacAlg::finalize()
   cout << "-------------------------------------------------------------------------" << endl;
   cout << "-------------------------------           -------------------------------" << endl;
   cout << "--------------------                                ---------------------" << endl;
-  cout << "--------------  f o r    s i g m a    p i 0   v1.2.2 -----------------" << endl;
+  cout << "--------------  f o r    s i g m a    p i 0   v1.3 -----------------" << endl;
   cout << "--------------------                               ----------------------" << endl;
   cout << "------------------------------           --------------------------------" << endl;
   cout << "-------------------------------------------------------------------------" << endl;
