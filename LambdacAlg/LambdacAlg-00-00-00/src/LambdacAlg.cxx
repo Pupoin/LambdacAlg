@@ -1191,6 +1191,10 @@ StatusCode LambdacAlg::execute()
                 eta[i_eta].getChild2().getIndex() == pi0[i_pi0].getChild2().getIndex())
               continue;
 
+            if( proton[i_proton].getIndex() ==  piMin[i_piMin].getIndex()) continue;
+            if( proton[i_proton].getIndex() ==  piPlus[i_piPlus].getIndex()) continue;
+            if( piMin[i_piMin].getIndex() ==  piPlus[i_piPlus].getIndex()) continue;     
+
             // // _______________________________________________  r3C  ______________________________________________
             // kmfit->init();
             // kmfit->setChisqCut(1e3);
