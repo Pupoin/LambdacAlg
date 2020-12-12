@@ -1081,12 +1081,13 @@ StatusCode LambdacAlg::execute()
   double minChi2_r1c = 999999999, minChi2_r2c = 99999999999;
   int flag = 0;
 
+  KalmanKinematicFit *kmfit1 = KalmanKinematicFit::instance();
   for (int i = 0; i < proton.size(); i++)
   {
     for (int j = 0; j < pi0.size(); j++)
     {
       // k is the pi from sigma
-      for (int k = 0; k < pi0.size(); k++)
+      for (int k = j; k < pi0.size(); k++)
       {
         // if (pi0[j].getChild1().getIndex() == pi0[k].getChild1().getIndex() ||
         //     pi0[j].getChild1().getIndex() == pi0[k].getChild2().getIndex())
@@ -1098,8 +1099,6 @@ StatusCode LambdacAlg::execute()
         // if (m_debug)
         //   cout << __LINE__ << proton[i].getLorentzVector()[0] << " " << proton[i].getLorentzVector()[1] << " "
         //        << proton[i].getLorentzVector()[2] << " " << proton[i].getLorentzVector()[3] << " " << endl;
-        if(j==k)
-            continue;
 
         // MyMotherParticleFit tmp0(proton[i], pi0[k]);
         // tmp0.setLorentzVector(psigma);
@@ -1113,7 +1112,6 @@ StatusCode LambdacAlg::execute()
         // lambdac = tmp;
         
         // 1C
-        KalmanKinematicFit *kmfit1 = KalmanKinematicFit::instance();
         kmfit1->init();
         kmfit1->setChisqCut(1e3);
         kmfit1->setIterNumber(10);
@@ -1141,13 +1139,13 @@ StatusCode LambdacAlg::execute()
           kmfit1->BuildVirtualParticle(0);
           // LcWTrk_1C = kmfit1->wVirtualTrack(0);
 
-        HepLorentzVector psigma = kmfit1->pfit(0) + kmfit1->pfit(1) + kmfit1->pfit(2);
-        if (m_debug)
-          cout << __LINE__ << " psigma.m() " << psigma.m() << endl;
-        if (psigma.m() < m_SigmaMinMass || psigma.m() > m_SigmaMaxMass)
-          continue;
-        if (m_debug)
-          cout << __LINE__ << "  psigma.m():" << psigma.m() << endl;
+          HepLorentzVector psigma = kmfit1->pfit(0) + kmfit1->pfit(1) + kmfit1->pfit(2);
+          if (m_debug)
+            cout << __LINE__ << " psigma.m() " << psigma.m() << endl;
+          if (psigma.m() < m_SigmaMinMass || psigma.m() > m_SigmaMaxMass)
+            continue;
+          if (m_debug)
+            cout << __LINE__ << "  psigma.m():" << psigma.m() << endl;
 
           
           // ______________________________  1c minimum chi2 ____________________________________
@@ -1362,7 +1360,7 @@ StatusCode LambdacAlg::finalize()
   cout << "-------------------------------------------------------------------------" << endl;
   cout << "-------------------------------           -------------------------------" << endl;
   cout << "--------------------                                ---------------------" << endl;
-  cout << "--------------  for sigma pi0_r3c   v1.2 -----------------" << endl;
+  cout << "--------------  for sigma pi0_r3c   v1.3 -----------------" << endl;
   cout << "--------------------                               ----------------------" << endl;
   cout << "------------------------------           --------------------------------" << endl;
   cout << "-------------------------------------------------------------------------" << endl;
