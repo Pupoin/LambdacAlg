@@ -1117,16 +1117,13 @@ StatusCode LambdacAlg::execute()
     {
       for (int k = 0; k < ngam34; k++)
       {
-        HepLorentzVector psigma = ppbar[i] + pgam3_1C[k] + pgam4_1C[k];
 
         if (igam1[j] == igam3[k] || igam1[j] == igam4[k])
           continue;
         if (igam2[j] == igam3[k] || igam2[j] == igam4[k])
           continue;
 
-        HepLorentzVector psigma_tmp = ppbar[i] + pgam3[k] + pgam4[k];
-        cout << __LINE__ << " i,k " << i << "," << k << " psigma_tmp.m() " << psigma_tmp.m() << endl;
-
+        HepLorentzVector psigma = ppbar[i] + pgam3_1C[k] + pgam4_1C[k];
         if (psigma.m() < m_SigmaMinMass || psigma.m() > m_SigmaMaxMass)
           continue;
 
@@ -1164,17 +1161,13 @@ StatusCode LambdacAlg::execute()
     {
       for (int k = 0; k < ngam34; k++)
       {
-        HepLorentzVector psigma = pp[i] + pgam3_1C[k] + pgam4_1C[k];
 
         if (igam1[j] == igam3[k] || igam1[j] == igam4[k])
           continue;
         if (igam2[j] == igam3[k] || igam2[j] == igam4[k])
           continue;
 
-        HepLorentzVector psigma_tmp = pp[i] + pgam3_1c[k] + pgam4_1c[k];
-        cout << __LINE__ << " pp[i].e() " << pp[i].e() << " pp[i].m() " << pp[i].m() << " i,k " << i << "," << k
-             << " psigma_tmp.m() " << psigma_tmp.m() << endl;
-
+        HepLorentzVector psigma = pp[i] + pgam3_1C[k] + pgam4_1C[k];
         if (psigma.m() < m_SigmaMinMass || psigma.m() > m_SigmaMaxMass)
           continue;
 
@@ -1409,7 +1402,7 @@ StatusCode LambdacAlg::finalize()
   cout << "-------------------------------------------------------------------------" << endl;
   cout << "-------------------------------           -------------------------------" << endl;
   cout << "--------------------                                ---------------------" << endl;
-  cout << "--------------------------   sigma eta v1.4.1  -----------------" << endl;
+  cout << "--------------------------   sigma eta v1.4.2  -----------------" << endl;
   cout << "--------------------                               ----------------------" << endl;
   cout << "------------------------------           --------------------------------" << endl;
   cout << "-------------------------------------------------------------------------" << endl;
