@@ -852,7 +852,7 @@ StatusCode LambdacAlg::execute()
     double Rvphi0 = vecipa[1];
     double costheta = cos(mdcTrk->theta());
 
-    if (costheta >= m_costheta)
+    if (fabs(costheta) >= m_costheta)
       continue;
     if (fabs(Rvz0) >= m_vz0cut1)
       continue;
@@ -1585,7 +1585,7 @@ StatusCode LambdacAlg::finalize()
   cout << "-------------------------------------------------------------------------" << endl;
   cout << "-------------------------------           -------------------------------" << endl;
   cout << "--------------------                                ---------------------" << endl;
-  cout << "-------------  sigma eta prime 1c and recoil 3c, v3.2 ------------------" << endl;
+  cout << "-------------  sigma eta prime 1c and recoil 3c, v3.3 ------------------" << endl;
   cout << "--------------------                               ----------------------" << endl;
   cout << "------------------------------           --------------------------------" << endl;
   cout << "-------------------------------------------------------------------------" << endl;
