@@ -865,7 +865,7 @@ StatusCode LambdacAlg::execute()
     nCharge += mdcTrk->charge();
   }
   // Finish Good Charged Track SKction
-  if (goodTrack.size() <= 3)
+  if (goodTrack.size() < 3)
   {
     cout << __LINE__ << "return StatusCode::SUCCESS; goodTrack.size() < 3" << endl;
     return StatusCode::SUCCESS;
@@ -1585,7 +1585,7 @@ StatusCode LambdacAlg::finalize()
   cout << "-------------------------------------------------------------------------" << endl;
   cout << "-------------------------------           -------------------------------" << endl;
   cout << "--------------------                                ---------------------" << endl;
-  cout << "-------------  sigma eta prime 1c and recoil 3c, v3.1 ------------------" << endl;
+  cout << "-------------  sigma eta prime 1c and recoil 3c, v3.2 ------------------" << endl;
   cout << "--------------------                               ----------------------" << endl;
   cout << "------------------------------           --------------------------------" << endl;
   cout << "-------------------------------------------------------------------------" << endl;
