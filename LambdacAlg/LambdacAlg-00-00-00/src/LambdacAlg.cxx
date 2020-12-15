@@ -776,7 +776,7 @@ StatusCode LambdacAlg::execute()
     double Rvphi0 = vecipa[1];
     double costheta = cos(mdcTrk->theta());
 
-    if (costheta >= m_costheta)
+    if (fab(costheta) >= m_costheta)
       continue;
     if (fabs(Rvz0) >= m_vz0cut1)
       continue;
@@ -1087,7 +1087,7 @@ StatusCode LambdacAlg::execute()
     for (int j = 0; j < pi0.size(); j++)
     {
       // k is the pi from sigma
-      for (int k = j; k < pi0.size(); k++)
+      for (int k = j+1; k < pi0.size(); k++)
       {
         // if (pi0[j].getChild1().getIndex() == pi0[k].getChild1().getIndex() ||
         //     pi0[j].getChild1().getIndex() == pi0[k].getChild2().getIndex())
@@ -1360,7 +1360,7 @@ StatusCode LambdacAlg::finalize()
   cout << "-------------------------------------------------------------------------" << endl;
   cout << "-------------------------------           -------------------------------" << endl;
   cout << "--------------------                                ---------------------" << endl;
-  cout << "--------------  for sigma pi0_r3c   v1.3 -----------------" << endl;
+  cout << "--------------  for sigma pi0_r3c   v1.4 -----------------" << endl;
   cout << "--------------------                               ----------------------" << endl;
   cout << "------------------------------           --------------------------------" << endl;
   cout << "-------------------------------------------------------------------------" << endl;
