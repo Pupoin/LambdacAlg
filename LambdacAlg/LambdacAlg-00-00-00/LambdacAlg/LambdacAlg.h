@@ -214,7 +214,7 @@ private:
 	NTuple::Item<double> m_pi0mr3c;
 	NTuple::Item<double> m_etamr3c;
 	NTuple::Item<double> m_etaprimemr3c;
-	NTuple::Item<double> m_Sigmamr3c;
+	NTuple::Item<double> m_sigmamr3c;
 	NTuple::Item<double> m_pcharge;
 
 
