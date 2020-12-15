@@ -236,7 +236,7 @@ StatusCode LambdacAlg::initialize()
       status = m_tuple1->addItem("pi0mr3c", m_pi0mr3c);
       status = m_tuple1->addItem("etamr3c", m_etamr3c);
       status = m_tuple1->addItem("etaprimemr3c", m_etaprimemr3c);
-      status = m_tuple1->addItem("sigmamr3c", m_Sigmamr3c);
+      status = m_tuple1->addItem("sigmamr3c", m_sigmamr3c);
 
 
 
@@ -1382,6 +1382,9 @@ StatusCode LambdacAlg::execute()
     m_ebeam = ebeam;
     m_p4index = 4;
     m_signal = signal;
+    m_np = np;
+    m_npbar = npbar;
+
 
     //  _____________  recoil 3c  _______________________
     if(flag_r3c == 1)
@@ -1413,8 +1416,6 @@ StatusCode LambdacAlg::execute()
       m_etamr = (eta_pg1r + eta_pg2r).m();
       m_Sigmamr = (p_p4r + pi0_pg3r + pi0_pg4r).m();
       m_etaprimemr = (pim_p4r + pip_p4r + eta_pg1r + eta_pg2r).m();
-      // m_np = np;
-      // m_npbar = npbar;
       if (m_debug)
         cout << __LINE__ << " m_pi0mr " << m_pi0mr << " m_etamr " << m_etamr << " m_Sigmamr " << m_Sigmamr << " m_etaprimemr "
             << m_etaprimemr << endl;
@@ -1439,11 +1440,11 @@ StatusCode LambdacAlg::execute()
       m_chi2_min_r3c = minChi2_r3c;
       m_pi0mr3c = (pi0g1_p4_r3c + pi0g2_p4_r3c).m();
       m_etamr3c = (etag1_p4_r3c + etag2_p4_r3c).m();
-      m_Sigmamr3c = (p_p4_r3c + pi0g1_p4_r3c + pi0g2_p4_r3c).m();
+      m_sigmamr3c = (p_p4_r3c + pi0g1_p4_r3c + pi0g2_p4_r3c).m();
       m_etaprimemr3c = (pim_p4_r3c + pip_p4_r3c + etag1_p4_r3c + etag2_p4_r3c).m();
 
       if (m_debug)
-        cout << __LINE__ << " m_pi0mr3c " << m_pi0mr3c << " m_etamr3c " << m_etamr3c << " m_Sigmamr3c " << m_Sigmamr3c
+        cout << __LINE__ << " m_pi0mr3c " << m_pi0mr3c << " m_etamr3c " << m_etamr3c << " m_sigmamr3c " << m_sigmamr3c
             << " m_etaprimemr3c " << m_etaprimemr3c << endl;
 
       HepLorentzVector pLambda =
@@ -1490,8 +1491,6 @@ StatusCode LambdacAlg::execute()
       m_etam = (eta_pg1 + eta_pg2).m();
       m_Sigmam = (p_p4 + pi0_pg3 + pi0_pg4).m();
       m_etaprimem = (pim_p4 + pip_p4 + eta_pg1 + eta_pg2).m();
-      m_np = np;
-      m_npbar = npbar;
       if (m_debug)
         cout << __LINE__ << " m_pi0m " << m_pi0m << " m_etam " << m_etam << " m_Sigmam " << m_Sigmam << " m_etaprimem "
             << m_etaprimem << endl;
@@ -1586,7 +1585,7 @@ StatusCode LambdacAlg::finalize()
   cout << "-------------------------------------------------------------------------" << endl;
   cout << "-------------------------------           -------------------------------" << endl;
   cout << "--------------------                                ---------------------" << endl;
-  cout << "-------------  sigma eta prime 1c, v2.1 ------------------" << endl;
+  cout << "-------------  sigma eta prime 1c and recoil 3c, v3.0 ------------------" << endl;
   cout << "--------------------                               ----------------------" << endl;
   cout << "------------------------------           --------------------------------" << endl;
   cout << "-------------------------------------------------------------------------" << endl;
