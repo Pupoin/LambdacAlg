@@ -111,6 +111,9 @@ LambdacAlg::LambdacAlg(const std::string &name, ISvcLocator *pSvcLocator) : Algo
   declareProperty("EtaPrimeMinMass", m_EtaPrimeMinMass = 0.946);
   declareProperty("EtaPrimeMaxMass", m_EtaPrimeMaxMass = 0.968);
 
+  declareProperty("OmegaMinMass", m_OmegaMinMass = 0.76);
+  declareProperty("OmegaMaxMass", m_OmegaMaxMass = 0.8);
+
   declareProperty("Debug", m_debug = false);
   declareProperty("Isqqbar", m_isqqbar = false);
 
@@ -218,7 +221,7 @@ StatusCode LambdacAlg::initialize()
       status = m_tuple1->addIndexedItem("gam3_1c", m_p4index, m_gam3_p4_1c);
       status = m_tuple1->addIndexedItem("gam4_1c", m_p4index, m_gam4_p4_1c);
       status = m_tuple1->addItem("sigmam1c", m_Sigmam1c);
-      status = m_tuple1->addItem("etaprimem1c", m_etaprimem1c);
+      status = m_tuple1->addItem("etaprimem1c", m_omegam1c);
 
       // r3c _________________________________________________________________
       status = m_tuple1->addItem("flag_r3c", m_flag_r3c);
@@ -235,7 +238,7 @@ StatusCode LambdacAlg::initialize()
 
       status = m_tuple1->addItem("pi0mr3c", m_pi0mr3c);
       status = m_tuple1->addItem("etamr3c", m_etamr3c);
-      status = m_tuple1->addItem("etaprimemr3c", m_etaprimemr3c);
+      status = m_tuple1->addItem("etaprimemr3c", m_omegamr3c);
       status = m_tuple1->addItem("sigmamr3c", m_sigmamr3c);
 
 
@@ -251,7 +254,7 @@ StatusCode LambdacAlg::initialize()
 
       status = m_tuple1->addItem("pi0mr", m_pi0mr);
       status = m_tuple1->addItem("etamr", m_etamr);
-      status = m_tuple1->addItem("etaprimemr", m_etaprimemr);
+      status = m_tuple1->addItem("etaprimemr", m_omegamr);
       status = m_tuple1->addItem("sigmamr", m_Sigmamr);
       status = m_tuple1->addItem("pcharger", m_pcharger);
       status = m_tuple1->addItem("signalr", m_signalr);
@@ -266,7 +269,7 @@ StatusCode LambdacAlg::initialize()
       status = m_tuple1->addItem("ksi", m_ksi);
       status = m_tuple1->addItem("kstar", m_kstar);
       status = m_tuple1->addItem("sigmastar", m_sigmastar);
-      status = m_tuple1->addItem("etaprimem", m_etaprimem);
+      status = m_tuple1->addItem("etaprimem", m_omegam);
       status = m_tuple1->addItem("all", m_all);
       status = m_tuple1->addItem("all_m", m_all_m);
       status = m_tuple1->addItem("all_p", m_all_p);
@@ -466,7 +469,7 @@ StatusCode LambdacAlg::execute()
 
         // truth for lambda_c+ to ... ------------------------------------
         if ((*iter_mc)->particleProperty() == 4122)
-        { // lambdac+ -> sigma+ eta', store sigma+ eta'
+        { // lambdac+ -> sigma+ omega, store sigma+ omega
           const SmartRefVector<Event::McParticle> &gc = (*iter_mc)->daughterList();
           for (unsigned int ii = 0; ii < gc.size(); ii++)
           {
@@ -518,8 +521,8 @@ StatusCode LambdacAlg::execute()
             ndaughterAp++;
           } // End of "gc.size() > 0" IF
         }
-        if (pdg == 331 && motherpdg == 4122)
-        { //// eta'->pi+ pi- eta, store pi+ pi- eta
+        if (pdg == 223 && motherpdg == 4122)
+        { //// omega ->pi+ pi- eta, store pi+ pi- pi0
           const SmartRefVector<Event::McParticle> &gc = (*iter_mc)->daughterList();
           for (unsigned int ii = 0; ii < gc.size(); ii++)
           {
@@ -536,8 +539,8 @@ StatusCode LambdacAlg::execute()
           }
         }
 
-        if (pdg == 221 && motherpdg == 331 && mmotherpdg == 4122)
-        { // eta->gam gam //store 2 gamma
+        if (pdg == 111 && motherpdg == 223 && mmotherpdg == 4122)
+        { // pi0 ->gam gam //store 2 gamma
           const SmartRefVector<Event::McParticle> &gc = (*iter_mc)->daughterList();
           for (unsigned int ii = 0; ii < gc.size(); ii++)
           {
@@ -556,7 +559,7 @@ StatusCode LambdacAlg::execute()
 
         // truth for lambda_c- to ... ------------------------------------
         if ((*iter_mc)->particleProperty() == -4122)
-        { // lambdac- -> sigma- eta', store sigma- eta'
+        { // lambdac- -> sigma- oemga, store sigma- omega
           const SmartRefVector<Event::McParticle> &gc = (*iter_mc)->daughterList();
           for (unsigned int ii = 0; ii < gc.size(); ii++)
           {
@@ -607,8 +610,8 @@ StatusCode LambdacAlg::execute()
             ndaughterAm++;
           } // End of "gc.size() > 0" IF
         }
-        if (pdg == 331 && motherpdg == -4122)
-        { //// eta'->pi+ pi- eta, store pi+ pi- eta
+        if (pdg == 223 && motherpdg == -4122)
+        { //// omega ->pi+ pi- pi0, store pi+ pi- pi0
           const SmartRefVector<Event::McParticle> &gc = (*iter_mc)->daughterList();
           for (unsigned int ii = 0; ii < gc.size(); ii++)
           {
@@ -625,8 +628,8 @@ StatusCode LambdacAlg::execute()
           }
         }
 
-        if (pdg == 221 && motherpdg == 331 && mmotherpdg == -4122)
-        { // eta->gam gam //store 2 gamma
+        if (pdg == 111 && motherpdg == 223 && mmotherpdg == -4122)
+        { // pi0 ->gam gam //store 2 gamma
           const SmartRefVector<Event::McParticle> &gc = (*iter_mc)->daughterList();
           for (unsigned int ii = 0; ii < gc.size(); ii++)
           {
@@ -753,16 +756,16 @@ StatusCode LambdacAlg::execute()
         }
       }
 
-      if (ndaughterAp == 11 && Ap_id[0] == 3222 && Ap_id[1] == 331 && Ap_id[2] == 2212 && Ap_id[3] == 111 &&
-          Ap_id[4] == 211 && Ap_id[5] == -211 && Ap_id[6] == 221 && Ap_id[7] == 22 && Ap_id[8] == 22 &&
+      if (ndaughterAp == 11 && Ap_id[0] == 3222 && Ap_id[1] == 223 && Ap_id[2] == 2212 && Ap_id[3] == 111 &&
+          Ap_id[4] == 211 && Ap_id[5] == -211 && Ap_id[6] == 111 && Ap_id[7] == 22 && Ap_id[8] == 22 &&
           Ap_id[9] == 22 && Ap_id[10] == 22)
       {
         signal = 1;
         all++;
         all_p++;
       }
-      if (ndaughterAm == 11 && Am_id[0] == -3222 && Am_id[1] == 331 && Am_id[2] == -2212 && Am_id[3] == 111 &&
-          Am_id[4] == 211 && Am_id[5] == -211 && Am_id[6] == 221 && Am_id[7] == 22 && Am_id[8] == 22 &&
+      if (ndaughterAm == 11 && Am_id[0] == -3222 && Am_id[1] == 223 && Am_id[2] == -2212 && Am_id[3] == 111 &&
+          Am_id[4] == 211 && Am_id[5] == -211 && Am_id[6] == 111 && Am_id[7] == 22 && Am_id[8] == 22 &&
           Am_id[9] == 22 && Am_id[10] == 22)
       {
         signal = -1;
@@ -852,7 +855,7 @@ StatusCode LambdacAlg::execute()
     double Rvphi0 = vecipa[1];
     double costheta = cos(mdcTrk->theta());
 
-    if (costheta >= m_costheta)
+    if (fabs(costheta) >= m_costheta)
       continue;
     if (fabs(Rvz0) >= m_vz0cut1)
       continue;
@@ -1048,49 +1051,49 @@ StatusCode LambdacAlg::execute()
 
 #pragma region loop_gamma_check_eta_pi0______________________________________________________________
 
-  std::vector<MyMotherParticleFit> eta, eta_1c;
-  eta.clear();
-  eta_1c.clear();
+  // std::vector<MyMotherParticleFit> eta, eta_1c;
+  // eta.clear();
+  // eta_1c.clear();
   KalmanKinematicFit *kmfit = KalmanKinematicFit::instance();
-  // Loop each gamma pair, check eta mass  ----------------------------
-  for (int i = 0; i < emcGamma.size() - 1; i++)
-  {
-    RecEmcShower *emcTrki = emcGamma[i].getRecEmcShower();
-    HepLorentzVector ptrki = emcGamma[i].getLorentzVector();
+  // // Loop each gamma pair, check eta mass  ----------------------------
+  // for (int i = 0; i < emcGamma.size() - 1; i++)
+  // {
+  //   RecEmcShower *emcTrki = emcGamma[i].getRecEmcShower();
+  //   HepLorentzVector ptrki = emcGamma[i].getLorentzVector();
 
-    for (int j = i + 1; j < emcGamma.size(); j++)
-    {
-      RecEmcShower *emcTrkj = emcGamma[j].getRecEmcShower();
-      HepLorentzVector ptrkj = emcGamma[j].getLorentzVector();
+  //   for (int j = i + 1; j < emcGamma.size(); j++)
+  //   {
+  //     RecEmcShower *emcTrkj = emcGamma[j].getRecEmcShower();
+  //     HepLorentzVector ptrkj = emcGamma[j].getLorentzVector();
 
-      HepLorentzVector p2geta = ptrki + ptrkj;
-      if (m_debug)
-        cout << __LINE__ << " i,j  " << i << "," << j << " p2geta.m()  " << p2geta.m() << endl;
+  //     HepLorentzVector p2geta = ptrki + ptrkj;
+  //     if (m_debug)
+  //       cout << __LINE__ << " i,j  " << i << "," << j << " p2geta.m()  " << p2geta.m() << endl;
 
-      if (p2geta.m() < m_EtaMinMass || p2geta.m() > m_EtaMaxMass)
-        continue;
-      if (m_debug)
-        cout << __LINE__ << " 00000000 "
-             << " i,j  " << i << "," << j << " p2geta.m()  " << p2geta.m() << endl;
+  //     if (p2geta.m() < m_EtaMinMass || p2geta.m() > m_EtaMaxMass)
+  //       continue;
+  //     if (m_debug)
+  //       cout << __LINE__ << " 00000000 "
+  //            << " i,j  " << i << "," << j << " p2geta.m()  " << p2geta.m() << endl;
 
-      kmfit->init();
-      kmfit->setChisqCut(m_chisqMax);
-      kmfit->AddTrack(0, 0.0, emcTrki);
-      kmfit->AddTrack(1, 0.0, emcTrkj);
-      // 0.547862
-      kmfit->AddResonance(0, 0.547862, 0, 1);
-      bool oksq = kmfit->Fit();
-      if (oksq)
-      {
-        MyMotherParticleFit tmp(emcGamma[i], emcGamma[j]);
-        eta.push_back(tmp);
+  //     kmfit->init();
+  //     kmfit->setChisqCut(m_chisqMax);
+  //     kmfit->AddTrack(0, 0.0, emcTrki);
+  //     kmfit->AddTrack(1, 0.0, emcTrkj);
+  //     // 0.547862
+  //     kmfit->AddResonance(0, 0.547862, 0, 1);
+  //     bool oksq = kmfit->Fit();
+  //     if (oksq)
+  //     {
+  //       MyMotherParticleFit tmp(emcGamma[i], emcGamma[j]);
+  //       eta.push_back(tmp);
 
-        kmfit->BuildVirtualParticle(0);
-        MyMotherParticleFit tmp2(MyParticle(i, kmfit->pfit(0)), MyParticle(j, kmfit->pfit(1)));
-        eta_1c.push_back(tmp2);
-      }
-    }
-  }
+  //       kmfit->BuildVirtualParticle(0);
+  //       MyMotherParticleFit tmp2(MyParticle(i, kmfit->pfit(0)), MyParticle(j, kmfit->pfit(1)));
+  //       eta_1c.push_back(tmp2);
+  //     }
+  //   }
+  // }
   // Loop each gamma pair, check pi0 mass ---------------------
   std::vector<MyMotherParticleFit> pi0, pi0_1c;
   pi0.clear();
@@ -1141,14 +1144,13 @@ StatusCode LambdacAlg::execute()
   }
   if (m_debug)
   {
-    cout << __LINE__ << " eta.size() " << eta.size() << endl;
     cout << __LINE__ << " pi0.size() " << pi0.size() << endl;
   }
 
-  if (eta.size() == 0 || pi0.size() == 0)
+  if (pi0.size() == 0)
   {
     if (m_debug)
-      cout << __LINE__ << " eta.size() == 0|| pi0.size() == 0" << endl;
+      cout << __LINE__ << " pi0.size() == 0" << endl;
     return StatusCode::SUCCESS;
   }
 
@@ -1175,21 +1177,21 @@ StatusCode LambdacAlg::execute()
 
   for (int i_proton = 0; i_proton < proton.size(); i_proton++)
   {
-    for (int i_eta = 0; i_eta < eta.size(); i_eta++)
+    for (int i_eta = 0; i_eta < pi0.size(); i_eta++)
     {
-      for (int i_pi0 = 0; i_pi0 < pi0.size(); i_pi0++)
+      for (int i_pi0 = i_eta + 1; i_pi0 < pi0.size(); i_pi0++)
       {
         for (int i_piMin = 0; i_piMin < piMin.size(); i_piMin++)
         {
           for (int i_piPlus = 0; i_piPlus < piPlus.size(); i_piPlus++)
           {
 
-            if (eta[i_eta].getChild1().getIndex() == pi0[i_pi0].getChild1().getIndex() ||
-                eta[i_eta].getChild1().getIndex() == pi0[i_pi0].getChild2().getIndex())
-              continue;
-            if (eta[i_eta].getChild2().getIndex() == pi0[i_pi0].getChild1().getIndex() ||
-                eta[i_eta].getChild2().getIndex() == pi0[i_pi0].getChild2().getIndex())
-              continue;
+            // if (eta[i_eta].getChild1().getIndex() == pi0[i_pi0].getChild1().getIndex() ||
+            //     eta[i_eta].getChild1().getIndex() == pi0[i_pi0].getChild2().getIndex())
+            //   continue;
+            // if (eta[i_eta].getChild2().getIndex() == pi0[i_pi0].getChild1().getIndex() ||
+            //     eta[i_eta].getChild2().getIndex() == pi0[i_pi0].getChild2().getIndex())
+            //   continue;
 
             if( proton[i_proton].getIndex() ==  piMin[i_piMin].getIndex()) continue;
             if( proton[i_proton].getIndex() ==  piPlus[i_piPlus].getIndex()) continue;
@@ -1202,14 +1204,14 @@ StatusCode LambdacAlg::execute()
             kmfit->AddTrack(0, proton[i_proton].getTrackParameter());
             kmfit->AddTrack(1, 0.0, pi0[i_pi0].getChild1().getRecEmcShower());
             kmfit->AddTrack(2, 0.0, pi0[i_pi0].getChild2().getRecEmcShower());
-            kmfit->AddTrack(3, 0.0, eta[i_eta].getChild1().getRecEmcShower());
-            kmfit->AddTrack(4, 0.0, eta[i_eta].getChild2().getRecEmcShower());
+            kmfit->AddTrack(3, 0.0, pi0[i_eta].getChild1().getRecEmcShower());
+            kmfit->AddTrack(4, 0.0, pi0[i_eta].getChild2().getRecEmcShower());
             kmfit->AddTrack(5, piMin[i_piMin].getTrackParameter());
             kmfit->AddTrack(6, piPlus[i_piPlus].getTrackParameter());
 
             kmfit->AddMissTrack(7, 2.28646);
 
-            kmfit->AddResonance(0, 0.547862, 3, 4);
+            kmfit->AddResonance(0, 0.1349770, 3, 4);
             kmfit->AddResonance(1, 0.1349770, 1, 2);
             // kmfit->AddResonance(2, 0.95778, 3, 4, 5, 6);
             kmfit->AddFourMomentum(2, HepCMS);
@@ -1222,13 +1224,13 @@ StatusCode LambdacAlg::execute()
               kmfit->BuildVirtualParticle(0);
               // LcWTrk_1C = kmfit->wVirtualTrack(0);
 
-              HepLorentzVector p_etaprime = kmfit->pfit(5) + kmfit->pfit(6) + kmfit->pfit(3) + kmfit->pfit(4);
+              HepLorentzVector p_omega = kmfit->pfit(5) + kmfit->pfit(6) + kmfit->pfit(3) + kmfit->pfit(4);
               if (m_debug)
-                cout << __LINE__ << " eta prime m(): " << p_etaprime.m() << endl;
-              if (p_etaprime.m() > m_EtaPrimeMaxMass || p_etaprime.m() < m_EtaPrimeMinMass)
+                cout << __LINE__ << " m_Omega Mass: " << p_omega.m() << endl;
+              if (p_omega.m() > m_OmegaMaxMass || p_omega.m() < m_OmegaMinMass)
                 tmp_cut_flag=1;
               if (m_debug)
-                cout << __LINE__ << "00000000" << " eta prime m(): " << p_etaprime.m() << endl;
+                cout << __LINE__ << "00000000" << " m_Omega Mass: " << p_omega.m() << endl;
               // cut for sigma
               HepLorentzVector psigma = kmfit->pfit(0) + kmfit->pfit(1) + kmfit->pfit(2);
               if (m_debug)
@@ -1259,8 +1261,8 @@ StatusCode LambdacAlg::execute()
                 p_p4r = proton[i_proton].getLorentzVector();
                 pim_p4r = piMin[i_piMin].getLorentzVector();
                 pip_p4r = piPlus[i_piPlus].getLorentzVector();
-                eta_pg1r = eta[i_eta].getChild1().getLorentzVector();
-                eta_pg2r = eta[i_eta].getChild2().getLorentzVector();
+                eta_pg1r = pi0[i_eta].getChild1().getLorentzVector();
+                eta_pg2r = pi0[i_eta].getChild2().getLorentzVector();
                 pi0_pg3r = pi0[i_pi0].getChild1().getLorentzVector();
                 pi0_pg4r = pi0[i_pi0].getChild2().getLorentzVector();               
               }         
@@ -1268,14 +1270,14 @@ StatusCode LambdacAlg::execute()
 
             // ______________________________  minimum delta E ____________________________________
             // cut for eta prime
-            HepLorentzVector p_etaprime = piMin[i_piMin].getLorentzVector() + piPlus[i_piPlus].getLorentzVector() +
-                                          eta_1c[i_eta].getMotherLorentzVector(2);
+            HepLorentzVector p_omega = piMin[i_piMin].getLorentzVector() + piPlus[i_piPlus].getLorentzVector() +
+                                          pi0_1c[i_eta].getMotherLorentzVector(2);
             if (m_debug)
-              cout << __LINE__ << " eta prime m(): " << p_etaprime.m() << endl;
-            if (p_etaprime.m() > m_EtaPrimeMaxMass || p_etaprime.m() < m_EtaPrimeMinMass)
+              cout << __LINE__ << " m_Omega Mass: " << p_omega.m() << endl;
+            if (p_omega.m() > m_OmegaMaxMass || p_omega.m() < m_OmegaMinMass)
               continue;
             if (m_debug)
-              cout << __LINE__ << "00000000" << " eta prime m(): " << p_etaprime.m() << endl;
+              cout << __LINE__ << "00000000" << " m_Omega Mass: " << p_omega.m() << endl;
             // cut for sigma
             HepLorentzVector psigma = proton[i_proton].getLorentzVector() + pi0_1c[i_pi0].getMotherLorentzVector(2);
             if (m_debug)
@@ -1287,7 +1289,7 @@ StatusCode LambdacAlg::execute()
 
             HepLorentzVector pLambda_1c = proton[i_proton].getLorentzVector() +
                                           pi0_1c[i_pi0].getMotherLorentzVector(2) +
-                                          eta_1c[i_eta].getMotherLorentzVector(2) + 
+                                          pi0_1c[i_eta].getMotherLorentzVector(2) + 
                                           piMin[i_piMin].getLorentzVector() +
                                           piPlus[i_piPlus].getLorentzVector();
             pLambda_1c.boost(-m_beta);
@@ -1302,15 +1304,15 @@ StatusCode LambdacAlg::execute()
               // m_p_p4_r3c = kmfit1->pfit(0);
               pi0g1_p4_1c = pi0_1c[i_pi0].getChild1().getLorentzVector();
               pi0g2_p4_1c = pi0_1c[i_pi0].getChild2().getLorentzVector();
-              etag1_p4_1c = eta_1c[i_eta].getChild1().getLorentzVector();
-              etag2_p4_1c = eta_1c[i_eta].getChild2().getLorentzVector();
+              etag1_p4_1c = pi0_1c[i_eta].getChild1().getLorentzVector();
+              etag2_p4_1c = pi0_1c[i_eta].getChild2().getLorentzVector();
 
               pcharge = proton[i_proton].getCharge();
               p_p4 = proton[i_proton].getLorentzVector();
               pim_p4 = piMin[i_piMin].getLorentzVector();
               pip_p4 = piPlus[i_piPlus].getLorentzVector();
-              eta_pg1 = eta[i_eta].getChild1().getLorentzVector();
-              eta_pg2 = eta[i_eta].getChild2().getLorentzVector();
+              eta_pg1 = pi0[i_eta].getChild1().getLorentzVector();
+              eta_pg2 = pi0[i_eta].getChild2().getLorentzVector();
               pi0_pg3 = pi0[i_pi0].getChild1().getLorentzVector();
               pi0_pg4 = pi0[i_pi0].getChild2().getLorentzVector();
 
@@ -1415,10 +1417,10 @@ StatusCode LambdacAlg::execute()
       m_pi0mr = (pi0_pg3r + pi0_pg4r).m();
       m_etamr = (eta_pg1r + eta_pg2r).m();
       m_Sigmamr = (p_p4r + pi0_pg3r + pi0_pg4r).m();
-      m_etaprimemr = (pim_p4r + pip_p4r + eta_pg1r + eta_pg2r).m();
+      m_omegamr = (pim_p4r + pip_p4r + eta_pg1r + eta_pg2r).m();
       if (m_debug)
-        cout << __LINE__ << " m_pi0mr " << m_pi0mr << " m_etamr " << m_etamr << " m_Sigmamr " << m_Sigmamr << " m_etaprimemr "
-            << m_etaprimemr << endl;
+        cout << __LINE__ << " m_pi0mr " << m_pi0mr << " m_etamr " << m_etamr << " m_Sigmamr " << m_Sigmamr << " m_omegamr "
+            << m_omegamr << endl;
 
       
       for (int jj = 0; jj < 4; jj++)
@@ -1441,11 +1443,11 @@ StatusCode LambdacAlg::execute()
       m_pi0mr3c = (pi0g1_p4_r3c + pi0g2_p4_r3c).m();
       m_etamr3c = (etag1_p4_r3c + etag2_p4_r3c).m();
       m_sigmamr3c = (p_p4_r3c + pi0g1_p4_r3c + pi0g2_p4_r3c).m();
-      m_etaprimemr3c = (pim_p4_r3c + pip_p4_r3c + etag1_p4_r3c + etag2_p4_r3c).m();
+      m_omegamr3c = (pim_p4_r3c + pip_p4_r3c + etag1_p4_r3c + etag2_p4_r3c).m();
 
       if (m_debug)
         cout << __LINE__ << " m_pi0mr3c " << m_pi0mr3c << " m_etamr3c " << m_etamr3c << " m_sigmamr3c " << m_sigmamr3c
-            << " m_etaprimemr3c " << m_etaprimemr3c << endl;
+            << " m_omegamr3c " << m_omegamr3c << endl;
 
       HepLorentzVector pLambda =
           p_p4_r3c + pim_p4_r3c + pip_p4_r3c + etag1_p4_r3c + etag2_p4_r3c + pi0g1_p4_r3c + pi0g2_p4_r3c;
@@ -1490,10 +1492,10 @@ StatusCode LambdacAlg::execute()
       m_pi0m = (pi0_pg3 + pi0_pg4).m();
       m_etam = (eta_pg1 + eta_pg2).m();
       m_Sigmam = (p_p4 + pi0_pg3 + pi0_pg4).m();
-      m_etaprimem = (pim_p4 + pip_p4 + eta_pg1 + eta_pg2).m();
+      m_omegam = (pim_p4 + pip_p4 + eta_pg1 + eta_pg2).m();
       if (m_debug)
-        cout << __LINE__ << " m_pi0m " << m_pi0m << " m_etam " << m_etam << " m_Sigmam " << m_Sigmam << " m_etaprimem "
-            << m_etaprimem << endl;
+        cout << __LINE__ << " m_pi0m " << m_pi0m << " m_etam " << m_etam << " m_Sigmam " << m_Sigmam << " m_omegam "
+            << m_omegam << endl;
 
       //   1,2 -> eta             3,4 -> pi       
       for (int jj = 0; jj < 4; jj++)
@@ -1508,11 +1510,11 @@ StatusCode LambdacAlg::execute()
       m_pi0m1c = (pi0g1_p4_1c + pi0g2_p4_1c).m();
       m_etam1c = (etag1_p4_1c + etag2_p4_1c).m();
       m_Sigmam1c = (p_p4 + pi0g1_p4_1c + pi0g2_p4_1c).m();
-      m_etaprimem1c = (pim_p4 + pip_p4 + etag1_p4_1c + etag2_p4_1c).m();
+      m_omegam1c = (pim_p4 + pip_p4 + etag1_p4_1c + etag2_p4_1c).m();
       
       if(m_debug)
         cout << __LINE__ << " m_pi0m1c " << m_pi0m1c << " m_etam1c " << m_etam1c << " m_Sigmam1c " <<  m_Sigmam1c 
-            << " m_etaprimem1c " <<  m_etaprimem1c << endl;
+            << " m_omegam1c " <<  m_omegam1c << endl;
 
       HepLorentzVector pLambda = p_p4 + pim_p4 + pip_p4 + etag1_p4_1c + etag2_p4_1c + pi0g1_p4_1c + pi0g2_p4_1c;
       if(m_debug)
@@ -1585,7 +1587,7 @@ StatusCode LambdacAlg::finalize()
   cout << "-------------------------------------------------------------------------" << endl;
   cout << "-------------------------------           -------------------------------" << endl;
   cout << "--------------------                                ---------------------" << endl;
-  cout << "-------------  sigma eta prime 1c and recoil 3c, v3.2 ------------------" << endl;
+  cout << "-------------  sigma omega 1c and recoil 3c, v4.0 ------------------" << endl;
   cout << "--------------------                               ----------------------" << endl;
   cout << "------------------------------           --------------------------------" << endl;
   cout << "-------------------------------------------------------------------------" << endl;

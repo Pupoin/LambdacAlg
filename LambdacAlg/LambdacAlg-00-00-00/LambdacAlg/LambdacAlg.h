@@ -56,6 +56,8 @@ private:
 
 	double m_EtaPrimeMinMass;
 	double m_EtaPrimeMaxMass;
+	double m_OmegaMaxMass;
+	double m_OmegaMinMass;
 
 	bool m_debug;
 	bool m_isqqbar;
@@ -191,7 +193,7 @@ private:
 	NTuple::Array<double> m_gam3_p4_1c;
 	NTuple::Array<double> m_gam4_p4_1c;
 	NTuple::Item<double> m_Sigmam1c;
-	NTuple::Item<double> m_etaprimem1c;
+	NTuple::Item<double> m_omegam1c;
 	// r3c _________________________________________________________________
 	NTuple::Item<int> m_flag_r3c;
 	NTuple::Array<double> m_pall_p4;
@@ -213,7 +215,7 @@ private:
 
 	NTuple::Item<double> m_pi0mr3c;
 	NTuple::Item<double> m_etamr3c;
-	NTuple::Item<double> m_etaprimemr3c;
+	NTuple::Item<double> m_omegamr3c;
 	NTuple::Item<double> m_sigmamr3c;
 	NTuple::Item<double> m_pcharge;
 
@@ -231,7 +233,7 @@ private:
 
 	NTuple::Item<double> m_pi0mr;
 	NTuple::Item<double> m_etamr;
-	NTuple::Item<double> m_etaprimemr;
+	NTuple::Item<double> m_omegamr;
 	NTuple::Item<double> m_Sigmamr;
 	NTuple::Item<double> m_pcharger;
 	NTuple::Item<double> m_signalr;
@@ -243,7 +245,7 @@ private:
 	NTuple::Item<double> m_lambda;
 	NTuple::Item<double> m_ksi;
 	NTuple::Item<double> m_sigmastar;
-	NTuple::Item<double> m_etaprimem;
+	NTuple::Item<double> m_omegam;
 	NTuple::Item<double> m_kstar;
 	NTuple::Item<double> m_pi0m1c;
 	NTuple::Item<double> m_etam1c;
