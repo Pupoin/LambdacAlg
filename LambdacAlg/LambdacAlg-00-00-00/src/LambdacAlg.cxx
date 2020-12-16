@@ -221,7 +221,7 @@ StatusCode LambdacAlg::initialize()
       status = m_tuple1->addIndexedItem("gam3_1c", m_p4index, m_gam3_p4_1c);
       status = m_tuple1->addIndexedItem("gam4_1c", m_p4index, m_gam4_p4_1c);
       status = m_tuple1->addItem("sigmam1c", m_Sigmam1c);
-      status = m_tuple1->addItem("etaprimem1c", m_omegam1c);
+      status = m_tuple1->addItem("omegam1c", m_omegam1c);
 
       // r3c _________________________________________________________________
       status = m_tuple1->addItem("flag_r3c", m_flag_r3c);
@@ -238,7 +238,7 @@ StatusCode LambdacAlg::initialize()
 
       status = m_tuple1->addItem("pi0mr3c", m_pi0mr3c);
       status = m_tuple1->addItem("etamr3c", m_etamr3c);
-      status = m_tuple1->addItem("etaprimemr3c", m_omegamr3c);
+      status = m_tuple1->addItem("omegamr3c", m_omegamr3c);
       status = m_tuple1->addItem("sigmamr3c", m_sigmamr3c);
 
 
@@ -254,7 +254,7 @@ StatusCode LambdacAlg::initialize()
 
       status = m_tuple1->addItem("pi0mr", m_pi0mr);
       status = m_tuple1->addItem("etamr", m_etamr);
-      status = m_tuple1->addItem("etaprimemr", m_omegamr);
+      status = m_tuple1->addItem("omegamr", m_omegamr);
       status = m_tuple1->addItem("sigmamr", m_Sigmamr);
       status = m_tuple1->addItem("pcharger", m_pcharger);
       status = m_tuple1->addItem("signalr", m_signalr);
@@ -269,7 +269,7 @@ StatusCode LambdacAlg::initialize()
       status = m_tuple1->addItem("ksi", m_ksi);
       status = m_tuple1->addItem("kstar", m_kstar);
       status = m_tuple1->addItem("sigmastar", m_sigmastar);
-      status = m_tuple1->addItem("etaprimem", m_omegam);
+      status = m_tuple1->addItem("omegam", m_omegam);
       status = m_tuple1->addItem("all", m_all);
       status = m_tuple1->addItem("all_m", m_all_m);
       status = m_tuple1->addItem("all_p", m_all_p);
@@ -1587,7 +1587,7 @@ StatusCode LambdacAlg::finalize()
   cout << "-------------------------------------------------------------------------" << endl;
   cout << "-------------------------------           -------------------------------" << endl;
   cout << "--------------------                                ---------------------" << endl;
-  cout << "-------------  sigma omega 1c and recoil 3c, v4.0 ------------------" << endl;
+  cout << "-------------  sigma omega 1c and recoil 3c, v4.1 ------------------" << endl;
   cout << "--------------------                               ----------------------" << endl;
   cout << "------------------------------           --------------------------------" << endl;
   cout << "-------------------------------------------------------------------------" << endl;
