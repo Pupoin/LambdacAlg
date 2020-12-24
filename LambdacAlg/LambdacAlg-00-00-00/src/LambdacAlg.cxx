@@ -1067,11 +1067,11 @@ StatusCode LambdacAlg::execute()
       if (m_debug)
         cout << __LINE__ << " i,j  " << i << "," << j << " p2geta.m()  " << p2geta.m() << endl;
 
-      // if (p2geta.m() < m_EtaMinMass || p2geta.m() > m_EtaMaxMass)
-        // continue;
-      // if (m_debug)
-      //   cout << __LINE__ << " 00000000 "
-      //        << " i,j  " << i << "," << j << " p2geta.m()  " << p2geta.m() << endl;
+      if (p2geta.m() < m_EtaMinMass || p2geta.m() > m_EtaMaxMass)
+        continue;
+      if (m_debug)
+        cout << __LINE__ << " 00000000 "
+             << " i,j  " << i << "," << j << " p2geta.m()  " << p2geta.m() << endl;
 
       // kmfit->init();
       // kmfit->setChisqCut(m_chisqMax);
@@ -1215,8 +1215,8 @@ StatusCode LambdacAlg::execute()
 
             kmfit->AddMissTrack(7, 2.28646);
 
-            //kmfit->AddResonance(0, 0.547862, 3, 4);
-            kmfit->AddResonance(0, 0.95778, 3, 4, 5, 6);
+            kmfit->AddResonance(0, 0.547862, 3, 4);
+            // kmfit->AddResonance(0, 0.95778, 3, 4, 5, 6);
             kmfit->AddResonance(1, 0.1349770, 1, 2);
             // kmfit->AddResonance(2, 0.95778, 3, 4, 5, 6);
             kmfit->AddFourMomentum(2, HepCMS);
