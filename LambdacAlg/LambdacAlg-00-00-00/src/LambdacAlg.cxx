@@ -1215,8 +1215,8 @@ StatusCode LambdacAlg::execute()
 
             kmfit->AddMissTrack(7, 2.28646);
 
-            kmfit->AddResonance(0, 0.547862, 3, 4);
-            // kmfit->AddResonance(0, 0.95778, 3, 4, 5, 6);
+            // kmfit->AddResonance(0, 0.547862, 3, 4);
+            kmfit->AddResonance(0, 0.95778, 3, 4, 5, 6);
             kmfit->AddResonance(1, 0.1349770, 1, 2);
             // kmfit->AddResonance(2, 0.95778, 3, 4, 5, 6);
             kmfit->AddFourMomentum(2, HepCMS);
@@ -1353,7 +1353,8 @@ StatusCode LambdacAlg::execute()
 
 #pragma region write__________________________________________________________________
 
-  if(flag_1c == 1 || flag_r3c == 1)
+  // if(flag_1c == 1 || flag_r3c == 1)
+  if(true)
   {
     m_mode1 = mm_mode1;
     m_mode2 = mm_mode2;
@@ -1400,10 +1401,7 @@ StatusCode LambdacAlg::execute()
     m_npbar = npbar;
 
 
-    //  _____________  recoil 3c  _______________________
-    if(flag_r3c == 1)
-    {
-      m_flag_r3c = flag_r3c;
+
 
       // ___________ from raw r3c___________________
       // proton, pi+, pi-, from raw
@@ -1434,7 +1432,10 @@ StatusCode LambdacAlg::execute()
         cout << __LINE__ << " m_pi0mr " << m_pi0mr << " m_etamr " << m_etamr << " m_Sigmamr " << m_Sigmamr << " m_etaprimemr "
             << m_etaprimemr << endl;
 
-      
+    //  _____________  recoil 3c  _______________________
+    if(flag_r3c == 1)
+    {
+      m_flag_r3c = flag_r3c;
       for (int jj = 0; jj < 4; jj++)
         m_pall_p4_r3c[jj] = p_p4_r3c[jj];
       for (int jj = 0; jj < 4; jj++)
