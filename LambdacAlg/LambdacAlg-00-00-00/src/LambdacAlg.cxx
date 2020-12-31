@@ -790,16 +790,27 @@ StatusCode LambdacAlg::execute()
     for (int aa = 0; aa < ndaughterAp; aa++)
       m_Ap_id_[aa] = Ap_id[aa];
     for (int aa = 0; aa < ndaughterAp; aa++)
+    {
       for (int ll = 0; ll < 4; ll++)
         m_Ap_ptruth_[aa][ll] = Ap_ptruth[aa][ll];
+
+      if (m_debug)
+        cout << __LINE__ << "    " << Ap_id[aa] <<  ", " << Ap_ptruth[aa][0] << " " << Ap_ptruth[aa][1] << " "<< Ap_ptruth[aa][2] << " "<< Ap_ptruth[aa][3] << " "<< endl;
+    }
 
     m_ndaughterAm_ = ndaughterAm;
     for (int aa = 0; aa < ndaughterAm; aa++)
       m_Am_id_[aa] = Am_id[aa];
 
     for (int aa = 0; aa < ndaughterAm; aa++)
+    {
       for (int ll = 0; ll < 4; ll++)
         m_Am_ptruth_[aa][ll] = Am_ptruth[aa][ll];
+
+      if (m_debug)
+        cout << __LINE__  << "    " << Am_id[aa] <<  ", " << Am_ptruth[aa][0] << " " << Am_ptruth[aa][1] << " "<< Am_ptruth[aa][2] << " "<< Am_ptruth[aa][3] << " "<< endl;
+
+    }
 
     m_tuple2->write();
   }
@@ -980,8 +991,6 @@ StatusCode LambdacAlg::execute()
     // double dthe = 200.;
     // double dphi = 200.;
     double dang = 200.;
-    if (m_debug)
-      cout << __LINE__ << " choose good gamma" << endl;
 
     for (int j = 0; j < evtRecEvent->totalCharged(); j++)
     {
@@ -1070,8 +1079,7 @@ StatusCode LambdacAlg::execute()
       if (p2geta.m() < m_EtaMinMass || p2geta.m() > m_EtaMaxMass)
         continue;
       if (m_debug)
-        cout << __LINE__ << " 00000000 "
-             << " i,j  " << i << "," << j << " p2geta.m()  " << p2geta.m() << endl;
+        cout << __LINE__ << " 00000000 " << " i,j  " << i << "," << j << " p2geta.m()  " << p2geta.m() << endl;
 
       // kmfit->init();
       // kmfit->setChisqCut(m_chisqMax);
@@ -1111,8 +1119,7 @@ StatusCode LambdacAlg::execute()
       if (p2gpi.m() < m_Pi0MinMass || p2gpi.m() > m_Pi0MaxMass)
         continue;
       if (m_debug)
-        cout << __LINE__ << " 00000000 "
-             << " k,l " << k << "," << l << " p2gpi.m() " << p2gpi.m() << endl;
+        cout << __LINE__ << " 00000000 " << " k,l " << k << "," << l << " p2gpi.m() " << p2gpi.m() << endl;
 
       // MyMotherParticleFit tmp(emcGamma[k], emcGamma[l]);
       // pi0.push_back(tmp);
@@ -1195,11 +1202,11 @@ StatusCode LambdacAlg::execute()
             if( proton[i_proton].getIndex() ==  piPlus[i_piPlus].getIndex()) continue;
             if( piMin[i_piMin].getIndex() ==  piPlus[i_piPlus].getIndex()) continue;     
 
-            HepLorentzVector p_etaprime = piMin[i_piMin].getLorentzVector() + piPlus[i_piPlus].getLorentzVector() + eta[i_eta].getMotherLorentzVector(2);
-            if (m_debug)
-              cout << __LINE__ << " eta prime m(): " << p_etaprime.m() << endl;
-            if (p_etaprime.m() > m_EtaPrimeMaxMass || p_etaprime.m() < m_EtaPrimeMinMass)
-              continue;
+            // HepLorentzVector p_etaprime = piMin[i_piMin].getLorentzVector() + piPlus[i_piPlus].getLorentzVector() + eta[i_eta].getMotherLorentzVector(2);
+            // if (m_debug)
+            //   cout << __LINE__ << " eta prime m(): " << p_etaprime.m() << endl;
+            // if (p_etaprime.m() > m_EtaPrimeMaxMass || p_etaprime.m() < m_EtaPrimeMinMass)
+            //   continue;
 
             // _______________________________________________  r3C  ______________________________________________
             kmfit->init();
@@ -1215,11 +1222,11 @@ StatusCode LambdacAlg::execute()
 
             kmfit->AddMissTrack(7, 2.28646);
 
-            // kmfit->AddResonance(0, 0.547862, 3, 4);
-            kmfit->AddResonance(0, 0.95778, 3, 4, 5, 6);
+            kmfit->AddResonance(0, 0.547862, 3, 4);
+            // kmfit->AddResonance(0, 0.95778, 3, 4, 5, 6);
             kmfit->AddResonance(1, 0.1349770, 1, 2);
-            // kmfit->AddResonance(2, 0.95778, 3, 4, 5, 6);
-            kmfit->AddFourMomentum(2, HepCMS);
+            kmfit->AddResonance(2, 0.95778, 3, 4, 5, 6);
+            kmfit->AddFourMomentum(3, HepCMS);
 
             // MyMotherParticleFit tmp2;
             bool okvs1 = kmfit->Fit();
@@ -1227,22 +1234,20 @@ StatusCode LambdacAlg::execute()
             if (okvs1)
             {
               kmfit->BuildVirtualParticle(0);
-              // LcWTrk_1C = kmfit->wVirtualTrack(0);
-
-              // HepLorentzVector p_etaprime = kmfit->pfit(5) + kmfit->pfit(6) + kmfit->pfit(3) + kmfit->pfit(4);
-              // if (m_debug)
-              //   cout << __LINE__ << " eta prime m(): " << p_etaprime.m() << endl;
-              // if (p_etaprime.m() > m_EtaPrimeMaxMass || p_etaprime.m() < m_EtaPrimeMinMass)
-              //   tmp_cut_flag=1;
+              HepLorentzVector p_etaprime = kmfit->pfit(5) + kmfit->pfit(6) + kmfit->pfit(3) + kmfit->pfit(4);
+              if (m_debug)
+                cout << __LINE__ << " eta prime m(): " << p_etaprime.m() << endl;
+              if (p_etaprime.m() > m_EtaPrimeMaxMass || p_etaprime.m() < m_EtaPrimeMinMass)
+                tmp_cut_flag=1;
 
               // HepLorentzVector p_eta = kmfit->pfit(3) + kmfit->pfit(4);
               // if (m_debug)
               //   cout << __LINE__ << " eta  m(): " << p_eta.m() << endl;
               // if (p_eta.m() > m_EtaMaxMass || p_eta.m() < m_EtaMinMass)
               //   tmp_cut_flag=1;
+              // if (m_debug)
+              //   cout << __LINE__ << "00000000" << " eta prime m(): " << p_etaprime.m() << endl;
 
-              if (m_debug)
-                cout << __LINE__ << "00000000" << " eta prime m(): " << p_etaprime.m() << endl;
               // cut for sigma
               HepLorentzVector psigma = kmfit->pfit(0) + kmfit->pfit(1) + kmfit->pfit(2);
               if (m_debug)
@@ -1354,7 +1359,7 @@ StatusCode LambdacAlg::execute()
 #pragma region write__________________________________________________________________
 
   // if(flag_1c == 1 || flag_r3c == 1)
-  if(true)
+  if(flag_r3c == 1)
   {
     m_mode1 = mm_mode1;
     m_mode2 = mm_mode2;
@@ -1600,7 +1605,7 @@ StatusCode LambdacAlg::finalize()
   cout << "-------------------------------------------------------------------------" << endl;
   cout << "-------------------------------           -------------------------------" << endl;
   cout << "--------------------                                ---------------------" << endl;
-  cout << "-------------  sigma eta prime 1c and recoil 3c, v3.5 ------------------" << endl;
+  cout << "-------------  sigma eta prime 1c and recoil 3c, v3.6 ------------------" << endl;
   cout << "--------------------                               ----------------------" << endl;
   cout << "------------------------------           --------------------------------" << endl;
   cout << "-------------------------------------------------------------------------" << endl;
