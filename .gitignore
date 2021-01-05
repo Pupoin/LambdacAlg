@@ -4,5 +4,6 @@ x86_64-slc5-gcc43-opt/
 *.root
 *.rtraw
 *.dst
-/TestRelease
-/tmp
+TestRelease/
+tmp/
+cmt/
