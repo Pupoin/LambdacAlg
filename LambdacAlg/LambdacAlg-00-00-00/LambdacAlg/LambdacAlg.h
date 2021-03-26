@@ -35,7 +35,6 @@ private:
 	double m_vz0cut;
 	double m_vz0cut1;
 	double m_chisqMax;
-
 	double m_skim;
 	double m_minEnergy;
 	double m_gammaAngleCut;
@@ -69,6 +68,8 @@ private:
 	NTuple::Tuple *m_tuple2;
 	NTuple::Item<int> m_evtNo_;
 	NTuple::Item<int> m_runNo_;
+	NTuple::Item<long> m_flag1_;
+	NTuple::Item<long> m_flag2_;
 	NTuple::Item<int> m_mode1_;
 	NTuple::Item<int> m_mode2_;
 	NTuple::Item<int> m_mode3_;
@@ -240,6 +241,8 @@ private:
 	NTuple::Item<double> m_mode1;
 	NTuple::Item<double> m_mode2;
 	NTuple::Item<double> m_mode3;
+	NTuple::Item<long> m_flag1;
+	NTuple::Item<long> m_flag2;
 
 protected:
 };

@@ -1,0 +1,13 @@
+#CMT---> (constituents.make) Starting install_includes
+#CMT---> (constituents.make) Starting config
+#CMT---> (constituents.make) Starting LambdacAlg
+Files from standard ../LambdacAlg already installed
+------> config.h ok
+#CMT---> (constituents.make) install_includes done
+#CMT---> (constituents.make) config done
+Installing library libLambdacAlg.so into /publicfs/ucas/user/yuanchy8/workbefs/7.0.6/LambdacAlg/InstallArea/x86_64-slc6-gcc46-opt/lib
+------> LambdacAlg : library ok
+#CMT---> LambdacAlg ok
+installation done
+#CMT---> (constituents.make) LambdacAlg done
+#CMT---> all ok.

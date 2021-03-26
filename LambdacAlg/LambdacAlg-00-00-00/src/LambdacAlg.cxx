@@ -143,6 +143,8 @@ StatusCode LambdacAlg::initialize()
       if (m_tuple2)
       {
         status = m_tuple2->addItem("runNo", m_runNo_);
+        status = m_tuple2->addItem("flag1", m_flag1_);
+        status = m_tuple2->addItem("flag2", m_flag2_);
         status = m_tuple2->addItem("evtNo", m_evtNo_);
         status = m_tuple2->addItem("mode1", m_mode1_);
         status = m_tuple2->addItem("mode2", m_mode2_);
@@ -272,6 +274,8 @@ StatusCode LambdacAlg::initialize()
       status = m_tuple1->addItem("mode1", m_mode1);
       status = m_tuple1->addItem("mode2", m_mode2);
       status = m_tuple1->addItem("mode3", m_mode3);
+      status = m_tuple1->addItem("flag1", m_flag1);
+      status = m_tuple1->addItem("flag2", m_flag2);
     }
     else
     {
@@ -308,7 +312,9 @@ StatusCode LambdacAlg::execute()
   MsgStream log(msgSvc(), name());
   log << MSG::INFO << "LambdacAlg::execute()" << endreq;
   SmartDataPtr<Event::EventHeader> eventHeader(eventSvc(), "/Event/EventHeader");
-
+  long mm_flag1 = eventHeader->flag1();
+  long mm_flag2 = eventHeader->flag2();
+  m_run = eventHeader->runNumber();
   m_run = eventHeader->runNumber();
   m_event = eventHeader->eventNumber();
   int runNo = eventHeader->runNumber();
@@ -705,6 +711,8 @@ StatusCode LambdacAlg::execute()
     m_runNo_ = runNo;
     m_evtNo_ = eventNo;
     m_mode1_ = mm_mode1;
+    m_flag1_ = mm_flag1;
+    m_flag2_ = mm_flag2;
     m_mode2_ = mm_mode2;
     m_mode3_ = mm_mode3;
     m_ndaughterAp_ = ndaughterAp;
@@ -1214,6 +1222,10 @@ StatusCode LambdacAlg::execute()
 
     m_mode1 = mm_mode1;
     m_mode2 = mm_mode2;
+
+    m_flag1 = mm_flag1;
+    m_flag2 = mm_flag2;
+
     m_mode3 = mm_mode3;
     m_idxmc = numParticle;
 
