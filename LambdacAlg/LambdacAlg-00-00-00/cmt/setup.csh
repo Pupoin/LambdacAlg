@@ -1,4 +1,4 @@
-# echo "setup LambdacAlg LambdacAlg-00-00-00 in /publicfs/ucas/user/yuanchy8/workbefs/7.0.3/LambdacAlg"
+# echo "setup LambdacAlg LambdacAlg-00-00-00 in /publicfs/ucas/user/yuanchy8/workbefs/7.0.6/LambdacAlg"
 
 if ( $?CMTROOT == 0 ) then
   setenv CMTROOT /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/contrib/CMT/v1r25
@@ -8,9 +8,9 @@ set cmtLambdacAlgtempfile=`${CMTROOT}/mgr/cmt -quiet build temporary_name`
 if $status != 0 then
   set cmtLambdacAlgtempfile=/tmp/cmt.$$
 endif
-${CMTROOT}/mgr/cmt setup -csh -pack=LambdacAlg -version=LambdacAlg-00-00-00 -path=/publicfs/ucas/user/yuanchy8/workbefs/7.0.3/LambdacAlg  -no_cleanup $* >${cmtLambdacAlgtempfile}
+${CMTROOT}/mgr/cmt setup -csh -pack=LambdacAlg -version=LambdacAlg-00-00-00 -path=/publicfs/ucas/user/yuanchy8/workbefs/7.0.6/LambdacAlg  -no_cleanup $* >${cmtLambdacAlgtempfile}
 if ( $status != 0 ) then
-  echo "${CMTROOT}/mgr/cmt setup -csh -pack=LambdacAlg -version=LambdacAlg-00-00-00 -path=/publicfs/ucas/user/yuanchy8/workbefs/7.0.3/LambdacAlg  -no_cleanup $* >${cmtLambdacAlgtempfile}"
+  echo "${CMTROOT}/mgr/cmt setup -csh -pack=LambdacAlg -version=LambdacAlg-00-00-00 -path=/publicfs/ucas/user/yuanchy8/workbefs/7.0.6/LambdacAlg  -no_cleanup $* >${cmtLambdacAlgtempfile}"
   set cmtsetupstatus=2
   /bin/rm -f ${cmtLambdacAlgtempfile}
   unset cmtLambdacAlgtempfile
