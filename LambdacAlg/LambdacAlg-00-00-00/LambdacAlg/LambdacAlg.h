@@ -75,6 +75,10 @@ private:
 	NTuple::Item<int> m_mode1_;
 	NTuple::Item<int> m_mode2_;
 	NTuple::Item<int> m_mode3_;
+
+	NTuple::Item<long> m_flag1_;
+	NTuple::Item<long> m_flag2_;
+	
 	NTuple::Item<int> m_ndaughterAp_;
 	NTuple::Array<int> m_Ap_id_;
 	NTuple::Matrix<double> m_Ap_ptruth_;
@@ -192,6 +196,7 @@ private:
 	NTuple::Array<double> m_gam4_p4_1c;
 	NTuple::Item<double> m_Sigmam1c;
 	NTuple::Item<double> m_etaprimem1c;
+	NTuple::Item<double> m_lambdacm1c;
 	// r3c _________________________________________________________________
 	NTuple::Item<int> m_flag_r3c;
 	NTuple::Array<double> m_pall_p4;
@@ -281,6 +286,9 @@ private:
 	NTuple::Item<double> m_mode1;
 	NTuple::Item<double> m_mode2;
 	NTuple::Item<double> m_mode3;
+
+	NTuple::Item<long> m_flag1;
+	NTuple::Item<long> m_flag2;
 
 protected:
 };
