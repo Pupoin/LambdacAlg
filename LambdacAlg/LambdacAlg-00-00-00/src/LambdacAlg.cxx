@@ -2,6 +2,8 @@
 #include "LambdacAlg/LambdacAlg.h"
 #include "McDecayModeSvc/McDecayModeSvc.h"
 #include "BestDTagSvc/BestDTagSvc.h"
+// #include "SimplePIDSvc/ISimplePIDSvc.h"
+#include "LambdacAlg/MyPid.h"
 
 #include "GaudiKernel/MsgStream.h"
 #include "GaudiKernel/AlgFactory.h"
@@ -1015,17 +1017,19 @@ StatusCode LambdacAlg::execute()
     RecMdcTrack *mdcTrk = (*itTrk)->mdcTrack();
     if (mdcTrk->charge() == 1)
     {
-      ISimplePIDSvc *m_simplePIDSvc;
-      Gaudi::svcLocator()->service("SimplePIDSvc", m_simplePIDSvc);
-      m_simplePIDSvc->preparePID(*itTrk);
+      // ISimplePIDSvc *m_simplePIDSvc;
+      // Gaudi::svcLocator()->service("SimplePIDSvc", m_simplePIDSvc);
+      // m_simplePIDSvc->preparePID(*itTrk);
+      MyPid *m_simplePIDSvc = new MyPid(*itTrk);
       if (m_simplePIDSvc->isproton())
         ip.push_back(iGoodforp[i]);
     }
     if (mdcTrk->charge() == -1)
     {
-      ISimplePIDSvc *m_simplePIDSvc;
-      Gaudi::svcLocator()->service("SimplePIDSvc", m_simplePIDSvc);
-      m_simplePIDSvc->preparePID(*itTrk);
+      // ISimplePIDSvc *m_simplePIDSvc;
+      // Gaudi::svcLocator()->service("SimplePIDSvc", m_simplePIDSvc);
+      // m_simplePIDSvc->preparePID(*itTrk);
+      MyPid *m_simplePIDSvc = new MyPid(*itTrk);
       if (m_simplePIDSvc->isproton())
         ipbar.push_back(iGoodforp[i]);
     }
@@ -1052,9 +1056,10 @@ StatusCode LambdacAlg::execute()
     if (mdcTrk->charge() == 1)
     {
       ntrackm++;
-      ISimplePIDSvc *m_simplePIDSvc;
-      Gaudi::svcLocator()->service("SimplePIDSvc", m_simplePIDSvc);
-      m_simplePIDSvc->preparePID(*itTrk);
+      // ISimplePIDSvc *m_simplePIDSvc;
+      // Gaudi::svcLocator()->service("SimplePIDSvc", m_simplePIDSvc);
+      // m_simplePIDSvc->preparePID(*itTrk);
+      MyPid *m_simplePIDSvc = new MyPid(*itTrk);
       if (m_simplePIDSvc->ispion())
         ipip.push_back(iGoodtotal[i]);
       if (m_simplePIDSvc->iskaon())
@@ -1064,9 +1069,10 @@ StatusCode LambdacAlg::execute()
     if (mdcTrk->charge() == -1)
     {
       ntrackp++;
-      ISimplePIDSvc *m_simplePIDSvc;
-      Gaudi::svcLocator()->service("SimplePIDSvc", m_simplePIDSvc);
-      m_simplePIDSvc->preparePID(*itTrk);
+      // ISimplePIDSvc *m_simplePIDSvc;
+      // Gaudi::svcLocator()->service("SimplePIDSvc", m_simplePIDSvc);
+      // m_simplePIDSvc->preparePID(*itTrk);
+      MyPid *m_simplePIDSvc = new MyPid(*itTrk);
       if (m_simplePIDSvc->iskaon())
         iKm.push_back(iGoodtotal[i]);
       if (m_simplePIDSvc->ispion())
