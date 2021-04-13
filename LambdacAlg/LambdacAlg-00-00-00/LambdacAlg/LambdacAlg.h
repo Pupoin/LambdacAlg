@@ -93,8 +93,8 @@ private:
 	NTuple::Item<int> m_rightflag;
 	NTuple::Item<int> m_signal;
 	NTuple::Item<int> m_bg;
-	// NTuple::Item<int> m_yes;
-	// NTuple::Item<int> m_no;
+	NTuple::Item<int> m_yes;
+	NTuple::Item<int> m_no;
 	/////
 	//Proton
 	NTuple::Item<int> m_nProton;
@@ -268,8 +268,10 @@ private:
 	NTuple::Item<double> m_eop_Kp;
 	NTuple::Item<double> m_eop_Km;
 	NTuple::Item<double> m_deltaE_min_1c;
+	NTuple::Item<double> m_deltaE_min;
 	NTuple::Item<double> m_deltaE_min_r3c;
 	NTuple::Item<double> m_bc_1c;
+	NTuple::Item<double> m_bc;
 	NTuple::Item<double> m_bc_r3c;
 	NTuple::Item<int> m_mcparticle_p;
 	NTuple::Array<int> m_pdgid_p;
