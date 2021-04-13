@@ -1,0 +1,13 @@
+
+*bk2 是 反冲3c 方法  给的是pi0 和 eta 0 的径迹。
+
+*bk 是 反冲4c 方法
+
+*cxx 测试周 的代码
+
+branch sigmaetaprime_and_3c
+commit dde11186da84cc5846ac150155939a4d4d49d12f
+Author: Zhaoyang Yuan <yuanchy8@mail2.sysu.edu.cn>
+Date:   Tue Apr 13 02:57:02 2021 +0800
+
+    sigma eta prime recoil 4c, v11

@@ -934,7 +934,7 @@ StatusCode LambdacAlg::execute()
 
     if (pid->ispion())
     {
-      cout << __LINE__ << endl;
+      // cout << __LINE__ << endl;
       // RecMdcKalTrack *mdcKalTrk = (*itTrk)->mdcKalTrack();
       mdcKalTrk->setPidType(RecMdcKalTrack::pion);
       HepLorentzVector p4 = mdcKalTrk->p4(xmass[2]);
@@ -1238,7 +1238,6 @@ StatusCode LambdacAlg::execute()
             kmfit->AddMissTrack(7, 2.28646);
 
             kmfit->AddResonance(0, 0.547862, 3, 4);
-            // kmfit->AddResonance(0, 0.95778, 3, 4, 5, 6);
             kmfit->AddResonance(1, 0.1349770, 1, 2);
             kmfit->AddResonance(2, 0.95778, 3, 4, 5, 6);
             kmfit->AddFourMomentum(3, HepCMS);
