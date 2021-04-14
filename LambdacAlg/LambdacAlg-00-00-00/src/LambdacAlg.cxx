@@ -1029,7 +1029,7 @@ StatusCode LambdacAlg::execute()
         ip.push_back(iGoodforp[i]);
         cout <<__LINE__<< " " <<  iGoodforp[i] << endl;
       }    
-}
+    }
     if (mdcTrk->charge() == -1)
     {
       // ISimplePIDSvc *m_simplePIDSvc;
