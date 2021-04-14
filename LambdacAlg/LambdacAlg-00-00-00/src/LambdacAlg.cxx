@@ -54,7 +54,7 @@ typedef HepGeom::Point3D<double> HepPoint3D;
 #endif
 
 #include <vector>
-const double xmass[5] = {0.000511, 0.105658, 0.139570, 0.493677, 0.938272};
+const double xmass[5] = {0.000511, 0.105658, 0.139571, 0.493677, 0.938272};
 typedef std::vector<double> Vdouble;
 typedef std::vector<int> Vint;
 typedef std::vector<HepLorentzVector> Vp4;
@@ -88,7 +88,7 @@ LambdacAlg::LambdacAlg(const std::string &name, ISvcLocator *pSvcLocator) : Algo
   declareProperty("PhotonMaxCosThetaEndcap", m_maxCosThetaEndcap = 0.92);
   declareProperty("PhotonMinEndcapEnergy", m_minEndcapEnergy = 0.050);
   declareProperty("Debug", m_debug = false);
-  declareProperty("BeamE", m_beamE = 2.30);
+  declareProperty("BeamE", m_beamE = 2.2997650);
   declareProperty("ReadBeamEFromDB", m_ReadBeamEFromDB = false);
   declareProperty("UseCalibBeamE", m_usecalibBeamE = false);
   declareProperty("CheckTotal", m_checktotal = 0);
@@ -264,9 +264,9 @@ StatusCode LambdacAlg::execute()
   int bg = -1;
   int yes = -1;
   int no = -1;
-  if (m_debug)
-    cout << "m_debug1 begin execute " << endl;
   Ntotal++;
+  if (m_debug)
+    cout << "\033[31m" << "m_debug3 begin execute, Ntotal(event): " << Ntotal << "\033[0m" << endl;
   MsgStream log(msgSvc(), name());
   log << MSG::INFO << "LambdacAlg::execute()" << endreq;
   SmartDataPtr<Event::EventHeader> eventHeader(eventSvc(), "/Event/EventHeader");
@@ -889,7 +889,7 @@ StatusCode LambdacAlg::execute()
       {
         signal = 1;
         all++;
-        // all_p++;
+        all_p++;
       }
       if (ndaughterAm == 11 && Am_id[0] == -3222 && Am_id[1] == 331 && Am_id[2] == -2212 && Am_id[3] == 111 &&
           Am_id[4] == 211 && Am_id[5] == -211 && Am_id[6] == 221 && Am_id[7] == 22 && Am_id[8] == 22 &&
@@ -897,7 +897,7 @@ StatusCode LambdacAlg::execute()
       {
         signal = -1;
         all++;
-        // all_m++;
+        all_m++;
       }
 
       if (m_debug)
@@ -1328,7 +1328,7 @@ StatusCode LambdacAlg::execute()
         kmfit->init();
         kmfit->AddTrack(0, 0.0, emcTrki);
         kmfit->AddTrack(1, 0.0, emcTrkj);
-        kmfit->AddResonance(0, 0.547853, 0, 1);
+        kmfit->AddResonance(0, 0.547862, 0, 1);
         bool oksq = kmfit->Fit();
         if (oksq)
         {
@@ -1364,7 +1364,7 @@ StatusCode LambdacAlg::execute()
         kmfit->init();
         kmfit->AddTrack(0, 0.0, emcTrkk);
         kmfit->AddTrack(1, 0.0, emcTrkl);
-        kmfit->AddResonance(0, 0.1349766, 0, 1);
+        kmfit->AddResonance(0, 0.1349770, 0, 1);
         bool oksq = kmfit->Fit();
 
         if (oksq)
@@ -1381,6 +1381,8 @@ StatusCode LambdacAlg::execute()
       }
     }
   }
+  if (m_debug)
+    cout << __LINE__ << endl;
   int ngam1 = igam1.size();
   int ngam2 = igam2.size();
   int ngam3 = igam3.size();
@@ -1398,6 +1400,9 @@ StatusCode LambdacAlg::execute()
   //cout<<"a="<<ngam<<endl;
   if (signal == 1)
     Ncut4++;
+
+  if (m_debug)
+    cout << __LINE__ << endl;
   ///////////////////////
   //  // get beam energy and beta
   // ///////////////////////
@@ -1458,6 +1463,8 @@ StatusCode LambdacAlg::execute()
             //					HepLorentzVector plambuda =  ppbar[j] + ppip[l];
             //					HepLorentzVector kshort =  pKm[i] + ppip[l];
             //					if(plambuda.m()<1.12&&plambuda.m()>1.11)continue;
+            if(m_debug)
+              cout<< __LINE__ << " " << " k " <<  k << " m "<< m << " psigma.m() "<<  psigma.m() << " etap.m() " << etap.m()<< endl;
             if (psigma.m() < 1.15 || psigma.m() > 1.21)
               continue;
             if (etap.m() < 0.9 || etap.m() > 1.1)
@@ -1465,11 +1472,15 @@ StatusCode LambdacAlg::execute()
             //					if(kshort.m()>0.48&&kshort.m()<0.52)continue;
             if (ipim[i] == ipbar[j])
               continue;
+            if(m_debug)
+              cout<< __LINE__ << " 0000000000"<< " " << " k " <<  k << " m "<< m << " psigma.m() "<<  psigma.m() << " etap.m() " << etap.m()<< endl;
             HepLorentzVector pLambda = ppim[i] + ppbar[j] + pgam3_1C[k] + pgam4_1C[k] + ppip[l] + pgam1_1C[m] + pgam2_1C[m];
             pLambda.boost(-m_beta);
             //double deltaE = fabs(pLambda.t() - ebeam);
             double deltaEb = pLambda.t() - ebeam;
             d++;
+            if (m_debug)
+              cout << __LINE__ << " deltaE_minb " << deltaE_minb <<  " deltaEb:" << deltaEb  << endl;
             if (fabs(deltaEb) < fabs(deltaE_minb))
             {
               b = 1;
@@ -1492,6 +1503,8 @@ StatusCode LambdacAlg::execute()
       }
     }
   }
+  if (m_debug)
+    cout << __LINE__ << endl;
 
   for (int i = 0; i < npip; i++)
   {
@@ -1513,6 +1526,8 @@ StatusCode LambdacAlg::execute()
             //					HepLorentzVector kshort =  pKp[i] + ppim[l];
 
             //					if(plambuda.m()<1.12&&plambuda.m()>1.11)continue;
+            if(m_debug)
+              cout<< __LINE__ << " " << " k " <<  k << " m "<< m << " psigma.m() "<<  psigma.m() << " etap.m() " << etap.m()<< endl;
             if (psigma.m() < 1.174 || psigma.m() > 1.2)
               continue;
             if (etap.m() < 0.946 || etap.m() > 0.968)
@@ -1520,11 +1535,15 @@ StatusCode LambdacAlg::execute()
             //					if(kshort.m()>0.48&&kshort.m()<0.52)continue;
             if (ipip[i] == ip[j])
               continue;
+            if(m_debug)
+              cout<< __LINE__ << " 0000000000"<< " " << " k " <<  k << " m "<< m << " psigma.m() "<<  psigma.m() << " etap.m() " << etap.m()<< endl;
             HepLorentzVector pLambda = ppip[i] + pp[j] + pgam3_1C[k] + pgam4_1C[k] + ppim[l] + pgam1_1C[m] + pgam2_1C[m];
             pLambda.boost(-m_beta);
             //double deltaE = fabs(pLambda.t() - ebeam);
             double deltaEa = pLambda.t() - ebeam;
             c++;
+            if (m_debug)
+              cout << __LINE__ << " deltaE_mina " << deltaE_mina <<  " deltaEa:" << deltaE_mina  << endl;
             if (fabs(deltaEa) < fabs(deltaE_mina))
             {
               a = 1;
@@ -1548,9 +1567,13 @@ StatusCode LambdacAlg::execute()
     }
   }
 
+  if (m_debug)
+    cout << __LINE__ << endl;
   //cout<<"a="<<a<<endl;
   if (a == 0 && b == 0)
     return StatusCode::SUCCESS;
+  if (m_debug)
+    cout << __LINE__ << " start write" << endl;
   if (b == 1)
   {
 
@@ -1630,6 +1653,12 @@ StatusCode LambdacAlg::execute()
     m_rightflag = 2;
     m_np = np;
     m_npbar = npbar;
+    if(m_debug)
+    {
+      cout << __LINE__ << " raw " << " m_pi0e  " << (gam3b_p4 + gam4b_p4).e() << "  m_etae " << (gam1b_p4 + gam2b_p4).e() << "  m_Sigmae " << (gam3b_p4 + gam4b_p4 + pbar_p4).e() << "  m_etaprimee " << (gam2b_p4 + gam1b_p4 + pimb_p4 + pipb_p4).e() << "   e_pim pip" <<pimb_p4.e() << " "<< pipb_p4.e() << endl;
+      cout << __LINE__ << " raw " << " m_pi0m  " << m_pi0m << "  m_etam " << m_etam << "  m_Sigmam " << (gam3b_p4 + gam4b_p4 + pbar_p4).m() << "  m_etaprimem " << (gam2b_p4 + gam1b_p4 + pimb_p4 + pipb_p4).m() << "   p4_pim pip" <<pimb_p4.e() << " "<< pipb_p4.e() << endl;
+      cout << __LINE__ << " b==1, -" << " m_pi0m1c  " << m_pi0m1c << "  m_etam1c " << m_etam1c << "  m_Sigmam " << m_Sigmam << "  m_etaprimem " << m_etaprimem << " m_deltaE_min  " << m_deltaE_min << "  m_bc " << m_bc << endl;
+    }
     m_tuple1->write();
   }
   if (a == 1)
@@ -1709,9 +1738,27 @@ StatusCode LambdacAlg::execute()
     m_rightflag = 1;
     m_np = np;
     m_npbar = npbar;
+    if(m_debug)
+    {
+      cout << __LINE__ << " raw " << " m_pi0e  " << (gam3a_p4 + gam4a_p4).e() << "  m_etae " << (gam1a_p4 + gam2a_p4).e() << "  m_Sigmae " << (gam3a_p4 + gam4a_p4 + p_p4).e() << "  m_etaprimee " << (gam2a_p4 + gam1a_p4 + pima_p4 + pipa_p4).e() << " e_pim pip" <<pima_p4.e() << " "<< pipa_p4.e() << endl;
+      cout << __LINE__ << " raw " << " m_pi0m  " << m_pi0m << "  m_etam " << m_etam << "  m_Sigmam " << (gam3a_p4 + gam4a_p4 + p_p4).m() << "  m_etaprimem " << (gam2a_p4 + gam1a_p4 + pima_p4 + pipa_p4).m() << " p4_pim pip" <<pima_p4.e() << " "<< pipa_p4.e() << endl;
+      cout << __LINE__ << " a==1, -" << " m_pi0m1c  " << m_pi0m1c << "  m_etam1c " << m_etam1c << "  m_Sigmam " << m_Sigmam << "  m_etaprimem " << m_etaprimem << " m_deltaE_min  " << m_deltaE_min << "  m_bc " << m_bc << endl;
+    }
     m_tuple1->write();
   }
   Ncut5++;
+  if(m_debug)
+  {  
+    cout << "Ntotal  " << Ntotal << endl;
+    cout << "Ncut0   " << Ncut0 << endl;
+    cout << "Ncut1   " << Ncut1 << endl;
+    cout << "Ncut2   " << Ncut2 << endl;
+    cout << "Ncut3   " << Ncut3 << endl;
+    cout << "Ncut4   " << Ncut4 << endl;
+    cout << "Ncut5   " << Ncut5 << endl;
+    cout << "all       " << all << endl;
+    cout << "H       " << H << endl;
+  }
   return StatusCode::SUCCESS;
 }
 StatusCode LambdacAlg::endRun()
