@@ -992,7 +992,9 @@ StatusCode LambdacAlg::execute()
     double Rvz0 = vecipa[3];        //the nearest distance to IP in z direction
     double Rvphi0 = vecipa[1];
     //A++;
-
+    double costheta = cos(mdcTrk->theta());
+    if (fabs(costheta) >= m_costheta)
+      continue;
     if (fabs(Rvz0) >= m_vz0cut)
       continue;
     if (fabs(Rvxy0) >= m_vr0cut)
@@ -1013,6 +1015,7 @@ StatusCode LambdacAlg::execute()
   ipbar.clear();
   for (int i = 0; i < nGoodforp; i++)
   {
+    cout <<__LINE__<< " " <<  iGoodforp[i] << endl;
     EvtRecTrackIterator itTrk = evtRecTrkCol->begin() + iGoodforp[i];
     RecMdcTrack *mdcTrk = (*itTrk)->mdcTrack();
     if (mdcTrk->charge() == 1)
@@ -1022,8 +1025,11 @@ StatusCode LambdacAlg::execute()
       // m_simplePIDSvc->preparePID(*itTrk);
       MyPid *m_simplePIDSvc = new MyPid(*itTrk);
       if (m_simplePIDSvc->isproton())
+      {        
         ip.push_back(iGoodforp[i]);
-    }
+        cout <<__LINE__<< " " <<  iGoodforp[i] << endl;
+      }    
+}
     if (mdcTrk->charge() == -1)
     {
       // ISimplePIDSvc *m_simplePIDSvc;
@@ -1031,7 +1037,10 @@ StatusCode LambdacAlg::execute()
       // m_simplePIDSvc->preparePID(*itTrk);
       MyPid *m_simplePIDSvc = new MyPid(*itTrk);
       if (m_simplePIDSvc->isproton())
+      {        
         ipbar.push_back(iGoodforp[i]);
+        cout <<__LINE__<< " " <<  iGoodforp[i] << endl;
+      }    
     }
   }
 
@@ -1326,6 +1335,7 @@ StatusCode LambdacAlg::execute()
       if (m_test1C == 1)
       {
         kmfit->init();
+        kmfit->setChisqCut(m_chisqMax);
         kmfit->AddTrack(0, 0.0, emcTrki);
         kmfit->AddTrack(1, 0.0, emcTrkj);
         kmfit->AddResonance(0, 0.547862, 0, 1);
@@ -1362,6 +1372,7 @@ StatusCode LambdacAlg::execute()
       if (m_test1C == 1)
       {
         kmfit->init();
+        kmfit->setChisqCut(m_chisqMax);
         kmfit->AddTrack(0, 0.0, emcTrkk);
         kmfit->AddTrack(1, 0.0, emcTrkl);
         kmfit->AddResonance(0, 0.1349770, 0, 1);
@@ -1528,9 +1539,9 @@ StatusCode LambdacAlg::execute()
             //					if(plambuda.m()<1.12&&plambuda.m()>1.11)continue;
             if(m_debug)
               cout<< __LINE__ << " " << " k " <<  k << " m "<< m << " psigma.m() "<<  psigma.m() << " etap.m() " << etap.m()<< endl;
-            if (psigma.m() < 1.174 || psigma.m() > 1.2)
+            if (psigma.m() < 1.15 || psigma.m() > 1.21)
               continue;
-            if (etap.m() < 0.946 || etap.m() > 0.968)
+            if (etap.m() < 0.9 || etap.m() > 1.1)
               continue;
             //					if(kshort.m()>0.48&&kshort.m()<0.52)continue;
             if (ipip[i] == ip[j])
@@ -1648,6 +1659,7 @@ StatusCode LambdacAlg::execute()
     HepLorentzVector pLambda = pipb_p4 + pbar_p4 + pgam3b_1C4p + pgam4b_1C4p + pimb_p4 + pgam1b_1C4p + pgam2b_1C4p;
 
     pLambda.boost(-m_beta);
+    cout<< __LINE__ << " pLambda " << pLambda.px()<< " " << pLambda.py() << " "<< pLambda.pz() << " "<< pLambda.e()<< endl;
     double mbc2 = ebeam * ebeam - pLambda.v().mag2();
     m_bc = mbc2 > 0 ? sqrt(mbc2) : -10;
     m_rightflag = 2;
@@ -1655,8 +1667,18 @@ StatusCode LambdacAlg::execute()
     m_npbar = npbar;
     if(m_debug)
     {
-      cout << __LINE__ << " raw " << " m_pi0e  " << (gam3b_p4 + gam4b_p4).e() << "  m_etae " << (gam1b_p4 + gam2b_p4).e() << "  m_Sigmae " << (gam3b_p4 + gam4b_p4 + pbar_p4).e() << "  m_etaprimee " << (gam2b_p4 + gam1b_p4 + pimb_p4 + pipb_p4).e() << "   e_pim pip" <<pimb_p4.e() << " "<< pipb_p4.e() << endl;
-      cout << __LINE__ << " raw " << " m_pi0m  " << m_pi0m << "  m_etam " << m_etam << "  m_Sigmam " << (gam3b_p4 + gam4b_p4 + pbar_p4).m() << "  m_etaprimem " << (gam2b_p4 + gam1b_p4 + pimb_p4 + pipb_p4).m() << "   p4_pim pip" <<pimb_p4.e() << " "<< pipb_p4.e() << endl;
+      cout << __LINE__ << "my raw" << endl;      
+      HepLorentzVector etap4=(gam1b_p4 + gam2b_p4); cout << __LINE__ << " etap4 " << etap4.px()<< " " << etap4.py() << " "<< etap4.pz() << " "<< etap4.e() << " " << etap4.m() << endl;
+      HepLorentzVector pi0p4=(gam3b_p4 + gam4b_p4); cout << __LINE__ << " pi0p4 " << pi0p4.px()<< " " << pi0p4.py() << " "<< pi0p4.pz() << " "<< pi0p4.e() << " " << pi0p4.m() << endl;
+      cout << __LINE__ << " pimb_p4 " << pimb_p4.px()<< " " << pimb_p4.py() << " "<< pimb_p4.pz() << " "<< pimb_p4.e() << " " << pimb_p4.m() << endl;
+      cout << __LINE__ << " pipb_p4 " << pipb_p4.px()<< " " << pipb_p4.py() << " "<< pipb_p4.pz() << " "<< pipb_p4.e() << " " << pipb_p4.m() << endl;
+     
+      cout << __LINE__ << "after fit" << endl;      
+      HepLorentzVector etap41c=(pgam1b_1C4p + pgam2b_1C4p); cout << __LINE__ << " etap41c " << etap41c.px()<< " " << etap41c.py() << " "<< etap41c.pz() << " "<< etap41c.e() << " " << etap41c.m() << endl;
+      HepLorentzVector pi0p41c=(pgam3b_1C4p + pgam4b_1C4p); cout << __LINE__ << " pi0p41c " << pi0p41c.px()<< " " << pi0p41c.py() << " "<< pi0p41c.pz() << " "<< pi0p41c.e() << " " << pi0p41c.m() << endl;
+      HepLorentzVector etaprimep41c=(pgam1b_1C4p + pgam2b_1C4p + pimb_p4 + pipb_p4); cout << __LINE__ << " etaprimep41c" << etaprimep41c.px()<< " " << etaprimep41c.py() << " "<< etaprimep41c.pz() << " "<< etaprimep41c.e() << " " << etaprimep41c.m() << endl;
+      HepLorentzVector sigmaa1c=(pgam3b_1C4p + pgam4b_1C4p + pbar_p4); cout << __LINE__ << " sigmaa1c" << sigmaa1c.px()<< " " << sigmaa1c.py() << " "<< sigmaa1c.pz() << " "<< sigmaa1c.e() << " " << sigmaa1c.m()<< endl;
+
       cout << __LINE__ << " b==1, -" << " m_pi0m1c  " << m_pi0m1c << "  m_etam1c " << m_etam1c << "  m_Sigmam " << m_Sigmam << "  m_etaprimem " << m_etaprimem << " m_deltaE_min  " << m_deltaE_min << "  m_bc " << m_bc << endl;
     }
     m_tuple1->write();
@@ -1733,6 +1755,7 @@ StatusCode LambdacAlg::execute()
     //	cout<<"deltaE="<<deltaE_mina<<endl;
     HepLorentzVector pLambda = pipa_p4 + p_p4 + pgam3a_1C4p + pgam4a_1C4p + pima_p4 + pgam1a_1C4p + pgam2a_1C4p;
     pLambda.boost(-m_beta);
+    cout<< __LINE__ << " pLambda " << pLambda.px()<< " " << pLambda.py() << " "<< pLambda.pz() << " "<< pLambda.e()<< endl;
     double mbc2 = ebeam * ebeam - pLambda.v().mag2();
     m_bc = mbc2 > 0 ? sqrt(mbc2) : -10;
     m_rightflag = 1;
@@ -1740,8 +1763,18 @@ StatusCode LambdacAlg::execute()
     m_npbar = npbar;
     if(m_debug)
     {
-      cout << __LINE__ << " raw " << " m_pi0e  " << (gam3a_p4 + gam4a_p4).e() << "  m_etae " << (gam1a_p4 + gam2a_p4).e() << "  m_Sigmae " << (gam3a_p4 + gam4a_p4 + p_p4).e() << "  m_etaprimee " << (gam2a_p4 + gam1a_p4 + pima_p4 + pipa_p4).e() << " e_pim pip" <<pima_p4.e() << " "<< pipa_p4.e() << endl;
-      cout << __LINE__ << " raw " << " m_pi0m  " << m_pi0m << "  m_etam " << m_etam << "  m_Sigmam " << (gam3a_p4 + gam4a_p4 + p_p4).m() << "  m_etaprimem " << (gam2a_p4 + gam1a_p4 + pima_p4 + pipa_p4).m() << " p4_pim pip" <<pima_p4.e() << " "<< pipa_p4.e() << endl;
+      cout << __LINE__ << "my raw" << endl;            
+      HepLorentzVector etap4=(gam1a_p4 + gam2a_p4); cout << __LINE__ << " etap4 " << etap4.px()<< " " << etap4.py() << " "<< etap4.pz() << " "<< etap4.e() << " " << etap4.m() << endl;
+      HepLorentzVector pi0p4=(gam3a_p4 + gam4a_p4); cout << __LINE__ << " pi0p4 " << pi0p4.px()<< " " << pi0p4.py() << " "<< pi0p4.pz() << " "<< pi0p4.e() << " " << pi0p4.m() << endl;
+      cout << __LINE__ << " pima_p4 " << pima_p4.px()<< " " << pima_p4.py() << " "<< pima_p4.pz() << " "<< pima_p4.e() << " " << pima_p4.m() << endl;
+      cout << __LINE__ << " pipa_p4 " << pipa_p4.px()<< " " << pipa_p4.py() << " "<< pipa_p4.pz() << " "<< pipa_p4.e() << " " << pipa_p4.m() << endl;
+      
+      cout << __LINE__ << "after fit" << endl ;     
+      HepLorentzVector etap41c=(pgam1a_1C4p + pgam2a_1C4p); cout << __LINE__ << " etap41c " << etap41c.px()<< " " << etap41c.py() << " "<< etap41c.pz() << " "<< etap41c.e() << " " << etap41c.m() << endl;
+      HepLorentzVector pi0p41c=(pgam3a_1C4p + pgam4a_1C4p); cout << __LINE__ << " pi0p41c " << pi0p41c.px()<< " " << pi0p41c.py() << " "<< pi0p41c.pz() << " "<< pi0p41c.e() << " " << pi0p41c.m() << endl;
+      HepLorentzVector etaprimep41c=(pgam1a_1C4p + pgam2a_1C4p + pima_p4 + pipa_p4); cout << __LINE__ << " etaprimep41c" << etaprimep41c.px()<< " " << etaprimep41c.py() << " "<< etaprimep41c.pz() << " "<< etaprimep41c.e() << " " << etaprimep41c.m() << endl;
+      HepLorentzVector sigmaa1c=(pgam3a_1C4p + pgam4a_1C4p + p_p4); cout << __LINE__ << " sigmaa1c" << sigmaa1c.px()<< " " << sigmaa1c.py() << " "<< sigmaa1c.pz() << " "<< sigmaa1c.e() << " " << sigmaa1c.m() << endl;
+
       cout << __LINE__ << " a==1, -" << " m_pi0m1c  " << m_pi0m1c << "  m_etam1c " << m_etam1c << "  m_Sigmam " << m_Sigmam << "  m_etaprimem " << m_etaprimem << " m_deltaE_min  " << m_deltaE_min << "  m_bc " << m_bc << endl;
     }
     m_tuple1->write();
