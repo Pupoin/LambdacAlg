@@ -33,14 +33,16 @@ class MyParticle
 {
 public:
   MyParticle();
+  MyParticle(WTrackParameter wtrkp);
   MyParticle(int index, HepLorentzVector p4, int charge, WTrackParameter wtrkp = WTrackParameter());
-  MyParticle(int index, HepLorentzVector p4, RecEmcShower *emcTrk = nullptr);
+  MyParticle(int index, HepLorentzVector p4, WTrackParameter wtrkp = WTrackParameter());
+  MyParticle(int index, HepLorentzVector p4, RecEmcShower *emcTrk);
   ~MyParticle();
 
-  // void setIndex(int index);
-  // void setCharge(int charge);
-  // void setLorentzVector(HepLorentzVector p4);
-  // void setTrackParameter(WTrackParameter *wtrkp);
+  void setIndex(int index);
+  void setCharge(int charge);
+  void setLorentzVector(HepLorentzVector p4);
+  void setTrackParameter(WTrackParameter wtrkp);
 
   int getIndex();
   int getCharge();
@@ -51,21 +53,27 @@ public:
 
   double chi;
 
-private:
+protected:
   int index, charge;
   HepLorentzVector p4;
   WTrackParameter wtrkp;
   RecEmcShower *emcTrk;
 };
 
-///
-///
-/// class MyMotherParticleFit  ///
-///
+
+
+// ==============================================================================================
+// ==========************                                                 ************===========
+// ================                    MyMotherParticleFit                  =====================
+// ==========************                                                 ************===========
+// ==============================================================================================
 class MyMotherParticleFit : public MyParticle
 {
 public:
   MyMotherParticleFit();
+  MyMotherParticleFit(WTrackParameter wtrkp);
+  // MyMotherParticleFit(int index, HepLorentzVector p4, RecEmcShower *emcTrk = nullptr);
+
   // MyMotherParticleFit(MyMotherParticleFit mf)
   MyMotherParticleFit(MyParticle child1, MyParticle child2);
 
@@ -73,9 +81,9 @@ public:
                       MyParticle child3, KalmanKinematicFit *kmfit = nullptr);
   ~MyMotherParticleFit();
 
-  // void setChild1(MyParticle child1);
-  // void setChild2(MyParticle child2);
-  // void setChild3(MyParticle child3);
+  void setChild1(MyParticle child1);
+  void setChild2(MyParticle child2);
+  void setChild3(MyParticle child3);
 
   MyParticle getChild1();
   MyParticle getChild2();

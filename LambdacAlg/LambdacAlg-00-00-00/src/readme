@@ -1,0 +1,26 @@
+
+*bk2 是 反冲3c 方法  给的是pi0 和 eta 0 的径迹。
+
+*bk 是 反冲4c 方法
+
+*cxx 测试周 的代码
+
+branch sigmaetaprime_and_3c
+commit dde11186da84cc5846ac150155939a4d4d49d12f
+Author: Zhaoyang Yuan <yuanchy8@mail2.sysu.edu.cn>
+Date:   Tue Apr 13 02:57:02 2021 +0800
+
+    sigma eta prime recoil 4c, v11
+
+
+5715e41 HEAD@{0}: commit: ok, zhou update
+3eba0f5 HEAD@{1}: commit: ok, zhou mymass trackcons update
+29c0293 HEAD@{2}: commit: ok my_mass update zhou
+8e89291 HEAD@{3}: commit: ok, zhou mypid
+cfaeab5 HEAD@{4}: commit: ok, simple pid
+d0e232e HEAD@{5}: commit: origin
+bbb6cc6 HEAD@{6}: commit: origin
+
+
+**tmp is my1c
+**etaprime is zhou 1c modify

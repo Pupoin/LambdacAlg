@@ -32,6 +32,17 @@ using CLHEP::HepLorentzVector;
 /// class MyParticle  ///
 ///
 MyParticle::MyParticle() {}
+MyParticle::MyParticle(WTrackParameter wtrkp)
+{
+  this->wtrkp = wtrkp;
+}
+
+MyParticle::MyParticle(int index, HepLorentzVector p4, WTrackParameter wtrkp)
+{
+  this->index = index;
+  this->p4 = p4;
+  this->wtrkp = wtrkp;
+}
 MyParticle::MyParticle(int index, HepLorentzVector p4, int charge, WTrackParameter wtrkp)
 {
   this->index = index;
@@ -49,10 +60,10 @@ MyParticle::MyParticle(int index, HepLorentzVector p4, RecEmcShower *emcTrk)
 MyParticle::~MyParticle() {}
 
 // ------  set -------
-// void MyParticle::setIndex(int index) { this->index = index; }
-// void MyParticle::setCharge(int charge) { this->charge = charge; }
-// void MyParticle::setLorentzVector(HepLorentzVector p4) { this->p4 = p4; }
-// void MyParticle::setTrackParameter(WTrackParameter *wtrkp) { this->wtrkp = wtrkp; }
+void MyParticle::setIndex(int index) { this->index = index; }
+void MyParticle::setCharge(int charge) { this->charge = charge; }
+void MyParticle::setLorentzVector(HepLorentzVector p4) { this->p4 = p4; }
+void MyParticle::setTrackParameter(WTrackParameter wtrkp) { /*cout << "--set" << endl;*/ this->wtrkp = wtrkp; }
 
 // -------  get --------
 int MyParticle::getIndex() { return index; }
@@ -60,23 +71,31 @@ int MyParticle::getCharge() { return charge; }
 HepLorentzVector MyParticle::getLorentzVector() { return p4; }
 double MyParticle::getMass() { return p4.m(); }
 
-WTrackParameter MyParticle::getTrackParameter() { return wtrkp; }
+WTrackParameter MyParticle::getTrackParameter() { /*cout << "--get" << endl;*/ return wtrkp; }
 RecEmcShower *MyParticle::getRecEmcShower() { return emcTrk; }
 
 #pragma endregion
 
-#pragma region MyMotherParticleFit____________________________________________________________________
+
+
+// ==============================================================================================
+// ==========************                                                 ************===========
+// ================                    MyMotherParticleFit                  =====================
+// ==========************                                                 ************===========
+// ==============================================================================================
+#pragma region MyMotherParticleFit______________________________________________________________
 ///
 ///
 /// class MyMotherParticleFit  ///
 ///
+
 MyMotherParticleFit::MyMotherParticleFit() {}
-// MyMotherParticleFit::MyMotherParticleFit(MyParticle mf) {}
+MyMotherParticleFit::MyMotherParticleFit(WTrackParameter wtrkp): MyParticle(wtrkp){}
+
 MyMotherParticleFit::MyMotherParticleFit(MyParticle child1, MyParticle child2)
 {
   this->child1 = child1;
   this->child2 = child2;
-  // this->kmfit = kmfit;
 }
 MyMotherParticleFit::MyMotherParticleFit(MyParticle child1, MyParticle child2, MyParticle child3,
                                          KalmanKinematicFit *kmfit)
@@ -88,9 +107,9 @@ MyMotherParticleFit::MyMotherParticleFit(MyParticle child1, MyParticle child2, M
 }
 MyMotherParticleFit::~MyMotherParticleFit() {}
 
-// void MyMotherParticleFit::setChild1(MyParticle child1) { this->child1 = child1; }
-// void MyMotherParticleFit::setChild2(MyParticle child2) { this->child2 = child2; }
-// void MyMotherParticleFit::setChild3(MyParticle child3) { this->child3 = child3; }
+void MyMotherParticleFit::setChild1(MyParticle child1) { this->child1 = child1; }
+void MyMotherParticleFit::setChild2(MyParticle child2) { this->child2 = child2; }
+void MyMotherParticleFit::setChild3(MyParticle child3) { this->child3 = child3; }
 
 MyParticle MyMotherParticleFit::getChild1() { return child1; }
 MyParticle MyMotherParticleFit::getChild2() { return child2; }

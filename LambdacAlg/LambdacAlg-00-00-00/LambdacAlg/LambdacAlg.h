@@ -56,8 +56,6 @@ private:
 
 	double m_EtaPrimeMinMass;
 	double m_EtaPrimeMaxMass;
-	double m_OmegaMaxMass;
-	double m_OmegaMinMass;
 
 	bool m_debug;
 	bool m_isqqbar;
@@ -77,6 +75,10 @@ private:
 	NTuple::Item<int> m_mode1_;
 	NTuple::Item<int> m_mode2_;
 	NTuple::Item<int> m_mode3_;
+
+	NTuple::Item<long> m_flag1_;
+	NTuple::Item<long> m_flag2_;
+	
 	NTuple::Item<int> m_ndaughterAp_;
 	NTuple::Array<int> m_Ap_id_;
 	NTuple::Matrix<double> m_Ap_ptruth_;
@@ -91,8 +93,8 @@ private:
 	NTuple::Item<int> m_rightflag;
 	NTuple::Item<int> m_signal;
 	NTuple::Item<int> m_bg;
-	// NTuple::Item<int> m_yes;
-	// NTuple::Item<int> m_no;
+	NTuple::Item<int> m_yes;
+	NTuple::Item<int> m_no;
 	/////
 	//Proton
 	NTuple::Item<int> m_nProton;
@@ -193,7 +195,8 @@ private:
 	NTuple::Array<double> m_gam3_p4_1c;
 	NTuple::Array<double> m_gam4_p4_1c;
 	NTuple::Item<double> m_Sigmam1c;
-	NTuple::Item<double> m_omegam1c;
+	NTuple::Item<double> m_etaprimem1c;
+	NTuple::Item<double> m_lambdacm1c;
 	// r3c _________________________________________________________________
 	NTuple::Item<int> m_flag_r3c;
 	NTuple::Array<double> m_pall_p4;
@@ -215,7 +218,7 @@ private:
 
 	NTuple::Item<double> m_pi0mr3c;
 	NTuple::Item<double> m_etamr3c;
-	NTuple::Item<double> m_omegamr3c;
+	NTuple::Item<double> m_etaprimemr3c;
 	NTuple::Item<double> m_sigmamr3c;
 	NTuple::Item<double> m_pcharge;
 
@@ -233,7 +236,7 @@ private:
 
 	NTuple::Item<double> m_pi0mr;
 	NTuple::Item<double> m_etamr;
-	NTuple::Item<double> m_omegamr;
+	NTuple::Item<double> m_etaprimemr;
 	NTuple::Item<double> m_Sigmamr;
 	NTuple::Item<double> m_pcharger;
 	NTuple::Item<double> m_signalr;
@@ -245,7 +248,7 @@ private:
 	NTuple::Item<double> m_lambda;
 	NTuple::Item<double> m_ksi;
 	NTuple::Item<double> m_sigmastar;
-	NTuple::Item<double> m_omegam;
+	NTuple::Item<double> m_etaprimem;
 	NTuple::Item<double> m_kstar;
 	NTuple::Item<double> m_pi0m1c;
 	NTuple::Item<double> m_etam1c;
@@ -265,8 +268,10 @@ private:
 	NTuple::Item<double> m_eop_Kp;
 	NTuple::Item<double> m_eop_Km;
 	NTuple::Item<double> m_deltaE_min_1c;
+	NTuple::Item<double> m_deltaE_min;
 	NTuple::Item<double> m_deltaE_min_r3c;
 	NTuple::Item<double> m_bc_1c;
+	NTuple::Item<double> m_bc;
 	NTuple::Item<double> m_bc_r3c;
 	NTuple::Item<int> m_mcparticle_p;
 	NTuple::Array<int> m_pdgid_p;
@@ -283,6 +288,9 @@ private:
 	NTuple::Item<double> m_mode1;
 	NTuple::Item<double> m_mode2;
 	NTuple::Item<double> m_mode3;
+
+	NTuple::Item<long> m_flag1;
+	NTuple::Item<long> m_flag2;
 
 protected:
 };
