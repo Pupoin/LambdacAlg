@@ -105,6 +105,8 @@ LambdacAlg::LambdacAlg(const std::string &name, ISvcLocator *pSvcLocator) : Algo
   declareProperty("EtaPrimeMinMass", m_EtaPrimeMinMass = 0.946);
   declareProperty("EtaPrimeMaxMass", m_EtaPrimeMaxMass = 0.968);
 
+  declareProperty("OmegaMinMass", m_EtaPrimeMinMass = 0.76);
+  declareProperty("OmegaMaxMass", m_EtaPrimeMaxMass = 0.8);
 }
 LambdacAlg::~LambdacAlg()
 {
@@ -595,7 +597,7 @@ StatusCode LambdacAlg::execute()
 
         // truth for lambda_c+ to ... ------------------------------------
         if ((*iter_mc)->particleProperty() == 4122)
-        { // lambdac+ -> sigma+ eta', store sigma+ eta'
+        { // lambdac+ -> sigma+ omega, store sigma+ omega
           const SmartRefVector<Event::McParticle> &gc = (*iter_mc)->daughterList();
           for (unsigned int ii = 0; ii < gc.size(); ii++)
           {
@@ -647,8 +649,8 @@ StatusCode LambdacAlg::execute()
             ndaughterAp++;
           } // End of "gc.size() > 0" IF
         }
-        if (pdg == 331 && motherpdg == 4122)
-        { //// eta'->pi+ pi- eta, store pi+ pi- eta
+        if (pdg == 223 && motherpdg == 4122)
+        { //// omega ->pi+ pi- eta, store pi+ pi- pi0
           const SmartRefVector<Event::McParticle> &gc = (*iter_mc)->daughterList();
           for (unsigned int ii = 0; ii < gc.size(); ii++)
           {
@@ -665,8 +667,8 @@ StatusCode LambdacAlg::execute()
           }
         }
 
-        if (pdg == 221 && motherpdg == 331 && mmotherpdg == 4122)
-        { // eta->gam gam //store 2 gamma
+        if (pdg == 111 && motherpdg == 223 && mmotherpdg == 4122)
+        { // pi0 ->gam gam //store 2 gamma
           const SmartRefVector<Event::McParticle> &gc = (*iter_mc)->daughterList();
           for (unsigned int ii = 0; ii < gc.size(); ii++)
           {
@@ -685,7 +687,7 @@ StatusCode LambdacAlg::execute()
 
         // truth for lambda_c- to ... ------------------------------------
         if ((*iter_mc)->particleProperty() == -4122)
-        { // lambdac- -> sigma- eta', store sigma- eta'
+        { // lambdac- -> sigma- oemga, store sigma- omega
           const SmartRefVector<Event::McParticle> &gc = (*iter_mc)->daughterList();
           for (unsigned int ii = 0; ii < gc.size(); ii++)
           {
@@ -736,8 +738,8 @@ StatusCode LambdacAlg::execute()
             ndaughterAm++;
           } // End of "gc.size() > 0" IF
         }
-        if (pdg == 331 && motherpdg == -4122)
-        { //// eta'->pi+ pi- eta, store pi+ pi- eta
+        if (pdg == 223 && motherpdg == -4122)
+        { //// omega ->pi+ pi- pi0, store pi+ pi- pi0
           const SmartRefVector<Event::McParticle> &gc = (*iter_mc)->daughterList();
           for (unsigned int ii = 0; ii < gc.size(); ii++)
           {
@@ -754,8 +756,8 @@ StatusCode LambdacAlg::execute()
           }
         }
 
-        if (pdg == 221 && motherpdg == 331 && mmotherpdg == -4122)
-        { // eta->gam gam //store 2 gamma
+        if (pdg == 111 && motherpdg == 223 && mmotherpdg == -4122)
+        { // pi0 ->gam gam //store 2 gamma
           const SmartRefVector<Event::McParticle> &gc = (*iter_mc)->daughterList();
           for (unsigned int ii = 0; ii < gc.size(); ii++)
           {
@@ -788,8 +790,7 @@ StatusCode LambdacAlg::execute()
         {
           cout << "Am_id[" << i << "]: " << Am_id[i] << ", ";
         }
-        cout << "\n"
-             << endl;
+        cout << "\n" << endl;
       }
 
       // trace both
@@ -883,16 +884,33 @@ StatusCode LambdacAlg::execute()
         }
       }
 
-      if (ndaughterAp == 11 && Ap_id[0] == 3222 && Ap_id[1] == 331 && Ap_id[2] == 2212 && Ap_id[3] == 111 &&
-          Ap_id[4] == 211 && Ap_id[5] == -211 && Ap_id[6] == 221 && Ap_id[7] == 22 && Ap_id[8] == 22 &&
+      if (ndaughterAp == 11 && Ap_id[0] == 3222 && Ap_id[1] == 223 && Ap_id[2] == 2212 && Ap_id[3] == 111 &&
+          Ap_id[4] == 211 && Ap_id[5] == -211 && Ap_id[6] == 111 && Ap_id[7] == 22 && Ap_id[8] == 22 &&
           Ap_id[9] == 22 && Ap_id[10] == 22)
       {
         signal = 1;
         all++;
         all_p++;
       }
-      if (ndaughterAm == 11 && Am_id[0] == -3222 && Am_id[1] == 331 && Am_id[2] == -2212 && Am_id[3] == 111 &&
-          Am_id[4] == 211 && Am_id[5] == -211 && Am_id[6] == 221 && Am_id[7] == 22 && Am_id[8] == 22 &&
+      if (ndaughterAm == 11 && Am_id[0] == -3222 && Am_id[1] == 223 && Am_id[2] == -2212 && Am_id[3] == 111 &&
+          Am_id[4] == 211 && Am_id[5] == -211 && Am_id[6] == 111 && Am_id[7] == 22 && Am_id[8] == 22 &&
+          Am_id[9] == 22 && Am_id[10] == 22)
+      {
+        signal = -1;
+        all++;
+        all_m++;
+      }
+
+      if (ndaughterAp == 11 && Ap_id[0] == 3222 && Ap_id[1] == 223 && Ap_id[2] == 2212 && Ap_id[3] == 111 &&
+          Ap_id[4] == -211 && Ap_id[5] == 211 && Ap_id[6] == 111 && Ap_id[7] == 22 && Ap_id[8] == 22 &&
+          Ap_id[9] == 22 && Ap_id[10] == 22)
+      {
+        signal = 1;
+        all++;
+        all_p++;
+      }
+      if (ndaughterAm == 11 && Am_id[0] == -3222 && Am_id[1] == 223 && Am_id[2] == -2212 && Am_id[3] == 111 &&
+          Am_id[4] == -211 && Am_id[5] == 211 && Am_id[6] == 111 && Am_id[7] == 22 && Am_id[8] == 22 &&
           Am_id[9] == 22 && Am_id[10] == 22)
       {
         signal = -1;
@@ -907,6 +925,8 @@ StatusCode LambdacAlg::execute()
       }
     }
   }
+
+  
 
   if (m_checktotal)
   {
@@ -1330,7 +1350,7 @@ StatusCode LambdacAlg::execute()
       HepLorentzVector ptrkj = getP4(emcTrkj, xorigin);
 
       HepLorentzVector p2geta = ptrki + ptrkj;
-      if (p2geta.m() < 0.46 || p2geta.m() > 0.58)
+      if (p2geta.m() < 0.08 || p2geta.m() > 0.18)
         continue;
       if (m_test1C == 1)
       {
@@ -1338,7 +1358,7 @@ StatusCode LambdacAlg::execute()
         kmfit->setChisqCut(m_chisqMax);
         kmfit->AddTrack(0, 0.0, emcTrki);
         kmfit->AddTrack(1, 0.0, emcTrkj);
-        kmfit->AddResonance(0, 0.547862, 0, 1);
+        kmfit->AddResonance(0, 0.1349770, 0, 1);
         bool oksq = kmfit->Fit();
         if (oksq)
         {
@@ -1478,7 +1498,7 @@ StatusCode LambdacAlg::execute()
               cout<< __LINE__ << " " << " k " <<  k << " m "<< m << " psigma.m() "<<  psigma.m() << " etap.m() " << etap.m()<< endl;
             if (psigma.m() < 1.15 || psigma.m() > 1.21)
               continue;
-            if (etap.m() < 0.92 || etap.m() > 0.99)
+            if (etap.m() < 0.73 || etap.m() > 0.83)
               continue;
             //					if(kshort.m()>0.48&&kshort.m()<0.52)continue;
             if (ipim[i] == ipbar[j])
@@ -1824,7 +1844,7 @@ StatusCode LambdacAlg::finalize()
   cout << "-------------------------------------------------------------------------" << endl;
   cout << "-------------------------------           -------------------------------" << endl;
   cout << "--------------------                                ---------------------" << endl;
-  cout << "-------------  sigma etaprime modify zhou to me code, v10 ------------------" << endl;
+  cout << "-------------  sigma omega modify zhou to me code, v10 ------------------" << endl;
   cout << "--------------------                               ----------------------" << endl;
   cout << "------------------------------           --------------------------------" << endl;
   cout << "-------------------------------------------------------------------------" << endl;
