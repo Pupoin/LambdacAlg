@@ -262,7 +262,7 @@ StatusCode LambdacAlg::beginRun()
 StatusCode LambdacAlg::execute()
 {
   m_rightflag = -1;
-  int signal = -1;
+  int signal = -999;
   int bg = -1;
   int yes = -1;
   int no = -1;
@@ -894,23 +894,6 @@ StatusCode LambdacAlg::execute()
       }
       if (ndaughterAm == 11 && Am_id[0] == -3222 && Am_id[1] == 223 && Am_id[2] == -2212 && Am_id[3] == 111 &&
           Am_id[4] == 211 && Am_id[5] == -211 && Am_id[6] == 111 && Am_id[7] == 22 && Am_id[8] == 22 &&
-          Am_id[9] == 22 && Am_id[10] == 22)
-      {
-        signal = -1;
-        all++;
-        all_m++;
-      }
-
-      if (ndaughterAp == 11 && Ap_id[0] == 3222 && Ap_id[1] == 223 && Ap_id[2] == 2212 && Ap_id[3] == 111 &&
-          Ap_id[4] == -211 && Ap_id[5] == 211 && Ap_id[6] == 111 && Ap_id[7] == 22 && Ap_id[8] == 22 &&
-          Ap_id[9] == 22 && Ap_id[10] == 22)
-      {
-        signal = 1;
-        all++;
-        all_p++;
-      }
-      if (ndaughterAm == 11 && Am_id[0] == -3222 && Am_id[1] == 223 && Am_id[2] == -2212 && Am_id[3] == 111 &&
-          Am_id[4] == -211 && Am_id[5] == 211 && Am_id[6] == 111 && Am_id[7] == 22 && Am_id[8] == 22 &&
           Am_id[9] == 22 && Am_id[10] == 22)
       {
         signal = -1;
