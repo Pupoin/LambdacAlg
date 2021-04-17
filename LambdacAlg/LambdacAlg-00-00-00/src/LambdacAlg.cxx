@@ -1217,11 +1217,11 @@ StatusCode LambdacAlg::execute()
             if( proton[i_proton].getIndex() ==  piPlus[i_piPlus].getIndex()) continue;
             if( piMin[i_piMin].getIndex() ==  piPlus[i_piPlus].getIndex()) continue;     
 
-            HepLorentzVector p_etaprime = piMin[i_piMin].getLorentzVector() + piPlus[i_piPlus].getLorentzVector() + eta[i_eta].getMotherLorentzVector(2);
-            if (m_debug)
-              cout << __LINE__ << " eta prime m(): " << p_etaprime.m() << endl;
-            if (p_etaprime.m() > m_EtaPrimeMaxMass || p_etaprime.m() < m_EtaPrimeMinMass)
-              continue;
+            // HepLorentzVector p_etaprime = piMin[i_piMin].getLorentzVector() + piPlus[i_piPlus].getLorentzVector() + eta[i_eta].getMotherLorentzVector(2);
+            // if (m_debug)
+            //   cout << __LINE__ << " eta prime m(): " << p_etaprime.m() << endl;
+            // if (p_etaprime.m() > m_EtaPrimeMaxMass || p_etaprime.m() < m_EtaPrimeMinMass)
+            //   continue;
 
              // _______________________________________________  r3C  ______________________________________________
             kmfit->init();
@@ -1239,8 +1239,8 @@ StatusCode LambdacAlg::execute()
 
             kmfit->AddResonance(0, 0.547862, 3, 4);
             kmfit->AddResonance(1, 0.1349770, 1, 2);
-            kmfit->AddResonance(2, 0.95778, 3, 4, 5, 6);
-            kmfit->AddFourMomentum(3, HepCMS);
+            // kmfit->AddResonance(2, 0.95778, 3, 4, 5, 6);
+            kmfit->AddFourMomentum(2, HepCMS);
 
             // MyMotherParticleFit tmp2;
             bool okvs1 = kmfit->Fit();
@@ -1248,19 +1248,11 @@ StatusCode LambdacAlg::execute()
             if (okvs1)
             {
               // kmfit->BuildVirtualParticle(0);
-              // HepLorentzVector p_etaprime = kmfit->pfit(5) + kmfit->pfit(6) + kmfit->pfit(3) + kmfit->pfit(4);
-              // if (m_debug)
-              //   cout << __LINE__ << " eta prime m(): " << p_etaprime.m() << endl;
-              // if (p_etaprime.m() > m_EtaPrimeMaxMass || p_etaprime.m() < m_EtaPrimeMinMass)
-              //   tmp_cut_flag=1;
-
-              // HepLorentzVector p_eta = kmfit->pfit(3) + kmfit->pfit(4);
-              // if (m_debug)
-              //   cout << __LINE__ << " eta  m(): " << p_eta.m() << endl;
-              // if (p_eta.m() > m_EtaMaxMass || p_eta.m() < m_EtaMinMass)
-              //   tmp_cut_flag=1;
-              // if (m_debug)
-              //   cout << __LINE__ << "00000000" << " eta prime m(): " << p_etaprime.m() << endl;
+              HepLorentzVector p_etaprime = kmfit->pfit(5) + kmfit->pfit(6) + kmfit->pfit(3) + kmfit->pfit(4);
+              if (m_debug)
+                cout << __LINE__ << " eta prime m(): " << p_etaprime.m() << endl;
+              if (p_etaprime.m() > m_EtaPrimeMaxMass || p_etaprime.m() < m_EtaPrimeMinMass)
+                tmp_cut_flag=1;
 
               // cut for sigma
               HepLorentzVector psigma = kmfit->pfit(0) + kmfit->pfit(1) + kmfit->pfit(2);
