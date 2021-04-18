@@ -105,8 +105,8 @@ LambdacAlg::LambdacAlg(const std::string &name, ISvcLocator *pSvcLocator) : Algo
   declareProperty("EtaPrimeMinMass", m_EtaPrimeMinMass = 0.946);
   declareProperty("EtaPrimeMaxMass", m_EtaPrimeMaxMass = 0.968);
 
-  declareProperty("OmegaMinMass", m_EtaPrimeMinMass = 0.76);
-  declareProperty("OmegaMaxMass", m_EtaPrimeMaxMass = 0.8);
+  declareProperty("OmegaMinMass", m_OmegaMinMass = 0.76);
+  declareProperty("OmegaMaxMass", m_OmegaMaxMass = 0.8);
 }
 LambdacAlg::~LambdacAlg()
 {
@@ -1544,7 +1544,7 @@ StatusCode LambdacAlg::execute()
               cout<< __LINE__ << " " << " k " <<  k << " m "<< m << " psigma.m() "<<  psigma.m() << " etap.m() " << etap.m()<< endl;
             if (psigma.m() < 1.15 || psigma.m() > 1.21)
               continue;
-            if (etap.m() < 0.9 || etap.m() > 1.1)
+            if (etap.m() < 0.73 || etap.m() > 0.83)
               continue;
             //					if(kshort.m()>0.48&&kshort.m()<0.52)continue;
             if (ipip[i] == ip[j])
