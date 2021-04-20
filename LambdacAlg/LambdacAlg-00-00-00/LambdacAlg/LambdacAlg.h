@@ -170,19 +170,19 @@ private:
 	NTuple::Item<int> m_ngam;
 	NTuple::Array<double> m_Kp_p4;
 	NTuple::Array<double> m_Km_p4;
-	NTuple::Array<double> m_p_p4;
+	// NTuple::Array<double> m_p_p4;
 	NTuple::Array<double> m_pbar_p4;
 	NTuple::Array<double> m_sigma_p4;
 	NTuple::Array<double> m_pim_p4;
 	NTuple::Array<double> m_pip_p4;
-	NTuple::Array<double> m_gam1a_p4;
-	NTuple::Array<double> m_gam2a_p4;
-	NTuple::Array<double> m_gam3a_p4;
-	NTuple::Array<double> m_gam4a_p4;
-	NTuple::Array<double> m_gam1b_p4;
-	NTuple::Array<double> m_gam2b_p4;
-	NTuple::Array<double> m_gam3b_p4;
-	NTuple::Array<double> m_gam4b_p4;
+	// NTuple::Array<double> m_gam1a_p4;
+	// NTuple::Array<double> m_gam2a_p4;
+	// NTuple::Array<double> m_gam3a_p4;
+	// NTuple::Array<double> m_gam4a_p4;
+	// NTuple::Array<double> m_gam1b_p4;
+	// NTuple::Array<double> m_gam2b_p4;
+	// NTuple::Array<double> m_gam3b_p4;
+	// NTuple::Array<double> m_gam4b_p4;
 	NTuple::Array<double> m_gama_p4;
 	NTuple::Array<double> m_gamb_p4;
 	NTuple::Array<double> m_pi0_p4;
@@ -198,7 +198,7 @@ private:
 	NTuple::Item<double> m_etaprimem1c;
 	NTuple::Item<double> m_lambdacm1c;
 	// r3c _________________________________________________________________
-	NTuple::Item<int> m_flag_r3c;
+	// NTuple::Item<int> m_flag_r3c;
 	NTuple::Array<double> m_pall_p4;
 	NTuple::Array<double> m_gam1_p4;
 	NTuple::Array<double> m_gam2_p4;
@@ -206,19 +206,22 @@ private:
 	NTuple::Array<double> m_gam4_p4;
 	NTuple::Item<double> m_chi2_min;
 
-	NTuple::Array<double> m_pall_p4_r3c;
-	NTuple::Array<double> m_pim_p4_r3c;
-	NTuple::Array<double> m_pip_p4_r3c;
+	// NTuple::Array<double> m_pall_p4_r3c;
+	// NTuple::Array<double> m_pim_p4_r3c;
+	// NTuple::Array<double> m_pip_p4_r3c;
 
-	NTuple::Array<double> m_gam1_p4_r3c;
-	NTuple::Array<double> m_gam2_p4_r3c;
-	NTuple::Array<double> m_gam3_p4_r3c;
-	NTuple::Array<double> m_gam4_p4_r3c;
-	NTuple::Item<double> m_chi2_min_r3c;
+	// NTuple::Array<double> m_gam1_p4_r3c;
+	// NTuple::Array<double> m_gam2_p4_r3c;
+	// NTuple::Array<double> m_gam3_p4_r3c;
+	// NTuple::Array<double> m_gam4_p4_r3c;
+	// NTuple::Item<double> m_chi2_min_r3c;
 
-	NTuple::Item<double> m_pi0mr3c;
-	NTuple::Item<double> m_etamr3c;
-	NTuple::Item<double> m_etaprimemr3c;
+	// NTuple::Item<double> m_pi0mr3c;
+	// NTuple::Item<double> m_etamr3c;
+	// NTuple::Item<double> m_etaprimemr3c;
+	// NTuple::Item<double> m_deltaE_min_r3c;
+	// NTuple::Item<double> m_bc_r3c;
+
 	NTuple::Item<double> m_sigmamr3c;
 	NTuple::Item<double> m_pcharge;
 
@@ -268,9 +271,7 @@ private:
 	NTuple::Item<double> m_eop_Kp;
 	NTuple::Item<double> m_eop_Km;
 	NTuple::Item<double> m_deltaE_min_1c;
-	NTuple::Item<double> m_deltaE_min_r3c;
 	NTuple::Item<double> m_bc_1c;
-	NTuple::Item<double> m_bc_r3c;
 	NTuple::Item<int> m_mcparticle_p;
 	NTuple::Array<int> m_pdgid_p;
 	NTuple::Array<int> m_motheridx_p;
