@@ -893,7 +893,7 @@ StatusCode LambdacAlg::execute()
   // Finish Good Charged Track SKction
   if (goodTrack.size() < 3)
   {
-    cout << __LINE__ << "return StatusCode::SUCCESS; goodTrack.size() < 3" << endl;
+    if (m_debug) cout << __LINE__ << "return StatusCode::SUCCESS; goodTrack.size() < 3" << endl;
     return StatusCode::SUCCESS;
   }
   if (abs(signal) == 1)
@@ -967,7 +967,7 @@ StatusCode LambdacAlg::execute()
     if (m_debug)
     {
       // cout << piMin.size() << " " << piPlus.size() << " " <<  proton.size() << endl;
-      cout << __LINE__ << "return StatusCode::SUCCESS; piMin.size()<1 ||  piPlus.size()<1 || proton.size() <1" << endl;
+      if (m_debug) cout << __LINE__ << "return StatusCode::SUCCESS; piMin.size()<1 ||  piPlus.size()<1 || proton.size() <1" << endl;
     }
     return StatusCode::SUCCESS;
   }
@@ -1056,7 +1056,7 @@ StatusCode LambdacAlg::execute()
 
   if (emcGamma.size() < 4)
   {
-    cout << __LINE__ << "return StatusCode::SUCCESS;  emcGamma.size() < 4" << endl;
+    if (m_debug) cout << __LINE__ << "return StatusCode::SUCCESS;  emcGamma.size() < 4" << endl;
     return StatusCode::SUCCESS;
   }
 
@@ -1369,7 +1369,7 @@ StatusCode LambdacAlg::execute()
     double mbc2 = ebeam * ebeam - pLambda.v().mag2();
     m_bc_1c = mbc2 > 0 ? sqrt(mbc2) : -10;
 
-    cout << __LINE__  << " m_bc_1c " << m_bc_1c  << " m_deltaE_min_1c " << m_deltaE_min_1c<< endl;
+    if (m_debug) cout << __LINE__  << " m_bc_1c " << m_bc_1c  << " m_deltaE_min_1c " << m_deltaE_min_1c<< endl;
     Ncut7++;
     m_tuple1->write();
     if (m_debug)
@@ -1555,7 +1555,7 @@ StatusCode LambdacAlg::execute()
     double mbc2 = ebeam * ebeam - pLambda.v().mag2();
     m_bc_1c = mbc2 > 0 ? sqrt(mbc2) : -10;
 
-    cout << __LINE__  << " m_bc_1c " << m_bc_1c  << " m_deltaE_min_1c " << m_deltaE_min_1c<< endl;
+    if (m_debug) cout << __LINE__  << " m_bc_1c " << m_bc_1c  << " m_deltaE_min_1c " << m_deltaE_min_1c<< endl;
     Ncut7++;
     m_tuple1->write();
     if (m_debug)
@@ -1635,8 +1635,3 @@ StatusCode LambdacAlg::finalize()
 }
 
 // add your code here,for other member-functions
-
-int SaveFile()
-{
-
-}
