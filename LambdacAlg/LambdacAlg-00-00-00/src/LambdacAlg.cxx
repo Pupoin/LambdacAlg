@@ -936,7 +936,11 @@ StatusCode LambdacAlg::execute()
       // RecMdcKalTrack *mdcKalTrk = (*itTrk)->mdcKalTrack();
       mdcKalTrk->setPidType(RecMdcKalTrack::pion);
       HepLorentzVector p4 = mdcKalTrk->p4(xmass[2]);
-      WTrackParameter wtrkp(xmass[2], mdcKalTrk->getZHelixP(), mdcKalTrk->getZErrorP());
+      // WTrackParameter wtrkp(xmass[2], mdcKalTrk->getZHelixP(), mdcKalTrk->getZErrorP());  // for proton
+      // WTrackParameter wtrkp(xmass[2], mdcKalTrk->getZHelixMu(), mdcKalTrk->getZErrorMu());  // for muon
+      // WTrackParameter wtrkp(xmass[2], mdcKalTrk->getZHelixK(), mdcKalTrk->getZErrorK());  // for kaon
+      // WTrackParameter wtrkp(xmass[2], mdcKalTrk->getZHelixE(), mdcKalTrk->getZErrorE());  // for ele
+      WTrackParameter wtrkp(xmass[2], mdcKalTrk->getZHelix(), mdcKalTrk->getZError());  // for pi0n
 
       if (mdcTrk->charge() == 1)
       {
