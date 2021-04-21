@@ -84,7 +84,7 @@ LambdacAlg::LambdacAlg(const std::string &name, ISvcLocator *pSvcLocator) : Algo
   declareProperty("GammathCut", m_gammathCut = 14.0);
   declareProperty("GammatlCut", m_gammatlCut = 0.0);
   declareProperty("PhotonMaxCosThetaBarrel", m_maxCosThetaBarrel = 0.8);
-  declareProperty("PhotonMinCosThetaEndcap", m_minCosThetaEndcap = 0.84);
+  declareProperty("PhotonMinCosThetaEndcap", m_minCosThetaEndcap = 0.86);
   declareProperty("PhotonMaxCosThetaEndcap", m_maxCosThetaEndcap = 0.92);
   declareProperty("PhotonMinEndcapEnergy", m_minEndcapEnergy = 0.050);
   declareProperty("Debug", m_debug = false);
