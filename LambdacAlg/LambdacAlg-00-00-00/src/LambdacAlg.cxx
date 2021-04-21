@@ -1015,7 +1015,7 @@ StatusCode LambdacAlg::execute()
   ipbar.clear();
   for (int i = 0; i < nGoodforp; i++)
   {
-    cout <<__LINE__<< " " <<  iGoodforp[i] << endl;
+    if(m_debug) cout <<__LINE__<< " " <<  iGoodforp[i] << endl;
     EvtRecTrackIterator itTrk = evtRecTrkCol->begin() + iGoodforp[i];
     RecMdcTrack *mdcTrk = (*itTrk)->mdcTrack();
     if (mdcTrk->charge() == 1)
@@ -1027,7 +1027,7 @@ StatusCode LambdacAlg::execute()
       if (m_simplePIDSvc->isproton())
       {        
         ip.push_back(iGoodforp[i]);
-        cout <<__LINE__<< " " <<  iGoodforp[i] << endl;
+        if(m_debug) cout <<__LINE__<< " " <<  iGoodforp[i] << endl;
       }    
     }
     if (mdcTrk->charge() == -1)
@@ -1039,7 +1039,7 @@ StatusCode LambdacAlg::execute()
       if (m_simplePIDSvc->isproton())
       {        
         ipbar.push_back(iGoodforp[i]);
-        cout <<__LINE__<< " " <<  iGoodforp[i] << endl;
+        if(m_debug) cout <<__LINE__<< " " <<  iGoodforp[i] << endl;
       }    
     }
   }
@@ -1663,7 +1663,7 @@ StatusCode LambdacAlg::execute()
     HepLorentzVector pLambda = pipb_p4 + pbar_p4 + pgam3b_1C4p + pgam4b_1C4p + pimb_p4 + pgam1b_1C4p + pgam2b_1C4p;
 
     pLambda.boost(-m_beta);
-    cout<< __LINE__ << " pLambda " << pLambda.px()<< " " << pLambda.py() << " "<< pLambda.pz() << " "<< pLambda.e()<< endl;
+    if(m_debug)  cout<< __LINE__ << " pLambda " << pLambda.px()<< " " << pLambda.py() << " "<< pLambda.pz() << " "<< pLambda.e()<< endl;
     double mbc2 = ebeam * ebeam - pLambda.v().mag2();
     m_bc = mbc2 > 0 ? sqrt(mbc2) : -10;
     m_rightflag = 2;
@@ -1759,7 +1759,7 @@ StatusCode LambdacAlg::execute()
     //	cout<<"deltaE="<<deltaE_mina<<endl;
     HepLorentzVector pLambda = pipa_p4 + p_p4 + pgam3a_1C4p + pgam4a_1C4p + pima_p4 + pgam1a_1C4p + pgam2a_1C4p;
     pLambda.boost(-m_beta);
-    cout<< __LINE__ << " pLambda " << pLambda.px()<< " " << pLambda.py() << " "<< pLambda.pz() << " "<< pLambda.e()<< endl;
+    if(m_debug)  cout<< __LINE__ << " pLambda " << pLambda.px()<< " " << pLambda.py() << " "<< pLambda.pz() << " "<< pLambda.e()<< endl;
     double mbc2 = ebeam * ebeam - pLambda.v().mag2();
     m_bc = mbc2 > 0 ? sqrt(mbc2) : -10;
     m_rightflag = 1;
@@ -1828,7 +1828,7 @@ StatusCode LambdacAlg::finalize()
   cout << "-------------------------------------------------------------------------" << endl;
   cout << "-------------------------------           -------------------------------" << endl;
   cout << "--------------------                                ---------------------" << endl;
-  cout << "-------------  sigma etaprime modify zhou to me code, v10 ------------------" << endl;
+  cout << "------------- etaprime modify zhou to me code, v100 ------------------" << endl;
   cout << "--------------------                               ----------------------" << endl;
   cout << "------------------------------           --------------------------------" << endl;
   cout << "-------------------------------------------------------------------------" << endl;
