@@ -1331,7 +1331,7 @@ StatusCode LambdacAlg::execute()
 
       HepLorentzVector p2geta = ptrki + ptrkj;
       // if (p2geta.m() < 0.46 || p2geta.m() > 0.58)
-      if (p2geta.m() < m_EtaMinMass || p2geta.m() > m_EtaMaxMass)
+      if (p2geta.m() < 0.5 || p2geta.m() > 0.56)
         continue;
       if (m_test1C == 1)
       {
@@ -1369,7 +1369,7 @@ StatusCode LambdacAlg::execute()
 
       HepLorentzVector p2gpi = ptrkk + ptrkl;
       // if (p2gpi.m() < 0.08 || p2gpi.m() > 0.18)
-      if (p2gpi.m() < m_Pi0MinMass || p2gpi.m() > m_Pi0MaxMass)
+      if (p2gpi.m() < 0.115 || p2gpi.m() > 0.15)
         continue;
       if (m_test1C == 1)
       {
@@ -1479,10 +1479,10 @@ StatusCode LambdacAlg::execute()
             if(m_debug)
               cout<< __LINE__ << " " << " k " <<  k << " m "<< m << " psigma.m() "<<  psigma.m() << " etap.m() " << etap.m()<< endl;
             // if (psigma.m() < 1.15 || psigma.m() > 1.21)
-            if (psigma.m() < m_SigmaMinMass || psigma.m() > m_SigmaMaxMass)
+            if (psigma.m() < 1.174 || psigma.m() > 1.2)
               continue;
             // if (etap.m() < 0.92 || etap.m() > 0.99)
-            if (etap.m() < m_EtaPrimeMinMass || etap.m() > m_EtaPrimeMaxMass)
+            if (etap.m() < 0.946 || etap.m() > 0.968)
               continue;
             //					if(kshort.m()>0.48&&kshort.m()<0.52)continue;
             if (ipim[i] == ipbar[j])
@@ -1543,9 +1543,9 @@ StatusCode LambdacAlg::execute()
             //					if(plambuda.m()<1.12&&plambuda.m()>1.11)continue;
             if(m_debug)
               cout<< __LINE__ << " " << " k " <<  k << " m "<< m << " psigma.m() "<<  psigma.m() << " etap.m() " << etap.m()<< endl;
-            if (psigma.m() < 1.15 || psigma.m() > 1.21)
+            if (psigma.m() < 1.174 || psigma.m() > 1.2)
               continue;
-            if (etap.m() < 0.9 || etap.m() > 1.1)
+            if (etap.m() < 0.946 || etap.m() > 0.968)
               continue;
             //					if(kshort.m()>0.48&&kshort.m()<0.52)continue;
             if (ipip[i] == ip[j])
