@@ -247,7 +247,7 @@ StatusCode LambdacAlg::initialize()
       // status = m_tuple1->addItem("num_othertrackm", m_numothertrackm);
       status = m_tuple1->addItem("E_beam", m_ebeam);
       status = m_tuple1->addItem("deltaE_min_r3c", m_deltaE_min_r3c);
-      status = m_tuple1->addItem("M_BC", m_bc);
+      status = m_tuple1->addItem("M_BC_r3c", m_bc);
       status = m_tuple1->addItem("np", m_np);
       status = m_tuple1->addItem("npbar", m_npbar);
       // status = m_tuple1->addItem("eop_pim", m_eop_pim);
@@ -1089,7 +1089,7 @@ StatusCode LambdacAlg::execute()
 #pragma region lambda_c + ________________________________________________________________
   for (int i = 0; i < proton.size(); i++)
   {
-    if(proton[i].getCharge() == -1 ) continue;
+    if(proton[i].getCharge() == -1) continue;
     for (int j = 0; j < pi0.size(); j++)
     {
       // k is the pi from sigma
@@ -1122,7 +1122,7 @@ StatusCode LambdacAlg::execute()
           if (m_debug) cout << __LINE__ << " psigma.m() " << psigma.m() << endl;
           if (psigma.m() < 1.174 || psigma.m() > 1.2) continue;
           if (m_debug) cout << __LINE__ << " 0000000  psigma.m():" << psigma.m() << endl;
-          
+
           // ______________________________  recoil 1c minimum chi2 ____________________________________
           if (m_debug)  cout << __LINE__ << " minChi2: " << minChi2_r3c << " chi2:" << kmfit1->chisq() << endl;
           if (kmfit1->chisq() < minChi2_r3c)
@@ -1183,10 +1183,16 @@ StatusCode LambdacAlg::execute()
     m_mode2 = mm_mode2;
     m_mode3 = mm_mode3;
     m_idxmc = numParticle;
-    
+
     m_run = runNo;
     m_event = eventNo;
     m_rightflag = rightflag;
+
+    m_signal = signal;
+    m_ebeam = ebeam;
+
+    m_np = np;
+    m_npbar = npbar;
 
     for (int i = 0; i < numParticle; i++)
     {
@@ -1221,14 +1227,10 @@ StatusCode LambdacAlg::execute()
       m_motheridx_m[i] = M_motheridx_m[i];
     }
 
-    // .....
-    m_signal = signal;
-    // m_bg = bg;
-    m_ebeam = ebeam;
-    
+
     //   1,2 -> eta/pi             3,4 -> pi       
     for (int jj = 0; jj < 4; jj++)
-       m_pall_p4_r3c[jj] = m_p_p4_r3c[jj];
+      m_pall_p4_r3c[jj] = m_p_p4_r3c[jj];
     for (int jj = 0; jj < 4; jj++)
       m_gam1_p4_r3c[jj] = m_etag1_p4_r3c[jj];
     for (int jj = 0; jj < 4; jj++)
@@ -1263,7 +1265,7 @@ StatusCode LambdacAlg::execute()
     m_etam_r3c = (m_etag1_p4_r3c + m_etag2_p4_r3c).m();
     m_sigmam_r3c = (m_p_p4_r3c + m_pi0g1_p4_r3c + m_pi0g2_p4_r3c).m();
 
-    if(m_debug)  cout << __LINE__ << " m_pi0m_r3c " << m_pi0m_r3c << " m_etam_r3c " << m_etam_r3c << " m_sigmam_r3c " <<  m_sigmam_r3c << endl;
+    if(m_debug) cout << __LINE__ << " m_pi0m_r3c " << m_pi0m_r3c << " m_etam_r3c " << m_etam_r3c << " m_sigmam_r3c " <<  m_sigmam_r3c << endl;
 
 
     HepLorentzVector pLambda = m_p_p4_r3c + m_pi0g1_p4_r3c + m_pi0g2_p4_r3c + m_etag1_p4_r3c + m_etag2_p4_r3c;
@@ -1277,11 +1279,8 @@ StatusCode LambdacAlg::execute()
 
     if(m_debug) cout << __LINE__  << " m_bc " << m_bc  << " m_deltaE_min_r3c " << m_deltaE_min_r3c<< endl;
 
-    m_np = np;
-    m_npbar = npbar;
-
     m_tuple1->write();
-    if (m_debug) cout << __LINE__ << "  write() ___________ " << " rightflag " << rightflag<< endl;
+    if (m_debug) cout << __LINE__ << " write() ___________" << " rightflag " << rightflag << endl;
     
     Ncut6++;
   }
@@ -1292,7 +1291,7 @@ minChi2_r3c = 99999999;
 #pragma region lambda_c - ________________________________________________________________
   for (int i = 0; i < proton.size(); i++)
   {
-    if(proton[i].getCharge() == 1 ) continue;
+    if(proton[i].getCharge() == 1) continue;
     for (int j = 0; j < pi0.size(); j++)
     {
       // k is the pi from sigma
@@ -1322,10 +1321,10 @@ minChi2_r3c = 99999999;
           // kmfit1->BuildVirtualParticle(0);
           // LcWTrk_1C = kmfit1->wVirtualTrack(0);
           HepLorentzVector psigma = kmfit1->pfit(0) + kmfit1->pfit(1) + kmfit1->pfit(2);
-          if (m_debug) cout << __LINE__ << " psigma.m() " << psigma.m() << endl;
+          if (m_debug) cout << __LINE__ << " psigma.m()" << psigma.m() << endl;
           if (psigma.m() < 1.174 || psigma.m() > 1.2) continue;
           if (m_debug) cout << __LINE__ << " 0000000  psigma.m():" << psigma.m() << endl;
-          
+
           // ______________________________  recoil 1c minimum chi2 ____________________________________
           if (m_debug)  cout << __LINE__ << " minChi2: " << minChi2_r3c << " chi2:" << kmfit1->chisq() << endl;
           if (kmfit1->chisq() < minChi2_r3c)
@@ -1386,7 +1385,7 @@ minChi2_r3c = 99999999;
     m_mode2 = mm_mode2;
     m_mode3 = mm_mode3;
     m_idxmc = numParticle;
-    
+
     m_run = runNo;
     m_event = eventNo;
     m_rightflag = rightflag;
@@ -1394,6 +1393,8 @@ minChi2_r3c = 99999999;
     m_signal = signal;
     m_ebeam = ebeam;
 
+    m_np = np;
+    m_npbar = npbar;
 
     for (int i = 0; i < numParticle; i++)
     {
@@ -1428,10 +1429,10 @@ minChi2_r3c = 99999999;
       m_motheridx_m[i] = M_motheridx_m[i];
     }
 
-    
+
     //   1,2 -> eta/pi             3,4 -> pi       
     for (int jj = 0; jj < 4; jj++)
-       m_pall_p4_r3c[jj] = m_p_p4_r3c[jj];
+      m_pall_p4_r3c[jj] = m_p_p4_r3c[jj];
     for (int jj = 0; jj < 4; jj++)
       m_gam1_p4_r3c[jj] = m_etag1_p4_r3c[jj];
     for (int jj = 0; jj < 4; jj++)
@@ -1481,11 +1482,8 @@ minChi2_r3c = 99999999;
 
     if(m_debug) cout << __LINE__  << " m_bc " << m_bc  << " m_deltaE_min_r3c " << m_deltaE_min_r3c<< endl;
 
-    m_np = np;
-    m_npbar = npbar;
-
     m_tuple1->write();
-    if (m_debug) cout << __LINE__ << "  write() ___________ " << " rightflag " << rightflag<< endl;
+    if (m_debug) cout << __LINE__ << "  write() ___________ " << " rightflag " << rightflag << endl;
     
     Ncut6++;
   }
