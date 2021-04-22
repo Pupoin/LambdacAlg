@@ -84,7 +84,7 @@ LambdacAlg::LambdacAlg(const std::string &name, ISvcLocator *pSvcLocator) : Algo
   declareProperty("GammathCut", m_gammathCut = 14.0);
   declareProperty("GammatlCut", m_gammatlCut = 0.0);
   declareProperty("PhotonMaxCosThetaBarrel", m_maxCosThetaBarrel = 0.8);
-  declareProperty("PhotonMinCosThetaEndcap", m_minCosThetaEndcap = 0.84);
+  declareProperty("PhotonMinCosThetaEndcap", m_minCosThetaEndcap = 0.86);
   declareProperty("PhotonMaxCosThetaEndcap", m_maxCosThetaEndcap = 0.92);
   declareProperty("PhotonMinEndcapEnergy", m_minEndcapEnergy = 0.050);
   declareProperty("Debug", m_debug = false);
@@ -1333,7 +1333,7 @@ StatusCode LambdacAlg::execute()
       HepLorentzVector ptrkj = getP4(emcTrkj, xorigin);
 
       HepLorentzVector p2geta = ptrki + ptrkj;
-      if (p2geta.m() < 0.08 || p2geta.m() > 0.18)
+      if (p2geta.m() < 0.115 || p2geta.m() > 0.15)
         continue;
       if (m_test1C == 1)
       {
@@ -1370,7 +1370,7 @@ StatusCode LambdacAlg::execute()
       HepLorentzVector ptrkl = getP4(emcTrkl, xorigin);
 
       HepLorentzVector p2gpi = ptrkk + ptrkl;
-      if (p2gpi.m() < 0.08 || p2gpi.m() > 0.18)
+      if (p2gpi.m() < 0.115 || p2gpi.m() > 0.15)
         continue;
       if (m_test1C == 1)
       {
@@ -1479,9 +1479,9 @@ StatusCode LambdacAlg::execute()
             //					if(plambuda.m()<1.12&&plambuda.m()>1.11)continue;
             if(m_debug)
               cout<< __LINE__ << " " << " k " <<  k << " m "<< m << " psigma.m() "<<  psigma.m() << " etap.m() " << etap.m()<< endl;
-            if (psigma.m() < 1.15 || psigma.m() > 1.21)
+            if (psigma.m() < 1.174 || psigma.m() > 1.2)
               continue;
-            if (etap.m() < 0.73 || etap.m() > 0.83)
+            if (etap.m() < 0.76 || etap.m() > 0.8)
               continue;
             //					if(kshort.m()>0.48&&kshort.m()<0.52)continue;
             if (ipim[i] == ipbar[j])
@@ -1542,9 +1542,9 @@ StatusCode LambdacAlg::execute()
             //					if(plambuda.m()<1.12&&plambuda.m()>1.11)continue;
             if(m_debug)
               cout<< __LINE__ << " " << " k " <<  k << " m "<< m << " psigma.m() "<<  psigma.m() << " etap.m() " << etap.m()<< endl;
-            if (psigma.m() < 1.15 || psigma.m() > 1.21)
+            if (psigma.m() < 1.174 || psigma.m() > 1.2)
               continue;
-            if (etap.m() < 0.73 || etap.m() > 0.83)
+            if (etap.m() < 0.76 || etap.m() > 0.8)
               continue;
             //					if(kshort.m()>0.48&&kshort.m()<0.52)continue;
             if (ipip[i] == ip[j])
@@ -1662,7 +1662,7 @@ StatusCode LambdacAlg::execute()
     HepLorentzVector pLambda = pipb_p4 + pbar_p4 + pgam3b_1C4p + pgam4b_1C4p + pimb_p4 + pgam1b_1C4p + pgam2b_1C4p;
 
     pLambda.boost(-m_beta);
-    cout<< __LINE__ << " pLambda " << pLambda.px()<< " " << pLambda.py() << " "<< pLambda.pz() << " "<< pLambda.e()<< endl;
+    if(m_debug) cout<< __LINE__ << " pLambda " << pLambda.px()<< " " << pLambda.py() << " "<< pLambda.pz() << " "<< pLambda.e()<< endl;
     double mbc2 = ebeam * ebeam - pLambda.v().mag2();
     m_bc = mbc2 > 0 ? sqrt(mbc2) : -10;
     m_rightflag = 2;
@@ -1758,7 +1758,7 @@ StatusCode LambdacAlg::execute()
     //	cout<<"deltaE="<<deltaE_mina<<endl;
     HepLorentzVector pLambda = pipa_p4 + p_p4 + pgam3a_1C4p + pgam4a_1C4p + pima_p4 + pgam1a_1C4p + pgam2a_1C4p;
     pLambda.boost(-m_beta);
-    cout<< __LINE__ << " pLambda " << pLambda.px()<< " " << pLambda.py() << " "<< pLambda.pz() << " "<< pLambda.e()<< endl;
+    if(m_debug) cout<< __LINE__ << " pLambda " << pLambda.px()<< " " << pLambda.py() << " "<< pLambda.pz() << " "<< pLambda.e()<< endl;
     double mbc2 = ebeam * ebeam - pLambda.v().mag2();
     m_bc = mbc2 > 0 ? sqrt(mbc2) : -10;
     m_rightflag = 1;
