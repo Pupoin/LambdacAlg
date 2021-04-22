@@ -69,6 +69,8 @@ private:
 	NTuple::Tuple *m_tuple2;
 	NTuple::Item<int> m_evtNo_;
 	NTuple::Item<int> m_runNo_;
+	NTuple::Item<long> m_flag1_;
+	NTuple::Item<long> m_flag2_;
 	NTuple::Item<int> m_mode1_;
 	NTuple::Item<int> m_mode2_;
 	NTuple::Item<int> m_mode3_;
@@ -239,6 +241,8 @@ private:
 	NTuple::Matrix<double> m_Ap_ptruth;
 	NTuple::Array<int> m_Am_id;
 	NTuple::Matrix<double> m_Am_ptruth;
+	NTuple::Item<long> m_flag1;
+	NTuple::Item<long> m_flag2;
 	NTuple::Item<double> m_mode1;
 	NTuple::Item<double> m_mode2;
 	NTuple::Item<double> m_mode3;
