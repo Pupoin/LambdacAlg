@@ -261,7 +261,7 @@ StatusCode LambdacAlg::beginRun()
 }
 StatusCode LambdacAlg::execute()
 {
-  m_rightflag = -1;
+  m_rightflag = -999;
   int signal = -999;
   int bg = -1;
   int yes = -1;
@@ -1665,7 +1665,7 @@ StatusCode LambdacAlg::execute()
     if(m_debug) cout<< __LINE__ << " pLambda " << pLambda.px()<< " " << pLambda.py() << " "<< pLambda.pz() << " "<< pLambda.e()<< endl;
     double mbc2 = ebeam * ebeam - pLambda.v().mag2();
     m_bc = mbc2 > 0 ? sqrt(mbc2) : -10;
-    m_rightflag = 2;
+    m_rightflag = -1;
     m_np = np;
     m_npbar = npbar;
     if(m_debug)
