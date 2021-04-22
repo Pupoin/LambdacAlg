@@ -54,8 +54,8 @@ private:
 	double m_SigmaMinMass;
 	double m_SigmaMaxMass;
 
-	double m_EtaPrimeMinMass;
-	double m_EtaPrimeMaxMass;
+	// double m_EtaPrimeMinMass;
+	// double m_EtaPrimeMaxMass;
 	double m_OmegaMaxMass;
 	double m_OmegaMinMass;
 
@@ -74,6 +74,8 @@ private:
 	NTuple::Tuple *m_tuple2;
 	NTuple::Item<int> m_evtNo_;
 	NTuple::Item<int> m_runNo_;
+	NTuple::Item<int> m_flag1_;
+	NTuple::Item<int> m_flag2_;
 	NTuple::Item<int> m_mode1_;
 	NTuple::Item<int> m_mode2_;
 	NTuple::Item<int> m_mode3_;
@@ -218,6 +220,7 @@ private:
 	NTuple::Item<double> m_omegamr3c;
 	NTuple::Item<double> m_sigmamr3c;
 	NTuple::Item<double> m_pcharge;
+	NTuple::Item<double> m_lambdacm1c;
 
 
 
@@ -283,6 +286,9 @@ private:
 	NTuple::Item<double> m_mode1;
 	NTuple::Item<double> m_mode2;
 	NTuple::Item<double> m_mode3;
+	
+	NTuple::Item<double> m_flag1;
+	NTuple::Item<double> m_flag2;
 
 protected:
 };
