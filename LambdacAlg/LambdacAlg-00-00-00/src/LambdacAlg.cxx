@@ -1018,7 +1018,7 @@ StatusCode LambdacAlg::execute()
   ipbar.clear();
   for (int i = 0; i < nGoodforp; i++)
   {
-    cout <<__LINE__<< " " <<  iGoodforp[i] << endl;
+    if (m_debug) cout <<__LINE__<< " " <<  iGoodforp[i] << endl;
     EvtRecTrackIterator itTrk = evtRecTrkCol->begin() + iGoodforp[i];
     RecMdcTrack *mdcTrk = (*itTrk)->mdcTrack();
     if (mdcTrk->charge() == 1)
@@ -1030,7 +1030,7 @@ StatusCode LambdacAlg::execute()
       if (m_simplePIDSvc->isproton())
       {        
         ip.push_back(iGoodforp[i]);
-        cout <<__LINE__<< " " <<  iGoodforp[i] << endl;
+        if (m_debug) cout <<__LINE__<< " " <<  iGoodforp[i] << endl;
       }    
     }
     if (mdcTrk->charge() == -1)
@@ -1042,7 +1042,7 @@ StatusCode LambdacAlg::execute()
       if (m_simplePIDSvc->isproton())
       {        
         ipbar.push_back(iGoodforp[i]);
-        cout <<__LINE__<< " " <<  iGoodforp[i] << endl;
+        if (m_debug) cout <<__LINE__<< " " <<  iGoodforp[i] << endl;
       }    
     }
   }
