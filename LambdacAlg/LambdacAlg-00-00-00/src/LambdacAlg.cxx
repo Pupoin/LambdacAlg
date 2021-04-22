@@ -1050,7 +1050,7 @@ StatusCode LambdacAlg::execute()
   int nGoodtotal = iGoodtotal.size();
   if (nGoodtotal < 3)
     return StatusCode::SUCCESS;
-  if (signal == 1)
+  if (fabs(signal) == 1)
     Ncut0++;
   if (m_debug)
     cout << __LINE__ << endl;
@@ -1109,7 +1109,7 @@ StatusCode LambdacAlg::execute()
 
   if (m_debug)
     cout << __LINE__ << endl;
-  if (signal == 1)
+  if (fabs(signal) == 1)
     Ncut1++;
 
   Vp4 ppim, ppip, pp, ppbar, pKp, pKm;
@@ -1306,7 +1306,7 @@ StatusCode LambdacAlg::execute()
   int nGam = iGam.size();
   if (nGam < 4)
     return StatusCode::SUCCESS;
-  if (signal == 1)
+  if (fabs(signal) == 1)
     Ncut2++;
 
   if (m_debug)
@@ -1407,12 +1407,12 @@ StatusCode LambdacAlg::execute()
   int ngam34 = ngam3;
   if (ngam12 == 0)
     return StatusCode::SUCCESS;
-  if (signal == 1)
+  if (fabs(signal) == 1)
     Ncut3++; //Ncut3 should equal Ncut2;
   if (ngam34 == 0)
     return StatusCode::SUCCESS;
   //cout<<"a="<<ngam<<endl;
-  if (signal == 1)
+  if (fabs(signal) == 1)
     Ncut4++;
 
   if (m_debug)
