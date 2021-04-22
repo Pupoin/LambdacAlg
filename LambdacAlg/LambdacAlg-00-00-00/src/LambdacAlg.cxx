@@ -693,7 +693,6 @@ StatusCode LambdacAlg::execute()
 
           if (m_debug)
           {
-            cout << endl;
             cout << __LINE__ << " +||- iter_mc: " << (*iter_mc)->particleProperty() << ", numParticle: " << numParticle
                  << endl;
           }
@@ -903,7 +902,7 @@ StatusCode LambdacAlg::execute()
   // Finish Good Charged Track SKction
   if (goodTrack.size() < 3)
   {
-    cout << __LINE__ << "return StatusCode::SUCCESS; goodTrack.size() < 3" << endl;
+    if (m_debug) cout << __LINE__ << "return StatusCode::SUCCESS; goodTrack.size() < 3" << endl;
     return StatusCode::SUCCESS;
   }
   if (abs(signal) == 1)
@@ -933,7 +932,7 @@ StatusCode LambdacAlg::execute()
 
       mdcKalTrk->setPidType(RecMdcKalTrack::proton);
       HepLorentzVector p4 = mdcKalTrk->p4(xmass[4]);
-      WTrackParameter wtrkp(xmass[2], mdcKalTrk->getZHelix(), mdcKalTrk->getZError()); 
+      WTrackParameter wtrkp(xmass[2], mdcKalTrk->getZHelixP(), mdcKalTrk->getZErrorP()); 
 
       if (m_debug)
         cout << __LINE__ << " i " << i << " p4.m() " << p4.m() << endl;
@@ -948,7 +947,7 @@ StatusCode LambdacAlg::execute()
       // RecMdcKalTrack *mdcKalTrk = (*itTrk)->mdcKalTrack();
       mdcKalTrk->setPidType(RecMdcKalTrack::pion);
       HepLorentzVector p4 = mdcKalTrk->p4(xmass[2]);
-      WTrackParameter wtrkp(xmass[2], mdcKalTrk->getZHelixP(), mdcKalTrk->getZErrorP());
+      WTrackParameter wtrkp(xmass[2], mdcKalTrk->getZHelix(), mdcKalTrk->getZError());
 
       if (mdcTrk->charge() == 1)
       {
@@ -1067,15 +1066,14 @@ StatusCode LambdacAlg::execute()
 
   if (emcGamma.size() < 4)
   {
-    cout << __LINE__ << "return StatusCode::SUCCESS;  emcGamma.size() < 4" << endl;
+    if (m_debug) cout << __LINE__ << "return StatusCode::SUCCESS;  emcGamma.size() < 4" << endl;
     return StatusCode::SUCCESS;
   }
 
   if (abs(signal) == 1)
   {
     if (m_debug)
-      cout << __LINE__ << " "
-           << "emcGamma.size(): " << emcGamma.size() << endl;
+      cout << __LINE__ << " " << "emcGamma.size(): " << emcGamma.size() << endl;
     Ncut2++;
   }
 
@@ -1230,11 +1228,6 @@ StatusCode LambdacAlg::execute()
             if( proton[i_proton].getIndex() ==  piPlus[i_piPlus].getIndex()) continue;
             if( piMin[i_piMin].getIndex() ==  piPlus[i_piPlus].getIndex()) continue;     
 
-            HepLorentzVector p_omega = piMin[i_piMin].getLorentzVector() + piPlus[i_piPlus].getLorentzVector() + pi0[i_eta].getMotherLorentzVector(2);
-            if (m_debug) cout << __LINE__ << " m_Omega Mass: " << p_omega.m() << endl;
-            if (p_omega.m() < 0.76 || p_omega.m() > 0.8) continue;
-            if (m_debug) cout << __LINE__ << " 00000000" << " m_Omega Mass: " << p_omega.m() << endl;
-
             // _______________________________________________  r3C  ______________________________________________
             kmfit->init();
             kmfit->setChisqCut(1e3);
@@ -1267,7 +1260,11 @@ StatusCode LambdacAlg::execute()
               if (m_debug) cout << __LINE__ << "  psigma.m():" << psigma.m() << endl;
               if (psigma.m() < 1.174 || psigma.m() > 1.2) continue;
               if (m_debug) cout << __LINE__ << "  psigma.m():" << psigma.m() << endl;
-
+              // cut for omega
+              HepLorentzVector p_omega = kmfit->pfit(3) + kmfit->pfit(4) + kmfit->pfit(5) + kmfit->pfit(6);
+              if (m_debug) cout << __LINE__ << " m_Omega Mass: " << p_omega.m() << endl;
+              if (p_omega.m() < 0.76 || p_omega.m() > 0.8) continue;
+              if (m_debug) cout << __LINE__ << " 00000000" << " m_Omega Mass: " << p_omega.m() << endl;
 
               // ____  1c minimum chi2 ______
               if (m_debug) cout << __LINE__ << " minChi2: " << minChi2_r3c << " chi2:" << kmfit->chisq() << endl;
@@ -1422,7 +1419,7 @@ StatusCode LambdacAlg::execute()
       double mbc2 = ebeam * ebeam - pLambda.v().mag2();
       m_bc_r3c = mbc2 > 0 ? sqrt(mbc2) : -10;
 
-      cout << __LINE__ << " m_bc_r3c " << m_bc_r3c << " m_deltaE_min_r3c " << m_deltaE_min_r3c << endl;
+      if (m_debug) cout << __LINE__ << " m_bc_r3c " << m_bc_r3c << " m_deltaE_min_r3c " << m_deltaE_min_r3c << endl;
       m_tuple1->write();
       if (m_debug) cout << __LINE__ << " write() " << endl;
     }
@@ -1459,11 +1456,6 @@ StatusCode LambdacAlg::execute()
             if( proton[i_proton].getIndex() ==  piPlus[i_piPlus].getIndex()) continue;
             if( piMin[i_piMin].getIndex() ==  piPlus[i_piPlus].getIndex()) continue;     
 
-            HepLorentzVector p_omega = piMin[i_piMin].getLorentzVector() + piPlus[i_piPlus].getLorentzVector() + pi0[i_eta].getMotherLorentzVector(2);
-            if (m_debug) cout << __LINE__ << " m_Omega Mass: " << p_omega.m() << endl;
-            if (p_omega.m() < 0.76 || p_omega.m() > 0.8) continue;
-            if (m_debug) cout << __LINE__ << " 00000000" << " m_Omega Mass: " << p_omega.m() << endl;
-
             // _______________________________________________  r3C  ______________________________________________
             kmfit->init();
             kmfit->setChisqCut(1e3);
@@ -1496,6 +1488,11 @@ StatusCode LambdacAlg::execute()
               if (m_debug) cout << __LINE__ << "  psigma.m():" << psigma.m() << endl;
               if (psigma.m() < 1.174 || psigma.m() > 1.2) continue;
               if (m_debug) cout << __LINE__ << "  psigma.m():" << psigma.m() << endl;
+              // cut for omega
+              HepLorentzVector p_omega = kmfit->pfit(3) + kmfit->pfit(4) + kmfit->pfit(5) + kmfit->pfit(6);
+              if (m_debug) cout << __LINE__ << " m_Omega Mass: " << p_omega.m() << endl;
+              if (p_omega.m() < 0.76 || p_omega.m() > 0.8) continue;
+              if (m_debug) cout << __LINE__ << " 00000000" << " m_Omega Mass: " << p_omega.m() << endl;
 
 
               // ____  1c minimum chi2 ______
@@ -1651,7 +1648,7 @@ StatusCode LambdacAlg::execute()
       double mbc2 = ebeam * ebeam - pLambda.v().mag2();
       m_bc_r3c = mbc2 > 0 ? sqrt(mbc2) : -10;
 
-      cout << __LINE__ << " m_bc_r3c " << m_bc_r3c << " m_deltaE_min_r3c " << m_deltaE_min_r3c << endl;
+      if (m_debug) cout << __LINE__ << " m_bc_r3c " << m_bc_r3c << " m_deltaE_min_r3c " << m_deltaE_min_r3c << endl;
       m_tuple1->write();
       if (m_debug) cout << __LINE__ << " write() " << endl;
     }
