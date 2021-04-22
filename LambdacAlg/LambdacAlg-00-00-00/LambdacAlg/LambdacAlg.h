@@ -189,20 +189,18 @@ private:
 	NTuple::Array<double> m_gam4_p4;
 	NTuple::Item<double> m_chi2_min;
 
-	NTuple::Array<double> m_pall_p4_r1c;
-	NTuple::Array<double> m_gam1_p4_r1c;
-	NTuple::Array<double> m_gam2_p4_r1c;
-	NTuple::Array<double> m_gam3_p4_r1c;
-	NTuple::Array<double> m_gam4_p4_r1c;
-	NTuple::Item<double> m_chi2_min_r1c;
+	NTuple::Array<double> m_pall_p4_r3c;
+	NTuple::Array<double> m_gam1_p4_r3c;
+	NTuple::Array<double> m_gam2_p4_r3c;
+	NTuple::Array<double> m_gam3_p4_r3c;
+	NTuple::Array<double> m_gam4_p4_r3c;
+	NTuple::Item<double> m_chi2_min_r3c;
 
-	NTuple::Item<double> m_pi0mR1c;
-	NTuple::Item<double> m_etamR1c;	
-	NTuple::Item<double> m_pi0mORetam1mR1c;
-	NTuple::Item<double> m_SigmamR1c;
+	NTuple::Item<double> m_pi0m_r3c;
+	NTuple::Item<double> m_etam_r3c;
+	NTuple::Item<double> m_sigmam_r3c;
 	//  _________________________________________________________________
 
-	NTuple::Item<double> m_pi0mORetam1m;
 	NTuple::Item<double> m_pi0m;
 	NTuple::Item<double> m_etam;
 	NTuple::Item<double> m_lambda;
@@ -227,7 +225,7 @@ private:
 	NTuple::Item<double> m_eop_pbar;
 	NTuple::Item<double> m_eop_Kp;
 	NTuple::Item<double> m_eop_Km;
-	NTuple::Item<double> m_deltaE_min;
+	NTuple::Item<double> m_deltaE_min_r3c;
 	NTuple::Item<double> m_bc;
 	NTuple::Item<int> m_mcparticle_p;
 	NTuple::Array<int> m_pdgid_p;

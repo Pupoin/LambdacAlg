@@ -186,21 +186,21 @@ StatusCode LambdacAlg::initialize()
       status = m_tuple1->addItem("p4index", m_p4index, 0, 10);
       // status = m_tuple1->addIndexedItem("Km", m_p4index, m_Km_p4);
       // status = m_tuple1->addIndexedItem("Kp", m_p4index, m_Kp_p4);
-      status = m_tuple1->addIndexedItem("p", m_p4index, m_p_p4);
-      status = m_tuple1->addIndexedItem("pbar", m_p4index, m_pbar_p4);
-      status = m_tuple1->addIndexedItem("pim", m_p4index, m_pim_p4);
-      status = m_tuple1->addIndexedItem("pip", m_p4index, m_pip_p4);
-      status = m_tuple1->addIndexedItem("gam1a", m_p4index, m_gam1a_p4);
-      status = m_tuple1->addIndexedItem("gam2a", m_p4index, m_gam2a_p4);
-      status = m_tuple1->addIndexedItem("gam3a", m_p4index, m_gam3a_p4);
-      status = m_tuple1->addIndexedItem("gam4a", m_p4index, m_gam4a_p4);
-      status = m_tuple1->addIndexedItem("pi0", m_p4index, m_pi0_p4);
-      status = m_tuple1->addIndexedItem("gam1b", m_p4index, m_gam1b_p4);
-      status = m_tuple1->addIndexedItem("gam2b", m_p4index, m_gam2b_p4);
-      status = m_tuple1->addIndexedItem("gam3b", m_p4index, m_gam3b_p4);
-      status = m_tuple1->addIndexedItem("gam4b", m_p4index, m_gam4b_p4);
-      status = m_tuple1->addIndexedItem("gamb", m_p4index, m_gamb_p4);
-      status = m_tuple1->addIndexedItem("gama", m_p4index, m_gama_p4);
+      // status = m_tuple1->addIndexedItem("p", m_p4index, m_p_p4);
+      // status = m_tuple1->addIndexedItem("pbar", m_p4index, m_pbar_p4);
+      // status = m_tuple1->addIndexedItem("pim", m_p4index, m_pim_p4);
+      // status = m_tuple1->addIndexedItem("pip", m_p4index, m_pip_p4);
+      // status = m_tuple1->addIndexedItem("gam1a", m_p4index, m_gam1a_p4);
+      // status = m_tuple1->addIndexedItem("gam2a", m_p4index, m_gam2a_p4);
+      // status = m_tuple1->addIndexedItem("gam3a", m_p4index, m_gam3a_p4);
+      // status = m_tuple1->addIndexedItem("gam4a", m_p4index, m_gam4a_p4);
+      // status = m_tuple1->addIndexedItem("pi0", m_p4index, m_pi0_p4);
+      // status = m_tuple1->addIndexedItem("gam1b", m_p4index, m_gam1b_p4);
+      // status = m_tuple1->addIndexedItem("gam2b", m_p4index, m_gam2b_p4);
+      // status = m_tuple1->addIndexedItem("gam3b", m_p4index, m_gam3b_p4);
+      // status = m_tuple1->addIndexedItem("gam4b", m_p4index, m_gam4b_p4);
+      // status = m_tuple1->addIndexedItem("gamb", m_p4index, m_gamb_p4);
+      // status = m_tuple1->addIndexedItem("gama", m_p4index, m_gama_p4);
 
       // 1c _________________________________________________________________
       status = m_tuple1->addIndexedItem("pall", m_p4index, m_pall_p4);
@@ -209,25 +209,22 @@ StatusCode LambdacAlg::initialize()
       status = m_tuple1->addIndexedItem("gam3", m_p4index, m_gam3_p4);
       status = m_tuple1->addIndexedItem("gam4", m_p4index, m_gam4_p4);
 
-      status = m_tuple1->addIndexedItem("pall_r1c", m_p4index, m_pall_p4_r1c);
-      status = m_tuple1->addIndexedItem("gam1_r1c", m_p4index, m_gam1_p4_r1c);
-      status = m_tuple1->addIndexedItem("gam2_r1c", m_p4index, m_gam2_p4_r1c);
-      status = m_tuple1->addIndexedItem("gam3_r1c", m_p4index, m_gam3_p4_r1c);
-      status = m_tuple1->addIndexedItem("gam4_r1c", m_p4index, m_gam4_p4_r1c);
-      status = m_tuple1->addItem("chi2_min_r1c", m_chi2_min_r1c);
+      status = m_tuple1->addIndexedItem("pall_r3c", m_p4index, m_pall_p4_r3c);
+      status = m_tuple1->addIndexedItem("gam1_r3c", m_p4index, m_gam1_p4_r3c);
+      status = m_tuple1->addIndexedItem("gam2_r3c", m_p4index, m_gam2_p4_r3c);
+      status = m_tuple1->addIndexedItem("gam3_r3c", m_p4index, m_gam3_p4_r3c);
+      status = m_tuple1->addIndexedItem("gam4_r3c", m_p4index, m_gam4_p4_r3c);
+      status = m_tuple1->addItem("chi2_min_r3c", m_chi2_min_r3c);
 
-      status = m_tuple1->addItem("pi0mR1c", m_pi0mR1c);
-      status = m_tuple1->addItem("etamR1c", m_etamR1c);
-      status = m_tuple1->addItem("pi0mORetam1mR1c", m_pi0mORetam1mR1c);
-      status = m_tuple1->addItem("sigmamR1c", m_SigmamR1c);
+      status = m_tuple1->addItem("pi0m_r3c", m_pi0m_r3c);
+      status = m_tuple1->addItem("etam_r3c", m_etam_r3c);
+      status = m_tuple1->addItem("sigmam_r3c", m_sigmam_r3c);
       // 2c _________________________________________________________________
 
 
 
       // ____________________________________________________________________
       status = m_tuple1->addItem("pi0m", m_pi0m);
-      status = m_tuple1->addItem("pi0mORetam1m", m_pi0mORetam1m);
-
       status = m_tuple1->addItem("etam", m_etam);
       status = m_tuple1->addItem("lambda", m_lambda);
       status = m_tuple1->addItem("ksi", m_ksi);
@@ -249,7 +246,7 @@ StatusCode LambdacAlg::initialize()
       // status = m_tuple1->addItem("num_othertrackp", m_numothertrackp);
       // status = m_tuple1->addItem("num_othertrackm", m_numothertrackm);
       status = m_tuple1->addItem("E_beam", m_ebeam);
-      status = m_tuple1->addItem("deltaE_min", m_deltaE_min);
+      status = m_tuple1->addItem("deltaE_min_r3c", m_deltaE_min_r3c);
       status = m_tuple1->addItem("M_BC", m_bc);
       status = m_tuple1->addItem("np", m_np);
       status = m_tuple1->addItem("npbar", m_npbar);
@@ -1008,7 +1005,7 @@ StatusCode LambdacAlg::execute()
       // if (m_debug)
       //   cout << __LINE__ << " k,l " << k << "," << l << " p2gpi.m() " << p2gpi.m() << endl;
 
-      if (p2gpi.m() < m_Pi0MinMass || p2gpi.m() > m_Pi0MaxMass)
+      if (p2gpi.m() < 0.115 || p2gpi.m() > 0.15)
         continue;
       if (m_debug)
         cout << __LINE__ << " 00000000 " << " p2gpi.m() " << p2gpi.m() << endl;
@@ -1083,9 +1080,9 @@ StatusCode LambdacAlg::execute()
 
 
   HepLorentzVector eta_pg1(0, 0, 0, 0), eta_pg2(0, 0, 0, 0), pi_pg3(0, 0, 0, 0), pi_pg4(0, 0, 0, 0), p_p4(0,0,0,0),
-                   m_p_p4_r1c(0, 0, 0, 0), m_pi0g1_p4_r1c(0, 0, 0, 0), m_etag1_p4_r1c(0, 0, 0, 0),
-                   m_pi0g2_p4_r1c(0, 0, 0, 0), m_etag2_p4_r1c(0, 0, 0, 0);
-  double minChi2_r1c = 999999999, minChi2_r2c = 99999999999;
+                   m_p_p4_r3c(0, 0, 0, 0), m_pi0g1_p4_r3c(0, 0, 0, 0), m_etag1_p4_r3c(0, 0, 0, 0),
+                   m_pi0g2_p4_r3c(0, 0, 0, 0), m_etag2_p4_r3c(0, 0, 0, 0);
+  double minChi2_r3c = 999999999, minChi2_r2c = 99999999999;
   int rightflag = 0;
   KalmanKinematicFit *kmfit1 = KalmanKinematicFit::instance();
 
@@ -1123,21 +1120,21 @@ StatusCode LambdacAlg::execute()
           // LcWTrk_1C = kmfit1->wVirtualTrack(0);
           HepLorentzVector psigma = kmfit1->pfit(0) + kmfit1->pfit(1) + kmfit1->pfit(2);
           if (m_debug) cout << __LINE__ << " psigma.m() " << psigma.m() << endl;
-          if (psigma.m() < m_SigmaMinMass || psigma.m() > m_SigmaMaxMass) continue;
+          if (psigma.m() < 1.174 || psigma.m() > 1.2) continue;
           if (m_debug) cout << __LINE__ << " 0000000  psigma.m():" << psigma.m() << endl;
           
           // ______________________________  recoil 1c minimum chi2 ____________________________________
-          if (m_debug)  cout << __LINE__ << " minChi2: " << minChi2_r1c << " chi2:" << kmfit1->chisq() << endl;
-          if (kmfit1->chisq() < minChi2_r1c)
+          if (m_debug)  cout << __LINE__ << " minChi2: " << minChi2_r3c << " chi2:" << kmfit1->chisq() << endl;
+          if (kmfit1->chisq() < minChi2_r3c)
           {
             rightflag = 1;
-            minChi2_r1c = kmfit1->chisq();
+            minChi2_r3c = kmfit1->chisq();
             
-            m_p_p4_r1c = kmfit1->pfit(0);
-            m_pi0g1_p4_r1c = kmfit1->pfit(1);
-            m_pi0g2_p4_r1c = kmfit1->pfit(2);
-            m_etag1_p4_r1c = kmfit1->pfit(3);
-            m_etag2_p4_r1c = kmfit1->pfit(4);
+            m_p_p4_r3c = kmfit1->pfit(0);
+            m_pi0g1_p4_r3c = kmfit1->pfit(1);
+            m_pi0g2_p4_r3c = kmfit1->pfit(2);
+            m_etag1_p4_r3c = kmfit1->pfit(3);
+            m_etag2_p4_r3c = kmfit1->pfit(4);
 
             p_p4 = proton[i].getLorentzVector();
             eta_pg1 = pi0[j].getChild1().getLorentzVector();
@@ -1189,6 +1186,7 @@ StatusCode LambdacAlg::execute()
     
     m_run = runNo;
     m_event = eventNo;
+    m_rightflag = rightflag;
 
     for (int i = 0; i < numParticle; i++)
     {
@@ -1230,15 +1228,15 @@ StatusCode LambdacAlg::execute()
     
     //   1,2 -> eta/pi             3,4 -> pi       
     for (int jj = 0; jj < 4; jj++)
-       m_pall_p4_r1c[jj] = m_p_p4_r1c[jj];
+       m_pall_p4_r3c[jj] = m_p_p4_r3c[jj];
     for (int jj = 0; jj < 4; jj++)
-      m_gam1_p4_r1c[jj] = m_etag1_p4_r1c[jj];
+      m_gam1_p4_r3c[jj] = m_etag1_p4_r3c[jj];
     for (int jj = 0; jj < 4; jj++)
-      m_gam2_p4_r1c[jj] = m_etag2_p4_r1c[jj];
+      m_gam2_p4_r3c[jj] = m_etag2_p4_r3c[jj];
     for (int jj = 0; jj < 4; jj++)
-      m_gam3_p4_r1c[jj] = m_pi0g1_p4_r1c[jj];
+      m_gam3_p4_r3c[jj] = m_pi0g1_p4_r3c[jj];
     for (int jj = 0; jj < 4; jj++)
-      m_gam4_p4_r1c[jj] = m_pi0g2_p4_r1c[jj];
+      m_gam4_p4_r3c[jj] = m_pi0g2_p4_r3c[jj];
 
     for (int jj = 0; jj < 4; jj++)
       m_pall_p4[jj] = p_p4[jj];
@@ -1253,50 +1251,48 @@ StatusCode LambdacAlg::execute()
 
     // m_pbarindex = pbar_index;
     m_p4index = 4;
-    m_chi2_min_r1c = minChi2_r1c;
+    m_chi2_min_r3c = minChi2_r3c;
 
     m_pi0m = (pi_pg3 + pi_pg4).m();
-    m_pi0mORetam1m = (eta_pg1 + eta_pg2).m();
+    m_etam = (eta_pg1 + eta_pg2).m();
     m_Sigmam = (p_p4 + pi_pg3 + pi_pg4).m();
 
-    if(m_debug) cout << __LINE__ << " m_pi0m " << m_pi0m << " m_pi0mORetam1m " << m_pi0mORetam1m << " m_chi2_min_r1c " << m_chi2_min_r1c<< endl;
+    if(m_debug) cout << __LINE__ << " m_pi0m " << m_pi0m << " m_etam " << m_etam << " m_chi2_min_r3c " << m_chi2_min_r3c<< endl;
+
+    m_pi0m_r3c = (m_pi0g1_p4_r3c + m_pi0g2_p4_r3c).m();
+    m_etam_r3c = (m_etag1_p4_r3c + m_etag2_p4_r3c).m();
+    m_sigmam_r3c = (m_p_p4_r3c + m_pi0g1_p4_r3c + m_pi0g2_p4_r3c).m();
+
+    if(m_debug)  cout << __LINE__ << " m_pi0m_r3c " << m_pi0m_r3c << " m_etam_r3c " << m_etam_r3c << " m_sigmam_r3c " <<  m_sigmam_r3c << endl;
 
 
-    m_pi0mR1c = (m_pi0g1_p4_r1c + m_pi0g2_p4_r1c).m();
-    m_pi0mORetam1mR1c = (m_etag1_p4_r1c + m_etag2_p4_r1c).m();
-    m_SigmamR1c = (m_p_p4_r1c + m_pi0g1_p4_r1c + m_pi0g2_p4_r1c).m();
-
-    if(m_debug)  cout << __LINE__ << " m_pi0mR1c " << m_pi0mR1c << " m_pi0mORetam1mR1c " << m_pi0mORetam1mR1c << " m_SigmamR1c " <<  m_SigmamR1c << endl;
-
-
-    HepLorentzVector pLambda = m_p_p4_r1c + m_pi0g1_p4_r1c + m_pi0g2_p4_r1c + m_etag1_p4_r1c + m_etag2_p4_r1c;
+    HepLorentzVector pLambda = m_p_p4_r3c + m_pi0g1_p4_r3c + m_pi0g2_p4_r3c + m_etag1_p4_r3c + m_etag2_p4_r3c;
     if(m_debug) cout << __LINE__ << " pLambda.m() " << pLambda.m() << endl;
     pLambda.boost(-m_beta);
-    m_deltaE_min = pLambda.t() - ebeam;
+    m_deltaE_min_r3c = pLambda.t() - ebeam;
 
 
     double mbc2 = ebeam * ebeam - pLambda.v().mag2();
     m_bc = mbc2 > 0 ? sqrt(mbc2) : -10;
 
-    if(m_debug) cout << __LINE__  << " m_bc " << m_bc  << " m_deltaE_min " << m_deltaE_min<< endl;
+    if(m_debug) cout << __LINE__  << " m_bc " << m_bc  << " m_deltaE_min_r3c " << m_deltaE_min_r3c<< endl;
 
-    // m_rightflag = 2;
     m_np = np;
     m_npbar = npbar;
 
     m_tuple1->write();
-    if (m_debug) cout << __LINE__ << " write() " << endl;
+    if (m_debug) cout << __LINE__ << "  write() ___________ " << " rightflag " << rightflag<< endl;
     
     Ncut6++;
   }
 #pragma endregion
 
 
-  minChi2_r1c = 99999999;
+minChi2_r3c = 99999999;
 #pragma region lambda_c - ________________________________________________________________
   for (int i = 0; i < proton.size(); i++)
   {
-    if(proton[i].getCharge() == -1 ) continue;
+    if(proton[i].getCharge() == 1 ) continue;
     for (int j = 0; j < pi0.size(); j++)
     {
       // k is the pi from sigma
@@ -1327,21 +1323,21 @@ StatusCode LambdacAlg::execute()
           // LcWTrk_1C = kmfit1->wVirtualTrack(0);
           HepLorentzVector psigma = kmfit1->pfit(0) + kmfit1->pfit(1) + kmfit1->pfit(2);
           if (m_debug) cout << __LINE__ << " psigma.m() " << psigma.m() << endl;
-          if (psigma.m() < m_SigmaMinMass || psigma.m() > m_SigmaMaxMass) continue;
+          if (psigma.m() < 1.174 || psigma.m() > 1.2) continue;
           if (m_debug) cout << __LINE__ << " 0000000  psigma.m():" << psigma.m() << endl;
           
           // ______________________________  recoil 1c minimum chi2 ____________________________________
-          if (m_debug)  cout << __LINE__ << " minChi2: " << minChi2_r1c << " chi2:" << kmfit1->chisq() << endl;
-          if (kmfit1->chisq() < minChi2_r1c)
+          if (m_debug)  cout << __LINE__ << " minChi2: " << minChi2_r3c << " chi2:" << kmfit1->chisq() << endl;
+          if (kmfit1->chisq() < minChi2_r3c)
           {
-            rightflag = 1;
-            minChi2_r1c = kmfit1->chisq();
+            rightflag = -1;
+            minChi2_r3c = kmfit1->chisq();
             
-            m_p_p4_r1c = kmfit1->pfit(0);
-            m_pi0g1_p4_r1c = kmfit1->pfit(1);
-            m_pi0g2_p4_r1c = kmfit1->pfit(2);
-            m_etag1_p4_r1c = kmfit1->pfit(3);
-            m_etag2_p4_r1c = kmfit1->pfit(4);
+            m_p_p4_r3c = kmfit1->pfit(0);
+            m_pi0g1_p4_r3c = kmfit1->pfit(1);
+            m_pi0g2_p4_r3c = kmfit1->pfit(2);
+            m_etag1_p4_r3c = kmfit1->pfit(3);
+            m_etag2_p4_r3c = kmfit1->pfit(4);
 
             p_p4 = proton[i].getLorentzVector();
             eta_pg1 = pi0[j].getChild1().getLorentzVector();
@@ -1381,7 +1377,7 @@ StatusCode LambdacAlg::execute()
     }
   }
   // write
-  if (rightflag == 1)
+  if (rightflag == -1)
   {
 
     m_flag1 = mm_flag1;
@@ -1393,6 +1389,7 @@ StatusCode LambdacAlg::execute()
     
     m_run = runNo;
     m_event = eventNo;
+    m_rightflag = rightflag;
 
     m_signal = signal;
     m_ebeam = ebeam;
@@ -1434,15 +1431,15 @@ StatusCode LambdacAlg::execute()
     
     //   1,2 -> eta/pi             3,4 -> pi       
     for (int jj = 0; jj < 4; jj++)
-       m_pall_p4_r1c[jj] = m_p_p4_r1c[jj];
+       m_pall_p4_r3c[jj] = m_p_p4_r3c[jj];
     for (int jj = 0; jj < 4; jj++)
-      m_gam1_p4_r1c[jj] = m_etag1_p4_r1c[jj];
+      m_gam1_p4_r3c[jj] = m_etag1_p4_r3c[jj];
     for (int jj = 0; jj < 4; jj++)
-      m_gam2_p4_r1c[jj] = m_etag2_p4_r1c[jj];
+      m_gam2_p4_r3c[jj] = m_etag2_p4_r3c[jj];
     for (int jj = 0; jj < 4; jj++)
-      m_gam3_p4_r1c[jj] = m_pi0g1_p4_r1c[jj];
+      m_gam3_p4_r3c[jj] = m_pi0g1_p4_r3c[jj];
     for (int jj = 0; jj < 4; jj++)
-      m_gam4_p4_r1c[jj] = m_pi0g2_p4_r1c[jj];
+      m_gam4_p4_r3c[jj] = m_pi0g2_p4_r3c[jj];
 
     for (int jj = 0; jj < 4; jj++)
       m_pall_p4[jj] = p_p4[jj];
@@ -1457,39 +1454,38 @@ StatusCode LambdacAlg::execute()
 
     // m_pbarindex = pbar_index;
     m_p4index = 4;
-    m_chi2_min_r1c = minChi2_r1c;
+    m_chi2_min_r3c = minChi2_r3c;
 
     m_pi0m = (pi_pg3 + pi_pg4).m();
-    m_pi0mORetam1m = (eta_pg1 + eta_pg2).m();
+    m_etam = (eta_pg1 + eta_pg2).m();
     m_Sigmam = (p_p4 + pi_pg3 + pi_pg4).m();
 
-    if(m_debug) cout << __LINE__ << " m_pi0m " << m_pi0m << " m_pi0mORetam1m " << m_pi0mORetam1m << " m_chi2_min_r1c " << m_chi2_min_r1c<< endl;
+    if(m_debug) cout << __LINE__ << " m_pi0m " << m_pi0m << " m_etam " << m_etam << " m_chi2_min_r3c " << m_chi2_min_r3c<< endl;
 
 
-    m_pi0mR1c = (m_pi0g1_p4_r1c + m_pi0g2_p4_r1c).m();
-    m_pi0mORetam1mR1c = (m_etag1_p4_r1c + m_etag2_p4_r1c).m();
-    m_SigmamR1c = (m_p_p4_r1c + m_pi0g1_p4_r1c + m_pi0g2_p4_r1c).m();
+    m_pi0m_r3c = (m_pi0g1_p4_r3c + m_pi0g2_p4_r3c).m();
+    m_etam_r3c = (m_etag1_p4_r3c + m_etag2_p4_r3c).m();
+    m_sigmam_r3c = (m_p_p4_r3c + m_pi0g1_p4_r3c + m_pi0g2_p4_r3c).m();
 
-    if(m_debug) cout << __LINE__ << " m_pi0mR1c " << m_pi0mR1c << " m_pi0mORetam1mR1c " << m_pi0mORetam1mR1c << " m_SigmamR1c " <<  m_SigmamR1c << endl;
+    if(m_debug) cout << __LINE__ << " m_pi0m_r3c " << m_pi0m_r3c << " m_etam_r3c " << m_etam_r3c << " m_sigmam_r3c " <<  m_sigmam_r3c << endl;
 
 
-    HepLorentzVector pLambda = m_p_p4_r1c + m_pi0g1_p4_r1c + m_pi0g2_p4_r1c + m_etag1_p4_r1c + m_etag2_p4_r1c;
+    HepLorentzVector pLambda = m_p_p4_r3c + m_pi0g1_p4_r3c + m_pi0g2_p4_r3c + m_etag1_p4_r3c + m_etag2_p4_r3c;
     if(m_debug) cout << __LINE__ << " pLambda.m() " << pLambda.m() << endl;
     pLambda.boost(-m_beta);
-    m_deltaE_min = pLambda.t() - ebeam;
+    m_deltaE_min_r3c = pLambda.t() - ebeam;
 
 
     double mbc2 = ebeam * ebeam - pLambda.v().mag2();
     m_bc = mbc2 > 0 ? sqrt(mbc2) : -10;
 
-    if(m_debug) cout << __LINE__  << " m_bc " << m_bc  << " m_deltaE_min " << m_deltaE_min<< endl;
+    if(m_debug) cout << __LINE__  << " m_bc " << m_bc  << " m_deltaE_min_r3c " << m_deltaE_min_r3c<< endl;
 
-    // m_rightflag = 2;
     m_np = np;
     m_npbar = npbar;
 
     m_tuple1->write();
-    if (m_debug) cout << __LINE__ << " write() " << endl;
+    if (m_debug) cout << __LINE__ << "  write() ___________ " << " rightflag " << rightflag<< endl;
     
     Ncut6++;
   }
@@ -1497,18 +1493,19 @@ StatusCode LambdacAlg::execute()
 
 
   Ncut5++;
-
-  cout << "attention: if Ncut2!= Ncut3 ,you should check" << endl;
-  cout << "Ntotal  " << Ntotal << endl;
-  cout << "Ncut0   " << Ncut0 << endl;
-  cout << "Ncut1   " << Ncut1 << endl;
-  cout << "Ncut2   " << Ncut2 << endl;
-  cout << "Ncut3   " << Ncut3 << endl;
-  cout << "Ncut4   " << Ncut4 << endl;
-  cout << "Ncut5   " << Ncut5 << endl;
-  cout << "Ncut6   " << Ncut6 << endl;
-  cout << "all       " << all << endl;
-
+  if(m_debug)
+  {
+    cout << "attention: if Ncut2!= Ncut3 ,you should check" << endl;
+    cout << "Ntotal  " << Ntotal << endl;
+    cout << "Ncut0   " << Ncut0 << endl;
+    cout << "Ncut1   " << Ncut1 << endl;
+    cout << "Ncut2   " << Ncut2 << endl;
+    cout << "Ncut3   " << Ncut3 << endl;
+    cout << "Ncut4   " << Ncut4 << endl;
+    cout << "Ncut5   " << Ncut5 << endl;
+    cout << "Ncut6   " << Ncut6 << endl;
+    cout << "all       " << all << endl;
+  }
   return StatusCode::SUCCESS;
 }
 StatusCode LambdacAlg::endRun()
@@ -1540,7 +1537,7 @@ StatusCode LambdacAlg::finalize()
   cout << "-------------------------------------------------------------------------" << endl;
   cout << "-------------------------------           -------------------------------" << endl;
   cout << "--------------------                                ---------------------" << endl;
-  cout << "--------------  for sigma pi0_r3c   v10 -----------------" << endl;
+  cout << "--------------   sigma pi0_r3c  v100 -----------------" << endl;
   cout << "--------------------                               ----------------------" << endl;
   cout << "------------------------------           --------------------------------" << endl;
   cout << "-------------------------------------------------------------------------" << endl;
