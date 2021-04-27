@@ -17,8 +17,8 @@ LambdacAlg.Pi0MaxMass = 0.15;
 LambdacAlg.SigmaMinMass = 1.174;
 LambdacAlg.SigmaMaxMass = 1.2;
 
-LambdacAlg.EtaPrimeMinMass = 0.946;
-LambdacAlg.EtaPrimeMaxMass = 0.968;
+//LambdacAlg.EtaPrimeMinMass = 0.946;
+//LambdacAlg.EtaPrimeMaxMass = 0.968;
 
 LambdacAlg.ChisqMax= 200;
 //LambdacAlg.PhotonMinEnergy = 0.025;

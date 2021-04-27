@@ -194,9 +194,9 @@ private:
 	NTuple::Array<double> m_gam2_p4_1c;
 	NTuple::Array<double> m_gam3_p4_1c;
 	NTuple::Array<double> m_gam4_p4_1c;
-	NTuple::Item<double> m_Sigmam1c;
+	NTuple::Item<double> m_Sigmam_1c;
 	NTuple::Item<double> m_etaprimem1c;
-	NTuple::Item<double> m_lambdacm1c;
+	NTuple::Item<double> m_lambdacm_1c;
 	// r3c _________________________________________________________________
 	NTuple::Item<int> m_flag_c;
 	NTuple::Array<double> m_pall_p4;
@@ -221,6 +221,7 @@ private:
 	NTuple::Item<double> m_etaprimem_c;
 	NTuple::Item<double> m_sigmam_c;
 	NTuple::Item<double> m_pcharge;
+	NTuple::Item<double> m_lambdacm_c;
 
 
 
