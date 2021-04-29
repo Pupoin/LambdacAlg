@@ -1203,7 +1203,7 @@ StatusCode LambdacAlg::execute()
   // p
   for (int i_proton = 0; i_proton < proton.size(); i_proton++)
   {
-    if(proton[i_proton].getCharge() == -1 ) continue;
+    // if(proton[i_proton].getCharge() == -1 ) continue;
     for (int i_eta = 0; i_eta < eta.size(); i_eta++)
     {
       for (int i_pi0 = 0; i_pi0 < pi0.size(); i_pi0++)
@@ -1268,7 +1268,7 @@ StatusCode LambdacAlg::execute()
               // if (kmfit->chisq() < minChi2_r3c)
               if (fabs(deltaE_min) > fabs(deltaE_min_tmp))
               {
-                rightflag = 1;
+                rightflag = proton[i_proton].getCharge();
                 deltaE_min = deltaE_min_tmp;
                 minChi2_r3c = kmfit->chisq();
 
@@ -1296,7 +1296,7 @@ StatusCode LambdacAlg::execute()
     }
   }
   // write
-  if(rightflag == 1)
+  if(rightflag == 1 || rightflag == -1)
   {
     m_mode1 = mm_mode1;
     m_mode2 = mm_mode2;
@@ -1409,26 +1409,26 @@ StatusCode LambdacAlg::execute()
       if (m_debug)
         cout << __LINE__ << " m_pi0mr3c " << m_pi0mr3c << " m_etamr3c " << m_etamr3c << " m_sigmamr3c " << m_sigmamr3c << " m_etaprimemr3c " << m_etaprimemr3c << endl;
 
-      HepLorentzVector pLambda = p_p4_r3c + pim_p4_r3c + pip_p4_r3c + etag1_p4_r3c + etag2_p4_r3c + pi0g1_p4_r3c + pi0g2_p4_r3c;
-      m_lambdacm1c = pLambda.m();
+      // HepLorentzVector pLambda = p_p4_r3c + pim_p4_r3c + pip_p4_r3c + etag1_p4_r3c + etag2_p4_r3c + pi0g1_p4_r3c + pi0g2_p4_r3c;
+      // m_lambdacm1c = pLambda.m();
 
-      if (m_debug)
-        cout << __LINE__ << " pLambda.m() " << pLambda.m() << endl;
-      pLambda.boost(-m_beta);
+      // if (m_debug)
+      //   cout << __LINE__ << " pLambda.m() " << pLambda.m() << endl;
+      // pLambda.boost(-m_beta);
 
-      m_deltaE_min_r3c = pLambda.t() - ebeam;
+      m_deltaE_min_r3c = deltaE_min;
       double mbc2 = ebeam * ebeam - pLambda.v().mag2();
       m_bc_r3c = mbc2 > 0 ? sqrt(mbc2) : -10;
 
-      if (m_debug) cout << __LINE__ << " m_bc_r3c " << m_bc_r3c << " m_deltaE_min_r3c " << m_deltaE_min_r3c << endl;
+      if (m_debug) cout << __LINE__ << " m_bc_r3c " << m_bc_r3c << " m_deltaE_min_r3c " << m_deltaE_min_r3c << " minChi2_r3c " << minChi2_r3c << " deltaE_min " << deltaE_min<< endl;
       m_tuple1->write();
       Ncut7++;
       if (m_debug)
-        cout << __LINE__ << " ____ write() ____" << endl;
+        cout << __LINE__ << " ____ write() ____" << " rightflag " << rightflag << endl;
     }              
   }   
 
-
+/*
   // pbar
   minChi2_r3c = 999999999, deltaE_min = 9999;
   for (int i_proton = 0; i_proton < proton.size(); i_proton++)
@@ -1658,7 +1658,9 @@ StatusCode LambdacAlg::execute()
         cout << __LINE__ << " ____ write() ___" << endl;
         
     }              
-  }       
+  }    
+
+  */   
   // get beam energy and beta
   // if (m_ReadBeamEFromDB)
   // {
@@ -1721,7 +1723,7 @@ StatusCode LambdacAlg::finalize()
   cout << "-------------------------------------------------------------------------" << endl;
   cout << "-------------------------------           -------------------------------" << endl;
   cout << "--------------------                                ---------------------" << endl;
-  cout << "-------------  etaprime recoil 3c, mindE, v100 ------------------" << endl;
+  cout << "------------- 36ca828 etaprime recoil 3c, mindE, v110 ------------------" << endl;
   cout << "--------------------                               ----------------------" << endl;
   cout << "------------------------------           --------------------------------" << endl;
   cout << "-------------------------------------------------------------------------" << endl;
