@@ -6,4 +6,3 @@ x86_64-slc5-gcc43-opt/
 *.dst
 TestRelease/
 tmp/
-cmt/
