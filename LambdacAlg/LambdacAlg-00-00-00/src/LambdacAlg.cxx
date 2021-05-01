@@ -1409,12 +1409,12 @@ StatusCode LambdacAlg::execute()
       if (m_debug)
         cout << __LINE__ << " m_pi0mr3c " << m_pi0mr3c << " m_etamr3c " << m_etamr3c << " m_sigmamr3c " << m_sigmamr3c << " m_etaprimemr3c " << m_etaprimemr3c << endl;
 
-      // HepLorentzVector pLambda = p_p4_r3c + pim_p4_r3c + pip_p4_r3c + etag1_p4_r3c + etag2_p4_r3c + pi0g1_p4_r3c + pi0g2_p4_r3c;
-      // m_lambdacm1c = pLambda.m();
+      HepLorentzVector pLambda = p_p4_r3c + pim_p4_r3c + pip_p4_r3c + etag1_p4_r3c + etag2_p4_r3c + pi0g1_p4_r3c + pi0g2_p4_r3c;
+      m_lambdacm1c = pLambda.m();
 
-      // if (m_debug)
-      //   cout << __LINE__ << " pLambda.m() " << pLambda.m() << endl;
-      // pLambda.boost(-m_beta);
+      if (m_debug)
+        cout << __LINE__ << " pLambda.m() " << pLambda.m() << endl;
+      pLambda.boost(-m_beta);
 
       m_deltaE_min_r3c = deltaE_min;
       double mbc2 = ebeam * ebeam - pLambda.v().mag2();
@@ -1425,8 +1425,8 @@ StatusCode LambdacAlg::execute()
       Ncut7++;
       if (m_debug)
         cout << __LINE__ << " ____ write() ____" << " rightflag " << rightflag << endl;
-    }              
-  }   
+    }
+  }
 
 /*
   // pbar
@@ -1723,7 +1723,7 @@ StatusCode LambdacAlg::finalize()
   cout << "-------------------------------------------------------------------------" << endl;
   cout << "-------------------------------           -------------------------------" << endl;
   cout << "--------------------                                ---------------------" << endl;
-  cout << "------------- 36ca828 etaprime recoil 3c, mindE, v110 ------------------" << endl;
+  cout << "------------- 0de4b14 etaprime recoil 3c, mindE, v110 ------------------" << endl;
   cout << "--------------------                               ----------------------" << endl;
   cout << "------------------------------           --------------------------------" << endl;
   cout << "-------------------------------------------------------------------------" << endl;
