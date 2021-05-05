@@ -1089,7 +1089,7 @@ StatusCode LambdacAlg::execute()
 #pragma region lambda_c + ________________________________________________________________
   for (int i = 0; i < proton.size(); i++)
   {
-    if(proton[i].getCharge() == -1) continue;
+    // if(proton[i].getCharge() == -1) continue;
     for (int j = 0; j < pi0.size(); j++)
     {
       // k is the pi from sigma
@@ -1127,7 +1127,7 @@ StatusCode LambdacAlg::execute()
           if (m_debug)  cout << __LINE__ << " minChi2: " << minChi2_r3c << " chi2:" << kmfit1->chisq() << endl;
           if (kmfit1->chisq() < minChi2_r3c)
           {
-            rightflag = 1;
+            rightflag = proton[i].getCharge();
             minChi2_r3c = kmfit1->chisq();
             
             m_p_p4_r3c = kmfit1->pfit(0);
@@ -1144,37 +1144,11 @@ StatusCode LambdacAlg::execute()
 
           }
         }
-        /*
-            if (m_debug &&  flag==0 )
-              cout << __LINE__ <<  " fit wrong"  << endl;
-            // 2c
-            kmfit->init();
-            kmfit->setChisqCut(1e3);
-            kmfit->setIterNumber(10);
-
-            kmfit->AddTrack(0, proton[i].getTrackParameter());
-            kmfit->AddTrack(1, pi0[k].getFit()->wVirtualTrack(0));
-            kmfit->AddTrack(2, eta[j].getFit()->wVirtualTrack(0));
-            kmfit->AddMissTrack(3, 2.28646);
-
-            kmfit->AddResonance(0, 1.18937, 0, 1);
-            kmfit->AddFourMomentum(1, HepCMS);
-
-
-            bool okvs1 = kmfit->Fit();
-            if (okvs1)
-            {
-              kmfit->BuildVirtualParticle(0);
-              // LcWTrk_1C = kmfit->wVirtualTrack(0);
-              MyMotherParticleFit tmp3(proton[i], pi0[k], eta[j], kmfit);
-              recoilLambdac_r2c = tmp3;
-            }
-        */
       }
     }
   }
   // write
-  if (rightflag == 1)
+  if (rightflag == 1 || rightflag == -1)
   {
 
     m_flag1 = mm_flag1;
@@ -1286,9 +1260,10 @@ StatusCode LambdacAlg::execute()
   }
 #pragma endregion
 
+/*
+  minChi2_r3c = 99999999;
+  #pragma region lambda_c - ________________________________________________________________
 
-minChi2_r3c = 99999999;
-#pragma region lambda_c - ________________________________________________________________
   for (int i = 0; i < proton.size(); i++)
   {
     if(proton[i].getCharge() == 1) continue;
@@ -1346,32 +1321,6 @@ minChi2_r3c = 99999999;
 
           }
         }
-        /*
-            if (m_debug &&  flag==0 )
-              cout << __LINE__ <<  " fit wrong"  << endl;
-            // 2c
-            kmfit->init();
-            kmfit->setChisqCut(1e3);
-            kmfit->setIterNumber(10);
-
-            kmfit->AddTrack(0, proton[i].getTrackParameter());
-            kmfit->AddTrack(1, pi0[k].getFit()->wVirtualTrack(0));
-            kmfit->AddTrack(2, eta[j].getFit()->wVirtualTrack(0));
-            kmfit->AddMissTrack(3, 2.28646);
-
-            kmfit->AddResonance(0, 1.18937, 0, 1);
-            kmfit->AddFourMomentum(1, HepCMS);
-
-
-            bool okvs1 = kmfit->Fit();
-            if (okvs1)
-            {
-              kmfit->BuildVirtualParticle(0);
-              // LcWTrk_1C = kmfit->wVirtualTrack(0);
-              MyMotherParticleFit tmp3(proton[i], pi0[k], eta[j], kmfit);
-              recoilLambdac_r2c = tmp3;
-            }
-        */
       }
     }
   }
@@ -1487,7 +1436,9 @@ minChi2_r3c = 99999999;
     
     Ncut6++;
   }
-#pragma endregion
+
+  #pragma endregion
+*/
 
 
   Ncut5++;
