@@ -1259,17 +1259,17 @@ StatusCode LambdacAlg::execute()
               if (psigma.m() < 1.174 || psigma.m() > 1.2) continue;
               if (m_debug) cout << __LINE__ << "  psigma.m():" << psigma.m() << " tmp_cut_flag " << tmp_cut_flag << endl;
 
-              HepLorentzVector pLambda =kmfit->pfit(5) + kmfit->pfit(6) + kmfit->pfit(3) + kmfit->pfit(4) + kmfit->pfit(0) + kmfit->pfit(1) + kmfit->pfit(2);
-              pLambda.boost(-m_beta);
-              double deltaE_min_tmp= pLambda.t() - ebeam;
+              // HepLorentzVector pLambda =kmfit->pfit(5) + kmfit->pfit(6) + kmfit->pfit(3) + kmfit->pfit(4) + kmfit->pfit(0) + kmfit->pfit(1) + kmfit->pfit(2);
+              // pLambda.boost(-m_beta);
+              // double deltaE_min_tmp= pLambda.t() - ebeam;
 
               // ____  1c minimum chi2 ______
-              if (m_debug) cout << __LINE__ << " deltaE_min: " << deltaE_min << " deltaE_min_tmp:" << deltaE_min_tmp << endl;
-              // if (kmfit->chisq() < minChi2_r3c)
-              if (fabs(deltaE_min) > fabs(deltaE_min_tmp))
+              // if (m_debug) cout << __LINE__ << " deltaE_min: " << deltaE_min << " deltaE_min_tmp:" << deltaE_min_tmp << endl;
+              if (kmfit->chisq() < minChi2_r3c)
+              // if (fabs(deltaE_min) > fabs(deltaE_min_tmp))
               {
                 rightflag = proton[i_proton].getCharge();
-                deltaE_min = deltaE_min_tmp;
+                // deltaE_min = deltaE_min_tmp;
                 minChi2_r3c = kmfit->chisq();
 
                 p_p4_r3c = kmfit->pfit(0);
@@ -1723,7 +1723,7 @@ StatusCode LambdacAlg::finalize()
   cout << "-------------------------------------------------------------------------" << endl;
   cout << "-------------------------------           -------------------------------" << endl;
   cout << "--------------------                                ---------------------" << endl;
-  cout << "------------- 0de4b14 etaprime recoil 3c, mindE, v110 ------------------" << endl;
+  cout << "------------- 0de4b14 etaprime recoil 3c, minchi2 , v200 ------------------" << endl;
   cout << "--------------------                               ----------------------" << endl;
   cout << "------------------------------           --------------------------------" << endl;
   cout << "-------------------------------------------------------------------------" << endl;
