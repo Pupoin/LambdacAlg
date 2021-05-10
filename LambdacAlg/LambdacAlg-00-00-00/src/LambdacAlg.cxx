@@ -938,7 +938,11 @@ StatusCode LambdacAlg::execute()
       // RecMdcKalTrack *mdcKalTrk = (*itTrk)->mdcKalTrack();
       mdcKalTrk->setPidType(RecMdcKalTrack::pion);
       HepLorentzVector p4 = mdcKalTrk->p4(xmass[2]);
-      WTrackParameter wtrkp(xmass[2], mdcKalTrk->getZHelixP(), mdcKalTrk->getZErrorP());
+      // WTrackParameter wtrkp(xmass[2], mdcKalTrk->getZHelixP(), mdcKalTrk->getZErrorP());  // for proton
+      // WTrackParameter wtrkp(xmass[2], mdcKalTrk->getZHelixMu(), mdcKalTrk->getZErrorMu());  // for muon
+      // WTrackParameter wtrkp(xmass[2], mdcKalTrk->getZHelixK(), mdcKalTrk->getZErrorK());  // for kaon
+      // WTrackParameter wtrkp(xmass[2], mdcKalTrk->getZHelixE(), mdcKalTrk->getZErrorE());  // for ele
+      WTrackParameter wtrkp(xmass[2], mdcKalTrk->getZHelix(), mdcKalTrk->getZError());  // for pion
 
       if (mdcTrk->charge() == 1)
       {
@@ -1092,7 +1096,7 @@ StatusCode LambdacAlg::execute()
       if (m_debug)
         cout << __LINE__ << " i,j  " << i << "," << j << " p2geta.m()  " << p2geta.m() << endl;
 
-      if (p2geta.m() < m_EtaMinMass || p2geta.m() > m_EtaMaxMass)
+      if (p2geta.m() < 0.5 || p2geta.m() > 0.56)
         continue;
       if (m_debug)
         cout << __LINE__ << " 00000000 " << " i,j  " << i << "," << j << " p2geta.m()  " << p2geta.m() << endl;
@@ -1134,7 +1138,7 @@ StatusCode LambdacAlg::execute()
       if (m_debug)
         cout << __LINE__ << " k,l " << k << "," << l << " p2gpi.m() " << p2gpi.m() << endl;
 
-      if (p2gpi.m() < m_Pi0MinMass || p2gpi.m() > m_Pi0MaxMass)
+      if (p2gpi.m() < 0.115 || p2gpi.m() > 0.15)
         continue;
       if (m_debug)
         cout << __LINE__ << " 00000000 " << " k,l " << k << "," << l << " p2gpi.m() " << p2gpi.m() << endl;
@@ -1193,7 +1197,7 @@ StatusCode LambdacAlg::execute()
 
   for (int i_proton = 0; i_proton < proton.size(); i_proton++)
   {
-    if(proton[i_proton].getCharge() == -1 ) continue;
+    // if(proton[i_proton].getCharge() == -1 ) continue;
     for (int i_eta = 0; i_eta < eta.size(); i_eta++)
     {
       for (int i_pi0 = 0; i_pi0 < pi0.size(); i_pi0++)
@@ -1213,14 +1217,14 @@ StatusCode LambdacAlg::execute()
             // cut for sigma
             HepLorentzVector psigma = proton[i_proton].getLorentzVector() + pi0_1c[i_pi0].getMotherLorentzVector(2);
             if (m_debug) cout << __LINE__ << "  psigma.m():" << psigma.m() << endl;
-            if (psigma.m() < m_SigmaMinMass || psigma.m() > m_SigmaMaxMass) continue;
+            if (psigma.m() < 1.174 || psigma.m() > 1.2) continue;
             if (m_debug) cout << __LINE__ << " 00000000000  psigma.m():" << psigma.m() << endl;
-            // cut for eta prime
+            // cut for etaprime
             HepLorentzVector p_etaprime = piMin[i_piMin].getLorentzVector() + piPlus[i_piPlus].getLorentzVector() +
                                           eta_1c[i_eta].getMotherLorentzVector(2);
             double dis = fabs(p_etaprime.m() - 0.95778);
             if (m_debug) 
-              cout << __LINE__ << " m_rightflag " << m_rightflag << " eta prime m(): " << p_etaprime.m() << " dis " << dis << " distance_etaprime " << distance_etaprime<< endl;
+              cout << __LINE__ << " m_rightflag " << m_rightflag << " etaprime m(): " << p_etaprime.m() << " dis " << dis << " distance_etaprime " << distance_etaprime<< endl;
             // if (p_etaprime.m() > m_EtaPrimeMaxMass || p_etaprime.m() < m_EtaPrimeMinMass)
             //   continue;
             // if (m_debug)
@@ -1236,7 +1240,7 @@ StatusCode LambdacAlg::execute()
 
             if (dis < distance_etaprime)
             {
-              m_rightflag = 1;
+              m_rightflag = proton[i_proton].getCharge();
               deltaE_min1c = deltaE1c;
               distance_etaprime = dis;
               // chisq = chi2[k];
@@ -1261,7 +1265,7 @@ StatusCode LambdacAlg::execute()
       }
     }
   }
-  if(m_rightflag == 1)
+  if(m_rightflag == 1 || m_rightflag == -1)
   {
     m_rightflag = 1;
     m_mode1 = mm_mode1;
@@ -1375,7 +1379,7 @@ StatusCode LambdacAlg::execute()
     if (m_debug)
       cout << __LINE__ << " write() " << endl;
   }
-
+/*
   // pbar
   distance_etaprime=99999;
   for (int i_proton = 0; i_proton < proton.size(); i_proton++)
@@ -1561,6 +1565,7 @@ StatusCode LambdacAlg::execute()
     if (m_debug)
       cout << __LINE__ << " write() " << endl;
   }
+  */
   // // get beam energy and beta
   // if (m_ReadBeamEFromDB)
   // {
@@ -1621,7 +1626,7 @@ StatusCode LambdacAlg::finalize()
   cout << "-------------------------------------------------------------------------" << endl;
   cout << "-------------------------------           -------------------------------" << endl;
   cout << "--------------------                                ---------------------" << endl;
-  cout << "-------------  sigma min etaprime 1c , v11 ------------------" << endl;
+  cout << "-------------  min etaprime 1c , v100 ------------------" << endl;
   cout << "--------------------                               ----------------------" << endl;
   cout << "------------------------------           --------------------------------" << endl;
   cout << "-------------------------------------------------------------------------" << endl;
