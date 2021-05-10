@@ -240,6 +240,8 @@ private:
 	NTuple::Item<double> m_Sigmamr;
 	NTuple::Item<double> m_pcharger;
 	NTuple::Item<double> m_signalr;
+	NTuple::Item<double> m_distance_etaprime;
+	
 
 	//  _________________________________________________________________
 

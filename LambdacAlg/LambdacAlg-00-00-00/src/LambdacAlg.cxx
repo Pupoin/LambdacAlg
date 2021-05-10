@@ -224,6 +224,7 @@ StatusCode LambdacAlg::initialize()
       status = m_tuple1->addItem("sigmam1c", m_Sigmam1c);
       status = m_tuple1->addItem("etaprimem1c", m_etaprimem1c);
       status = m_tuple1->addItem("lambdacm1c", m_lambdacm1c);
+      status = m_tuple1->addItem("distance_etaprime", m_distance_etaprime);
 
 
       // r3c _________________________________________________________________
@@ -1196,7 +1197,7 @@ StatusCode LambdacAlg::execute()
   // for best delta E
   HepLorentzVector pi0g1_p4_1c(0, 0, 0, 0), etag1_p4_1c(0, 0, 0, 0), pi0g2_p4_1c(0, 0, 0, 0), etag2_p4_1c(0, 0, 0, 0);
   double minChi2_r3c = 999999999, minChi2_r2c = 99999999999, deltaE_min = 99999999;
-  double chisq = 0;
+  double chisq = 0, distance_etaprime = 999 ;
   int flag_raw = 0, flag_1c = 0, flag_r3c = 0, pcharge = 0, pcharger = 0, tmp_cut_flag = 0, rightflag=999;
 
 
@@ -1249,9 +1250,9 @@ StatusCode LambdacAlg::execute()
             if (okvs1)
             {
               // kmfit->BuildVirtualParticle(0);
-              HepLorentzVector p_etaprime = kmfit->pfit(5) + kmfit->pfit(6) + kmfit->pfit(3) + kmfit->pfit(4);
-              if (m_debug) cout << __LINE__ << " etaprime m(): " << p_etaprime.m() << endl;
-              if (p_etaprime.m() < 0.946 || p_etaprime.m() > 0.968) continue;
+              // HepLorentzVector p_etaprime = kmfit->pfit(5) + kmfit->pfit(6) + kmfit->pfit(3) + kmfit->pfit(4);
+              // if (m_debug) cout << __LINE__ << " etaprime m(): " << p_etaprime.m() << endl;
+              // if (p_etaprime.m() < 0.946 || p_etaprime.m() > 0.968) continue;
 
               // cut for sigma
               HepLorentzVector psigma = kmfit->pfit(0) + kmfit->pfit(1) + kmfit->pfit(2);
@@ -1259,15 +1260,17 @@ StatusCode LambdacAlg::execute()
               if (psigma.m() < 1.174 || psigma.m() > 1.2) continue;
               if (m_debug) cout << __LINE__ << "  psigma.m():" << psigma.m() << " tmp_cut_flag " << tmp_cut_flag << endl;
 
-              // HepLorentzVector pLambda =kmfit->pfit(5) + kmfit->pfit(6) + kmfit->pfit(3) + kmfit->pfit(4) + kmfit->pfit(0) + kmfit->pfit(1) + kmfit->pfit(2);
-              // pLambda.boost(-m_beta);
-              // double deltaE_min_tmp= pLambda.t() - ebeam;
-
-              // ____  1c minimum chi2 ______
-              // if (m_debug) cout << __LINE__ << " deltaE_min: " << deltaE_min << " deltaE_min_tmp:" << deltaE_min_tmp << endl;
-              if (kmfit->chisq() < minChi2_r3c)
-              // if (fabs(deltaE_min) > fabs(deltaE_min_tmp))
+              HepLorentzVector p_etaprime =  kmfit->pfit(3) + kmfit->pfit(4) + kmfit->pfit(5) +  kmfit->pfit(6);
+              double dis = (p_etaprime.m() - 0.95778);
+              if (m_debug) 
+                cout << __LINE__ << " m_rightflag " << m_rightflag << " etaprime m(): " << p_etaprime.m() << " dis " << dis << " distance_etaprime " << distance_etaprime<< endl;
+              // if (p_etaprime.m() > m_EtaPrimeMaxMass || p_etaprime.m() < m_EtaPrimeMinMass)
+              //   continue;
+              // if (m_debug)
+              //   cout << __LINE__ << "00000000" << " eta prime m(): " << p_etaprime.m() << endl;
+              if (fabs(dis) < fabs(distance_etaprime))
               {
+                distance_etaprime = dis;
                 rightflag = proton[i_proton].getCharge();
                 // deltaE_min = deltaE_min_tmp;
                 minChi2_r3c = kmfit->chisq();
@@ -1348,6 +1351,7 @@ StatusCode LambdacAlg::execute()
     m_signal = signal;
     m_np = np;
     m_npbar = npbar;
+    m_distance_etaprime = distance_etaprime;
 
 
 
@@ -1723,7 +1727,7 @@ StatusCode LambdacAlg::finalize()
   cout << "-------------------------------------------------------------------------" << endl;
   cout << "-------------------------------           -------------------------------" << endl;
   cout << "--------------------                                ---------------------" << endl;
-  cout << "------------- 80cc60b ietaprime recoil 3c, minchi2 , v200 ------------------" << endl;
+  cout << "------------- 80cc60b etaprime recoil 3c, min etaprime , v100 ------------------" << endl;
   cout << "--------------------                               ----------------------" << endl;
   cout << "------------------------------           --------------------------------" << endl;
   cout << "-------------------------------------------------------------------------" << endl;
