@@ -1095,7 +1095,13 @@ StatusCode LambdacAlg::execute()
       // k is the pi from sigma
       for (int k = 0; k < pi0.size(); k++)
       {
-        if (j==k) continue;
+        // if (j==k) continue;
+        if (pi0[k].getChild1().getIndex() == pi0[j].getChild1().getIndex() ||
+            pi0[k].getChild1().getIndex() == pi0[j].getChild2().getIndex())
+          continue;
+        if (pi0[k].getChild2().getIndex() == pi0[j].getChild1().getIndex() ||
+            pi0[k].getChild2().getIndex() == pi0[j].getChild2().getIndex())
+          continue;
         // 1C
         kmfit1->init();
         kmfit1->setChisqCut(1e3);
@@ -1486,7 +1492,7 @@ StatusCode LambdacAlg::finalize()
   cout << "-------------------------------------------------------------------------" << endl;
   cout << "-------------------------------           -------------------------------" << endl;
   cout << "--------------------                                ---------------------" << endl;
-  cout << "--------------   sigma pi0_r3c  v100 -----------------" << endl;
+  cout << "-------------- 2a4cbf6  sigma pi0_r3c, minchi2  v100 -----------------" << endl;
   cout << "--------------------                               ----------------------" << endl;
   cout << "------------------------------           --------------------------------" << endl;
   cout << "-------------------------------------------------------------------------" << endl;
