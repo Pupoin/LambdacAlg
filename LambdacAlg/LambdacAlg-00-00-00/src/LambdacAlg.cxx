@@ -1420,7 +1420,7 @@ StatusCode LambdacAlg::execute()
         cout << __LINE__ << " pLambda.m() " << pLambda.m() << endl;
       pLambda.boost(-m_beta);
 
-      m_deltaE_min_r3c = deltaE_min;
+      m_deltaE_min_r3c = pLambda.t() - ebeam;
       double mbc2 = ebeam * ebeam - pLambda.v().mag2();
       m_bc_r3c = mbc2 > 0 ? sqrt(mbc2) : -10;
 
@@ -1727,7 +1727,7 @@ StatusCode LambdacAlg::finalize()
   cout << "-------------------------------------------------------------------------" << endl;
   cout << "-------------------------------           -------------------------------" << endl;
   cout << "--------------------                                ---------------------" << endl;
-  cout << "------------- 80cc60b etaprime recoil 3c, min etaprime , v100 ------------------" << endl;
+  cout << "------------- b313c98 ietaprime recoil 3c, min etaprime , v100 ------------------" << endl;
   cout << "--------------------                               ----------------------" << endl;
   cout << "------------------------------           --------------------------------" << endl;
   cout << "-------------------------------------------------------------------------" << endl;
