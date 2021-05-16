@@ -1098,7 +1098,7 @@ StatusCode LambdacAlg::execute()
       if (m_debug)
         cout << __LINE__ << " i,j  " << i << "," << j << " p2geta.m()  " << p2geta.m() << endl;
 
-      if (p2geta.m() < 0.5 || p2geta.m() > 0.56)
+      if (p2geta.m() < 0.115 || p2geta.m() > 0.15)
         continue;
       if (m_debug)
         cout << __LINE__ << " 00000000 " << " i,j  " << i << "," << j << " p2geta.m()  " << p2geta.m() << endl;
@@ -1239,7 +1239,7 @@ StatusCode LambdacAlg::execute()
 
             kmfit->AddMissTrack(7, 2.28646);
 
-            kmfit->AddResonance(0, 0.547862, 3, 4);
+            kmfit->AddResonance(0, 0.1349770, 3, 4);
             kmfit->AddResonance(1, 0.1349770, 1, 2);
             // kmfit->AddResonance(2, 0.95778, 3, 4, 5, 6);
             kmfit->AddFourMomentum(2, HepCMS);
@@ -1261,7 +1261,7 @@ StatusCode LambdacAlg::execute()
               if (m_debug) cout << __LINE__ << "  psigma.m():" << psigma.m() << " tmp_cut_flag " << tmp_cut_flag << endl;
 
               HepLorentzVector p_etaprime =  kmfit->pfit(3) + kmfit->pfit(4) + kmfit->pfit(5) +  kmfit->pfit(6);
-              double dis = (p_etaprime.m() - 0.95778);
+              double dis = (p_etaprime.m() - 0.78265);
               if (m_debug) 
                 cout << __LINE__ << " m_rightflag " << m_rightflag << " etaprime m(): " << p_etaprime.m() << " dis " << dis << " distance_etaprime " << distance_etaprime<< endl;
               // if (p_etaprime.m() > m_EtaPrimeMaxMass || p_etaprime.m() < m_EtaPrimeMinMass)
